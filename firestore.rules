@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function isAuth()  { return request.auth != null; }
+    function uid()     { return request.auth.uid; }
+    function isAdmin() {
+      return isAuth() && exists(/databases/$(database)/documents/admins/$(uid()));
+    }
+    function studentDoc() {
+      return get(/databases/$(database)/documents/students/$(uid()));
+    }
+    function isActiveStudent() {
+      return isAuth() &&
+        exists(/databases/$(database)/documents/students/$(uid())) &&
+        studentDoc().data.active == true;
+    }
+    function studentId() {
+      return studentDoc().data.studentId;
+    }
+
+    // ── Admins ────────────────────────────────────────────────────────────────
+    match /admins/{adminId} {
+      allow read:  if isAdmin() || uid() == adminId;
+      allow write: if false;  // Only via Admin SDK / console
+    }
+
+    // ── Students ──────────────────────────────────────────────────────────────
+    match /students/{studentId} {
+      allow read:   if isAdmin() || uid() == studentId;
+      allow create: if isAdmin() || uid() == studentId;  // allow self-signup + Google
+      allow update: if isAdmin() || uid() == studentId;  // allow profile refresh
+      allow delete: if false;
+    }
+
+    // ── Complaints ────────────────────────────────────────────────────────────
+    match /complaints/{complaintId} {
+      // Students can only read their OWN complaints
+      allow read: if isAdmin() ||
+        (isAuth() && resource.data.studentId == studentId());
+
+      // Active authenticated students can create
+      allow create: if isActiveStudent();
+
+      // Students can update only while status is 'Submitted'
+      allow update: if isAdmin() ||
+        (isAuth() &&
+         resource.data.studentId == studentId() &&
+         resource.data.status == 'Submitted');
+
+      allow delete: if false;
+    }
+
+    // ── Notifications ─────────────────────────────────────────────────────────
+    match /notifications/{notifId} {
+      allow read:   if isAuth() && (isAdmin() || resource.data.userId == studentId());
+      allow create: if isAuth();
+      allow update: if isAuth() && resource.data.userId == studentId();
+      allow delete: if false;
+    }
+  }
+}
