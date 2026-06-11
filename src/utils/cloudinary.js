@@ -98,7 +98,7 @@ export const uploadToCloudinary = async (file, complaintId, onProgress) => {
   const idToken = await getIdToken()
 
   // 4. Request signed params from our Netlify function
-  const sigRes = await fetch('/api/upload-signature', {
+  const sigRes = await fetch('/.netlify/functions/upload-signature', {
     method:  'POST',
     headers: {
       'Content-Type':  'application/json',

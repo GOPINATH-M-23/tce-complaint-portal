@@ -49,7 +49,7 @@ export default function LoginForm({ role = 'student' }) {
     setError('')
     setGoogleLoading(true)
     try {
-      const userData = await studentGoogleLogin()
+      const userData = await studentGoogleLogin() 
       setUser(userData)
       toast.success(`Welcome, ${userData.name}!`)
       navigate('/student')

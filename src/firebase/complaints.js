@@ -21,7 +21,6 @@ export const calculatePriority = async (category) => {
 // ── Submit new complaint ──────────────────────────────────────────────────────
 export const submitComplaint = async (data, imageFile, onProgress) => {
   const priority = await calculatePriority(data.category)
-
   const docRef = await addDoc(collection(db, 'complaints'), {
     title:        data.title,
     category:     data.category,
