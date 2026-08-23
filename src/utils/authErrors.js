@@ -1,10 +1,17 @@
 /**
- * Converts raw Firebase Auth error codes into friendly, user-facing messages.
- * Usage: import { friendlyAuthError } from '@/utils/authErrors'
- *        throw new Error(friendlyAuthError(err))
+ * Converts raw Firebase Auth & Firestore error codes into friendly, user-facing messages.
+ * Logs diagnostics safely to console for debugging without exposing credentials.
  */
 export const friendlyAuthError = (err) => {
   const code = err?.code || ''
+  const message = err?.message || ''
+
+  console.error('[Firebase Diagnostic Log]', {
+    code,
+    message,
+    name: err?.name,
+  })
+
   const map = {
     'auth/user-not-found':        'No account found with this email.',
     'auth/wrong-password':        'Incorrect password. Please try again.',
@@ -22,6 +29,9 @@ export const friendlyAuthError = (err) => {
     'auth/user-disabled':         'This account has been disabled. Contact admin.',
     'auth/requires-recent-login': 'Please sign in again to continue.',
     'auth/credential-already-in-use': 'These credentials are already linked to another account.',
+    'unavailable':                'Database service unavailable. Retrying connection...',
+    'permission-denied':          'Permission denied to fetch user profile. Please check account permissions.',
   }
-  return map[code] || err?.message || 'Something went wrong. Please try again.'
+  return map[code] || message || 'Something went wrong. Please try again.'
 }
+

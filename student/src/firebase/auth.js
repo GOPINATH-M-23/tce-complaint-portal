@@ -23,11 +23,26 @@ export const studentLogin = async (email, password) => {
   }
   try {
     const cred = await signInWithEmailAndPassword(auth, trimmed, password)
-    const snap = await getDoc(doc(db, 'students', cred.user.uid))
+    let snap
+    try {
+      snap = await getDoc(doc(db, 'students', cred.user.uid))
+    } catch (docErr) {
+      console.warn('[studentLogin] Primary getDoc failed, retrying once:', {
+        code: docErr?.code,
+        message: docErr?.message,
+        path: `students/${cred.user.uid}`
+      })
+      snap = await getDoc(doc(db, 'students', cred.user.uid))
+    }
     if (!snap.exists()) throw new Error('Student record not found. Please register your account first.')
     if (!snap.data().active) throw new Error('Your account has been deactivated. Contact admin.')
     return { uid: cred.user.uid, ...snap.data(), role: 'student' }
   } catch (err) {
+    console.error('[studentLogin Error]', {
+      code: err?.code,
+      message: err?.message,
+      operation: 'studentLogin',
+    })
     if (err.message.startsWith('Student') || err.message.startsWith('Your account') || err.message.startsWith('Only @student')) throw err
     throw new Error(friendlyAuthError(err))
   }
@@ -48,7 +63,18 @@ export const studentGoogleLogin = async () => {
     }
 
     // Check if student already registered in Firestore
-    const snap = await getDoc(doc(db, 'students', uid))
+    let snap
+    try {
+      snap = await getDoc(doc(db, 'students', uid))
+    } catch (docErr) {
+      console.warn('[studentGoogleLogin] Primary getDoc failed, retrying once:', {
+        code: docErr?.code,
+        message: docErr?.message,
+        path: `students/${uid}`
+      })
+      snap = await getDoc(doc(db, 'students', uid))
+    }
+
     if (!snap.exists()) {
       // Reject auto-creation: Google is LOGIN ONLY
       await signOut(auth)
@@ -62,10 +88,15 @@ export const studentGoogleLogin = async () => {
 
     // Refresh photoURL in case it changed
     if (photoURL) {
-      await updateDoc(doc(db, 'students', uid), { photoURL })
+      await updateDoc(doc(db, 'students', uid), { photoURL }).catch(() => {})
     }
     return { uid, ...snap.data(), photoURL: photoURL || snap.data().photoURL || '', role: 'student' }
   } catch (err) {
+    console.error('[studentGoogleLogin Error]', {
+      code: err?.code,
+      message: err?.message,
+      operation: 'studentGoogleLogin',
+    })
     if (err.message.startsWith('No student') || err.message.startsWith('Your account') || err.message.startsWith('Only @student')) throw err
     throw new Error(friendlyAuthError(err))
   }

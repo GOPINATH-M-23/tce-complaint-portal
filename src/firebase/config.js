@@ -10,9 +10,9 @@
 //    6. Set values in your .env file (see .env.example)
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { initializeApp } from 'firebase/app'
+import { initializeApp, getApps, getApp } from 'firebase/app'
 import { getAuth }       from 'firebase/auth'
-import { getFirestore }  from 'firebase/firestore'
+import { initializeFirestore, getFirestore }  from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey:            import.meta.env.VITE_FIREBASE_API_KEY            || 'YOUR_API_KEY',
@@ -23,7 +23,18 @@ const firebaseConfig = {
   appId:             import.meta.env.VITE_FIREBASE_APP_ID             || 'YOUR_APP_ID',
 }
 
-const app     = initializeApp(firebaseConfig)
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
 export const auth = getAuth(app)
-export const db   = getFirestore(app)
+
+let firestoreDb
+try {
+  firestoreDb = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true,
+  })
+} catch (e) {
+  firestoreDb = getFirestore(app)
+}
+
+export const db = firestoreDb
 export default app
+
