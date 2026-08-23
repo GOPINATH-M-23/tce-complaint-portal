@@ -88,10 +88,37 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
   if (!isValidStudentEmail(trimmed)) {
     throw new Error('Only @student.tce.edu email addresses are allowed.')
   }
+
+  const studentId = trimmed.split('@')[0]
+
+  // Verify against studentRegistry collection if present
+  try {
+    const regSnap = await getDoc(doc(db, 'studentRegistry', studentId))
+    if (regSnap.exists()) {
+      const regData = regSnap.data()
+      if (regData.active === false) {
+        throw new Error('Your student registration is currently inactive. Please contact the administrator.')
+      }
+      if (regData.regNo && regNo && regData.regNo.trim().toUpperCase() !== regNo.trim().toUpperCase()) {
+        throw new Error('The registration number does not match the approved student record.')
+      }
+      if (regData.email && regData.email.trim().toLowerCase() !== trimmed) {
+        throw new Error('Your TCE student email is not authorized for registration.')
+      }
+    }
+  } catch (regErr) {
+    if (
+      regErr.message.startsWith('Your student') ||
+      regErr.message.startsWith('The registration') ||
+      regErr.message.startsWith('Your TCE')
+    ) {
+      throw regErr
+    }
+  }
+
   try {
     const cred = await createUserWithEmailAndPassword(auth, trimmed, password)
     await updateProfile(cred.user, { displayName: name })
-    const studentId = trimmed.split('@')[0]
     const profile = {
       uid:       cred.user.uid,
       name,
@@ -109,7 +136,14 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
     await setDoc(doc(db, 'students', cred.user.uid), profile)
     return { ...profile, role: 'student' }
   } catch (err) {
-    if (err.message.startsWith('Only @student')) throw err
+    if (
+      err.message.startsWith('Only @student') ||
+      err.message.startsWith('Your student') ||
+      err.message.startsWith('The registration') ||
+      err.message.startsWith('Your TCE')
+    ) {
+      throw err
+    }
     throw new Error(friendlyAuthError(err))
   }
 }

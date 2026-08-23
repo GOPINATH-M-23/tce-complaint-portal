@@ -17,7 +17,7 @@ export const friendlyAuthError = (err) => {
     'auth/wrong-password':        'Incorrect password. Please try again.',
     'auth/invalid-credential':    'Invalid email or password.',
     'auth/invalid-email':         'Invalid email format.',
-    'auth/email-already-in-use':  'This email is already registered. Try signing in.',
+    'auth/email-already-in-use':  'This email is already registered. Please sign in instead.',
     'auth/weak-password':         'Password is too weak. Use at least 6 characters.',
     'auth/too-many-requests':     'Too many attempts. Please wait and try again.',
     'auth/network-request-failed':'Network error. Check your connection.',
