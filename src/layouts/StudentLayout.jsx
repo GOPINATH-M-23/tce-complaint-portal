@@ -47,7 +47,7 @@ export default function StudentLayout() {
             {({ isActive }) => (
               <>
                 {fab ? (
-                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-tce-dark dark:bg-tce-green text-white text-xl -mt-6 shadow-xl border-4 border-tce-cream dark:border-gray-950 shrink-0">
+                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-tce-dark dark:bg-tce-green text-white text-xl -mt-6 shadow-xl border-4 border-tce-cream dark:border-gray-950 shrink-0 z-10">
                     {icon}
                   </span>
                 ) : (

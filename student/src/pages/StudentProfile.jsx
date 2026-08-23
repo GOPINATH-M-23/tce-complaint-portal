@@ -1,9 +1,24 @@
+import { useNavigate } from 'react-router-dom'
+import { logout } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import { useComplaints } from '@/context/ComplaintContext'
+import toast from 'react-hot-toast'
 
 export default function StudentProfile() {
-  const { user }       = useAuth()
-  const { complaints } = useComplaints()
+  const { user, setUser } = useAuth()
+  const { complaints }   = useComplaints()
+  const navigate        = useNavigate()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      setUser(null)
+      toast.success('Logged out successfully')
+      navigate('/login')
+    } catch (err) {
+      toast.error('Logout failed. Please try again.')
+    }
+  }
 
   const fields = [
     ['Full Name',            user?.name],
@@ -65,6 +80,16 @@ export default function StudentProfile() {
             <div className="text-xs text-tce-muted dark:text-gray-400 mt-1">{s.l}</div>
           </div>
         ))}
+      </div>
+
+      {/* Mobile-only Logout Section */}
+      <div className="pt-2 md:hidden">
+        <button
+          onClick={handleLogout}
+          className="btn-outline w-full py-3 text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer border-red-500/30 text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white dark:hover:bg-red-600"
+        >
+          Logout
+        </button>
       </div>
 
       <p className="text-xs text-gray-400 dark:text-gray-500 text-center">

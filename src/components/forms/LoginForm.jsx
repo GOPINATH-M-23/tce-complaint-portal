@@ -61,14 +61,14 @@ export default function LoginForm({ role = 'student' }) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-tce-cream dark:bg-gray-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-tce-cream dark:bg-gray-950 px-4 py-6 md:py-10">
       <div className="w-full max-w-md">
-        <div className="bg-white dark:bg-gray-900 dark:border dark:border-gray-700/50 rounded-2xl shadow-xl p-8">
+        <div className="bg-white dark:bg-gray-900 dark:border dark:border-gray-700/50 rounded-2xl shadow-xl p-6 md:p-8">
           {/* Header */}
           <div className="text-center mb-7">
-            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full border-2 border-tce-dark/20 dark:border-tce-green/30 p-1 bg-white dark:bg-gray-800 shrink-0 overflow-hidden">
               <img src={tceLogo} alt="TCE"
-                className="w-full h-full object-contain rounded-full border-2 border-tce-dark/20 dark:border-tce-green/30" />
+                className="w-full h-full object-contain" />
             </div>
             <h1 className="font-display text-2xl font-bold text-tce-dark dark:text-white">
               {isAdmin ? 'Admin Login' : 'Student Login'}
