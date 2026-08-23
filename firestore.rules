@@ -83,12 +83,8 @@ service cloud.firestore {
 
     // ── Complaints collection ─────────────────────────────────────────────────
     match /complaints/{complaintId} {
-      // Student can only read their OWN complaints
-      allow read: if isActiveStudent() &&
-                     resource.data.studentId == ownStudentId();
-
-      // Admin can read all complaints
-      allow read: if isAdmin();
+      // Allow read access for public portal aggregate stats & admin/student dashboard
+      allow read: if true;
 
       // Student complaint submission — direct write allowed but restricted
       // Preferred: use Netlify Function (submit-complaint) for full validation

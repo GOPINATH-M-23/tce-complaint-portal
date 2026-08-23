@@ -1,0 +1,212 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { studentSignup } from '@/firebase/auth'
+import { useAuth } from '@/context/AuthContext'
+import { DEPARTMENTS } from '@/utils/constants'
+import toast from 'react-hot-toast'
+import tceLogo from '@/assets/tce-logo.png'
+
+const PHONE_RE = /^[6-9]\d{9}$/
+const REGNO_RE = /^\d{16}$/
+
+export default function StudentSignup() {
+  const { setUser } = useAuth()
+  const navigate    = useNavigate()
+
+  const [form, setForm] = useState({
+    name: '', email: '', dept: '', year: '',
+    phone: '', regNo: '',
+    password: '', confirmPassword: '',
+  })
+  const [showPw,  setShowPw]  = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [errors,  setErrors]  = useState({})
+
+  const set = (k, v) => { setForm((f) => ({ ...f, [k]: v })); setErrors((e) => ({ ...e, [k]: '' })) }
+
+  const validate = () => {
+    const e = {}
+    if (!form.name.trim())  e.name  = 'Full Name is required.'
+    
+    if (!form.email.trim()) e.email = 'College Email is required.'
+    else if (!form.email.toLowerCase().endsWith('@student.tce.edu'))
+      e.email = 'Must be a @student.tce.edu email.'
+
+    if (!form.phone.trim())              e.phone = 'Phone Number is required.'
+    else if (!PHONE_RE.test(form.phone)) e.phone = 'Enter a valid 10-digit Indian mobile number.'
+
+    if (!form.regNo.trim())              e.regNo = 'Registration Number is required.'
+    else if (!REGNO_RE.test(form.regNo)) e.regNo = '16-digit registration number required.'
+
+    if (!form.dept)                         e.dept = 'Department is required.'
+    if (!form.year)                         e.year = 'Year is required.'
+
+    if (!form.password)                  e.password = 'Password is required.'
+    else if (form.password.length < 6)   e.password = 'Password must be at least 6 characters.'
+
+    if (!form.confirmPassword)           e.confirmPassword = 'Confirm Password is required.'
+    else if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords do not match.'
+
+    setErrors(e)
+    return Object.keys(e).length === 0
+  }
+
+  const handleSubmit = async (ev) => {
+    ev.preventDefault()
+    if (!validate()) return
+    setLoading(true)
+    try {
+      const userData = await studentSignup({
+        name:     form.name.trim(),
+        email:    form.email.trim().toLowerCase(),
+        dept:     form.dept,
+        year:     Number(form.year),
+        phone:    form.phone.trim(),
+        regNo:    form.regNo.trim().toUpperCase(),
+        password: form.password,
+      })
+      setUser(userData)
+      toast.success(`Welcome, ${userData.name}! Account created.`)
+      navigate('/dashboard')
+    } catch (err) {
+      setErrors({ form: err.message || 'Signup failed. Please try again.' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-tce-cream dark:bg-gray-950 px-4 py-8">
+      <div className="w-full max-w-lg">
+        <div className="bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-2xl shadow-xl p-7 md:p-8">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <div className="w-14 h-14 mx-auto mb-4">
+              <img src={tceLogo} alt="TCE"
+                className="w-full h-full object-contain rounded-full border-2 border-tce-dark/20 dark:border-tce-green/30" />
+            </div>
+            <h1 className="font-display text-2xl font-bold text-tce-dark dark:text-white">Create Account</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1.5">
+              Register with your @student.tce.edu email
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {errors.form && (
+              <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm px-3 py-2.5 rounded-xl">
+                {errors.form}
+              </div>
+            )}
+
+            {/* Name */}
+            <div>
+              <label className="form-label">Full Name *</label>
+              <input type="text" className="form-input" placeholder="Your full name"
+                value={form.name} onChange={(e) => set('name', e.target.value)} autoFocus required />
+              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="form-label">College Email *</label>
+              <input type="email" className="form-input" placeholder="yourID@student.tce.edu"
+                value={form.email} onChange={(e) => set('email', e.target.value)} required />
+              {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+            </div>
+
+            {/* Phone + Reg No */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="form-label">Phone Number *</label>
+                <input type="tel" className="form-input" placeholder="10-digit mobile number"
+                  value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))} required />
+                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+              </div>
+              <div>
+                <label className="form-label">Registration Number *</label>
+                <input type="text" className="form-input" placeholder="e.g. 2403917720521023"
+                  value={form.regNo} onChange={(e) => set('regNo', e.target.value.toUpperCase())} required />
+                {errors.regNo && <p className="text-red-500 text-xs mt-1">{errors.regNo}</p>}
+              </div>
+            </div>
+
+            {/* Dept + Year */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="form-label">Department *</label>
+                <select className="form-input" value={form.dept} onChange={(e) => set('dept', e.target.value)} required>
+                  <option value="">Select Department</option>
+                  {DEPARTMENTS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+                {errors.dept && <p className="text-red-500 text-xs mt-1">{errors.dept}</p>}
+              </div>
+              <div>
+                <label className="form-label">Year *</label>
+                <select className="form-input" value={form.year} onChange={(e) => set('year', e.target.value)} required>
+                  <option value="">Select Year</option>
+                  {[1, 2, 3, 4].map((y) => (
+                    <option key={y} value={y}>
+                      Year {y}
+                    </option>
+                  ))}
+                </select>
+                {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year}</p>}
+              </div>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="form-label">Password *</label>
+              <div className="relative">
+                <input type={showPw ? 'text' : 'password'} className="form-input pr-10"
+                  placeholder="Minimum 6 characters"
+                  value={form.password} onChange={(e) => set('password', e.target.value)} required />
+                <button type="button"
+                  onClick={() => setShowPw((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer">
+                  {showPw
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  }
+                </button>
+              </div>
+              {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label className="form-label">Confirm Password *</label>
+              <input type="password" className="form-input" placeholder="Re-enter your password"
+                value={form.confirmPassword} onChange={(e) => set('confirmPassword', e.target.value)} required />
+              {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
+            </div>
+
+            <button type="submit" disabled={loading}
+              className="btn-primary w-full py-3 text-sm font-semibold mt-1 disabled:opacity-60">
+              {loading ? 'Creating account…' : 'Create Account'}
+            </button>
+          </form>
+
+          {/* Links */}
+          <div className="mt-5 text-center space-y-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Already have an account?{' '}
+              <button onClick={() => navigate('/login')}
+                className="text-tce-green font-medium hover:underline bg-transparent border-0 cursor-pointer">
+                Sign in
+              </button>
+            </p>
+            <button onClick={() => navigate('/')}
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer">
+              ← Back to home
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

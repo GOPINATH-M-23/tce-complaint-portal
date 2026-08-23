@@ -29,7 +29,6 @@ const FEATURES = [
   { icon: '🔔', t: 'Notifications',      d: 'Never miss an update' },
 ]
 
-
 const CONTACT = [
   { icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },
   { icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },
@@ -42,9 +41,9 @@ export default function LandingPage() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-  const t = setTimeout(() => setVisible(true), 100)
-  return () => clearTimeout(t)
-}, [])
+    const t = setTimeout(() => setVisible(true), 100)
+    return () => clearTimeout(t)
+  }, [])
   const [totalComplaints, setTotalComplaints] = useState(0)
   const [resolvedComplaints, setResolvedComplaints] = useState(0)
   const [progressComplaints, setProgressComplaints] = useState(0)
@@ -52,45 +51,34 @@ export default function LandingPage() {
 
   useEffect(() => {
     const fetchComplaints = async () => {
-      const snapshot = await getDocs(collection(db, "complaints"))
-      const data = snapshot.docs.map(doc => doc.data())
+      try {
+        const snapshot = await getDocs(collection(db, "complaints"))
+        const data = snapshot.docs.map(doc => doc.data())
 
-      setTotalComplaints(data.length)
-      setResolvedComplaints(
-        data.filter(c => c.status === "Resolved").length
-      )
-      setProgressComplaints(
-        data.filter(c => c.status === "In Progress").length
-      )
-      setHighComplaints(
-        data.filter(c => c.priority === "High").length
-      )
+        setTotalComplaints(data.length)
+        setResolvedComplaints(
+          data.filter(c => c.status === "Resolved").length
+        )
+        setProgressComplaints(
+          data.filter(c => c.status === "In Progress").length
+        )
+        setHighComplaints(
+          data.filter(c => c.priority === "High").length
+        )
+      } catch (e) {
+        console.error("Error loading complaint counts", e)
+      }
     }
 
     fetchComplaints()
   }, [])
+
   const PREVIEW_STATS = [
-  {
-    n: totalComplaints,
-    l: "Total Complaints",
-    c: "#7dd3b0"
-  },
-  {
-    n: resolvedComplaints,
-    l: "Resolved",
-    c: "#86efac"
-  },
-  {
-    n: progressComplaints,
-    l: "In Progress",
-    c: "#fcd34d"
-  },
-  {
-    n: highComplaints,
-    l: "High Priority",
-    c: "#f87171"
-  }
-]
+    { n: totalComplaints,     l: "Total Complaints", c: "#7dd3b0" },
+    { n: resolvedComplaints,  l: "Resolved",         c: "#86efac" },
+    { n: progressComplaints,  l: "In Progress",      c: "#fcd34d" },
+    { n: highComplaints,      l: "High Priority",    c: "#f87171" }
+  ]
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
@@ -116,7 +104,7 @@ export default function LandingPage() {
           <div className="flex gap-3 justify-center flex-wrap">
             <button
               className="btn-primary text-sm md:text-[15px] px-7 md:px-9 py-3 md:py-3.5 shadow-xl shadow-tce-dark/40"
-              onClick={() => navigate('/login/student')}
+              onClick={() => navigate('/login')}
             >
                Student Login
             </button>
@@ -125,12 +113,6 @@ export default function LandingPage() {
               onClick={() => navigate('/signup')}
             >
                Sign Up Free
-            </button>
-            <button
-              className="text-sm md:text-[15px] px-7 md:px-9 py-3 md:py-3.5 rounded-full font-semibold border border-white/25 text-white/75 bg-transparent transition-all hover:bg-white/10"
-              onClick={() => navigate('/login/admin')}
-            >
-               Admin
             </button>
           </div>
 
@@ -142,13 +124,6 @@ export default function LandingPage() {
                 <div className="text-[10px] md:text-xs text-white/70 mt-0.5">{s.l}</div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-float hidden md:block">
-          <div className="w-7 h-11 border-2 border-white/40 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-2.5 bg-white/60 rounded-full" />
           </div>
         </div>
       </section>
