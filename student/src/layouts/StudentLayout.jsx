@@ -6,7 +6,7 @@ import { useComplaints } from '@/context/ComplaintContext'
 const MOB_NAV = [
   { to: '/',               icon: '🏠', label: 'Home',      end: true },
   { to: '/dashboard',      icon: '📊', label: 'Dashboard' },
-  { to: '/complaints',     icon: '📋', label: 'Past Comps' },
+  { to: '/complaints',     icon: '📋', label: 'Complaints' },
   { to: '/complaints/new', icon: '➕', label: 'New',       fab: true },
   { to: '/notifications',  icon: '🔔', label: 'Alerts',   badge: true },
   { to: '/profile',        icon: '👤', label: 'Profile' },
@@ -29,7 +29,7 @@ export default function StudentLayout() {
 
         {/* Scrollable content */}
         <main className="flex-1 overflow-y-auto">
-          <div className="p-4 md:p-8 max-w-6xl mx-auto pb-24 md:pb-8">
+          <div className="p-4 md:p-8 max-w-6xl mx-auto pb-[calc(6rem+env(safe-area-inset-bottom,0px))] md:pb-8">
             <Outlet />
           </div>
         </main>
@@ -47,19 +47,19 @@ export default function StudentLayout() {
             {({ isActive }) => (
               <>
                 {fab ? (
-                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-tce-dark dark:bg-tce-green text-white text-xl -mt-6 shadow-xl border-4 border-tce-cream dark:border-gray-950">
+                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-tce-dark dark:bg-tce-green text-white text-xl -mt-6 shadow-xl border-4 border-tce-cream dark:border-gray-950 shrink-0">
                     {icon}
                   </span>
                 ) : (
-                  <span className="text-[22px] leading-none">{icon}</span>
+                  <span className="text-[20px] leading-none shrink-0">{icon}</span>
                 )}
                 {badge && unreadNotifs > 0 && (
-                  <span className="absolute top-0 right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold leading-none">
+                  <span className="absolute top-0.5 right-1/2 translate-x-3 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold leading-none z-10">
                     {unreadNotifs > 9 ? '9+' : unreadNotifs}
                   </span>
                 )}
                 {!fab && (
-                  <span className={`text-[10px] font-medium ${isActive ? 'text-tce-dark dark:text-tce-green' : ''}`}>
+                  <span className={`text-[10px] font-medium w-full text-center truncate ${isActive ? 'text-tce-dark dark:text-tce-green' : ''}`}>
                     {label}
                   </span>
                 )}

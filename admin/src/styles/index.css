@@ -55,8 +55,8 @@
   .nav-link { @apply cursor-pointer text-white/85 text-sm font-medium transition-colors duration-200 hover:text-white no-underline; }
 
   /* Mobile bottom nav */
-  .mobile-nav { @apply fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 flex items-center justify-around px-1 pt-2 pb-3 md:hidden; }
-  .mobile-nav-item { @apply flex flex-col items-center gap-0.5 py-1 px-2 rounded-xl transition-colors duration-150 cursor-pointer text-gray-400 dark:text-gray-500 min-w-[52px]; }
+  .mobile-nav { @apply fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 grid grid-cols-6 items-center px-1 pt-1.5 pb-2.5 md:hidden; }
+  .mobile-nav-item { @apply flex flex-col items-center justify-center gap-0.5 py-1 px-0.5 rounded-xl transition-colors duration-150 cursor-pointer text-gray-400 dark:text-gray-500 min-w-0 w-full overflow-hidden select-none; }
   .mobile-nav-item.active { @apply text-tce-dark dark:text-tce-green; }
 }
 
@@ -71,7 +71,7 @@
 * { -webkit-tap-highlight-color: transparent; }
 
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .mobile-nav { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
+  .mobile-nav { padding-bottom: calc(0.625rem + env(safe-area-inset-bottom)); }
 }
 
 /* ── Additional polish ───────────────────────────────────────── */
