@@ -4,7 +4,6 @@ import MobileHeader from '@/components/MobileHeader'
 import { useComplaints } from '@/context/ComplaintContext'
 
 const MOB_NAV = [
-  { to: '/',                        icon: '🏠', label: 'Home',       end: true },
   { to: '/student',                 icon: '📊', label: 'Dashboard',  end: true },
   { to: '/student/complaints',      icon: '📋', label: 'Complaints' },
   { to: '/student/complaints/new',  icon: '➕', label: 'New',        fab: true },

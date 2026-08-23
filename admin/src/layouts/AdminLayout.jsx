@@ -5,7 +5,6 @@ import { useComplaints } from '@/context/ComplaintContext'
 import tceCampus from '@/assets/tce-campus.png'
 
 const ADMIN_MOB_NAV = [
-  { to: '/',            icon: '🏠', label: 'Home', end: true },
   { to: '/dashboard',   icon: '📊', label: 'Dashboard' },
   { to: '/complaints', icon: '📋', label: 'Complaints', badge: true },
   { to: '/students',   icon: '👥', label: 'Students' },
