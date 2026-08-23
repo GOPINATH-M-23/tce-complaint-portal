@@ -29,7 +29,7 @@ export const auth = getAuth(app)
 let firestoreDb
 try {
   firestoreDb = initializeFirestore(app, {
-    experimentalAutoDetectLongPolling: true,
+    experimentalForceLongPolling: true,
   })
 } catch (e) {
   firestoreDb = getFirestore(app)
