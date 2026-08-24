@@ -28,7 +28,11 @@ export const friendlyAuthError = (err) => {
     'auth/operation-not-allowed': 'This sign-in method is not enabled.',
     'auth/user-disabled':         'This account has been disabled. Contact admin.',
     'auth/requires-recent-login': 'Please sign in again to continue.',
-    'auth/credential-already-in-use': 'These credentials are already linked to another account.',
+    'auth/unauthorized-continue-uri': 'The reset URL is not authorized in Firebase Console.',
+    'auth/invalid-continue-uri':    'The password reset URL is invalid.',
+    'auth/missing-continue-uri':    'Password reset URL is missing.',
+    'auth/invalid-action-code':     'The password reset link is invalid or has expired. Please request a new link.',
+    'auth/expired-action-code':     'The password reset link has expired. Please request a new link.',
     'unavailable':                'Database service unavailable. Retrying connection...',
     'permission-denied':          'Permission denied to fetch user profile. Please check account permissions.',
   }

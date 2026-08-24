@@ -166,13 +166,31 @@ export const resetPassword = async (email) => {
   if (!isValidStudentEmail(trimmed)) {
     throw new Error('Only @student.tce.edu email addresses are allowed.')
   }
+
+  const actionCodeSettings = {
+    url: typeof window !== 'undefined' && window.location.origin.includes('localhost')
+      ? `${window.location.origin}/reset-password`
+      : 'https://tce-student-portal.vercel.app/reset-password',
+    handleCodeInApp: true,
+  }
+
   try {
-    await sendPasswordResetEmail(auth, trimmed)
+    await sendPasswordResetEmail(auth, trimmed, actionCodeSettings)
   } catch (err) {
-    console.error('[resetPassword Error]', {
+    console.warn('[resetPassword Attempt 1 failed]', {
       code: err?.code,
       message: err?.message,
     })
-    throw new Error(friendlyAuthError(err))
+    // Fallback if actionCodeSettings domain is unauthorized or fails
+    if (err?.code === 'auth/unauthorized-continue-uri' || err?.code === 'auth/invalid-continue-uri') {
+      try {
+        await sendPasswordResetEmail(auth, trimmed)
+      } catch (fallbackErr) {
+        console.error('[resetPassword Fallback Error]', fallbackErr)
+        throw new Error(friendlyAuthError(fallbackErr))
+      }
+    } else {
+      throw new Error(friendlyAuthError(err))
+    }
   }
 }

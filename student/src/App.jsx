@@ -8,6 +8,7 @@ import ProtectedRoute from '@/routes/ProtectedRoute'
 import LandingPage from '@/pages/LandingPage'
 import StudentLogin from '@/pages/StudentLogin'
 import StudentSignup from '@/pages/StudentSignup'
+import ResetPassword from '@/pages/ResetPassword'
 
 // Student Pages & Layout
 import StudentLayout from '@/layouts/StudentLayout'
@@ -24,9 +25,10 @@ export default function App() {
         <ComplaintProvider>
           <Routes>
             {/* Public Student Landing Page at root "/" */}
-            <Route path="/"        element={<LandingPage />} />
-            <Route path="/login"   element={<StudentLogin />} />
-            <Route path="/signup"  element={<StudentSignup />} />
+            <Route path="/"               element={<LandingPage />} />
+            <Route path="/login"          element={<StudentLogin />} />
+            <Route path="/signup"         element={<StudentSignup />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* Protected Student Routes */}
             <Route element={<ProtectedRoute />}>

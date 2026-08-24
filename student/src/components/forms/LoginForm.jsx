@@ -78,7 +78,7 @@ export default function LoginForm() {
 
     try {
       await resetPassword(resetEmail)
-      const successMsg = 'Password reset link sent. Check your email.'
+      const successMsg = 'Password reset request sent. Please check your inbox and spam/junk folder.'
       setResetSuccess(successMsg)
       toast.success(successMsg)
     } catch (err) {
