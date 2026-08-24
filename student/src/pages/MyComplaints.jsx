@@ -108,12 +108,27 @@ export default function MyComplaints() {
               {selected.description}
             </p>
             {selected.imageUrl && (
-              <img src={selected.imageUrl} alt="proof" className="w-full rounded-xl mb-4 max-h-56 object-cover" />
+              <div className="mb-4">
+                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Student Proof Image</p>
+                <img src={selected.imageUrl} alt="Student complaint proof" className="w-full rounded-xl max-h-56 object-cover border border-gray-200 dark:border-gray-700" />
+              </div>
             )}
             {selected.adminReply && (
-              <div className="p-3.5 bg-tce-green/8 dark:bg-tce-green/10 border-l-4 border-tce-green rounded-xl">
-                <p className="text-xs font-semibold text-tce-green mb-1">Admin Reply</p>
+              <div className="p-3.5 bg-tce-green/8 dark:bg-tce-green/10 border-l-4 border-tce-green rounded-xl space-y-2">
+                <p className="text-xs font-semibold text-tce-green">Admin Response</p>
                 <p className="text-sm text-gray-700 dark:text-gray-300">{selected.adminReply}</p>
+                {selected.adminResponseImageUrl && (
+                  <div className="mt-2.5 pt-2 border-t border-tce-green/20">
+                    <p className="text-xs font-semibold text-tce-green mb-1.5">Proof / Response Image</p>
+                    <a href={selected.adminResponseImageUrl} target="_blank" rel="noopener noreferrer" className="block group">
+                      <img
+                        src={selected.adminResponseImageUrl}
+                        alt="Admin response proof"
+                        className="w-full rounded-xl max-h-56 object-contain bg-gray-900 border border-tce-green/30"
+                      />
+                    </a>
+                  </div>
+                )}
               </div>
             )}
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 text-right">

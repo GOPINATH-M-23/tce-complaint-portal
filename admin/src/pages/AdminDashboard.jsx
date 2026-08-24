@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useComplaints } from '@/context/ComplaintContext'
 import StatCard from '@/components/ui/StatCard'
 import ComplaintRow from '@/components/ComplaintRow'
 import Spinner from '@/components/ui/Spinner'
-import { groupBy } from '@/utils/helpers'
+import NotificationForm from '@/components/forms/NotificationForm'
+import { subscribeAdminNotifications, deleteAdminNotification } from '@/firebase/notifications'
+import { groupBy, formatRelative } from '@/utils/helpers'
+import toast from 'react-hot-toast'
 
 export default function AdminDashboard() {
   const { complaints, loadingComps } = useComplaints()
@@ -12,6 +15,33 @@ export default function AdminDashboard() {
 
   // activeFilter: null | 'pending' | 'resolved' | 'inprogress'
   const [activeFilter, setActiveFilter] = useState(null)
+  const [showNotifModal, setShowNotifModal] = useState(false)
+  const [adminNotifs, setAdminNotifs] = useState([])
+  const [loadingNotifs, setLoadingNotifs] = useState(true)
+
+  useEffect(() => {
+    const unsub = subscribeAdminNotifications(
+      (data) => {
+        setAdminNotifs(data)
+        setLoadingNotifs(false)
+      },
+      (err) => {
+        console.error('Failed to load admin notifications:', err)
+        setLoadingNotifs(false)
+      }
+    )
+    return () => unsub?.()
+  }, [])
+
+  const handleDeleteNotif = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this notification?')) return
+    try {
+      await deleteAdminNotification(id)
+      toast.success('Notification deleted.')
+    } catch (err) {
+      toast.error(err.message || 'Failed to delete notification.')
+    }
+  }
 
   if (loadingComps) return <Spinner />
 
@@ -49,13 +79,29 @@ export default function AdminDashboard() {
             {new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
-        {unread > 0 && (
-          <div className="flex items-center gap-2 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-3 py-1.5 rounded-full text-xs font-medium shrink-0">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse-dot" />
-            {unread} unread
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowNotifModal(!showNotifModal)}
+            className="btn-primary text-xs md:text-sm px-3.5 py-1.5 flex items-center gap-1.5 font-medium shrink-0"
+          >
+            <span>📢</span>
+            <span>{showNotifModal ? 'Hide Notification Form' : 'Send Notification'}</span>
+          </button>
+          {unread > 0 && (
+            <div className="flex items-center gap-2 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-3 py-1.5 rounded-full text-xs font-medium shrink-0">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse-dot" />
+              {unread} unread
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Notification Form Section */}
+      {showNotifModal && (
+        <div className="transition-all duration-300">
+          <NotificationForm onNotificationSent={() => setShowNotifModal(false)} />
+        </div>
+      )}
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
@@ -127,26 +173,89 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Category breakdown */}
-        <div className="lg:col-span-2 card">
-          <h2 className="font-display text-base md:text-lg font-bold text-tce-dark dark:text-white mb-4">Top Categories</h2>
-          <div className="space-y-3">
-            {topCats.map(([cat, count]) => {
-              const pct = total > 0 ? Math.round((count / total) * 100) : 0
-              return (
-                <div key={cat}>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-gray-700 dark:text-gray-300 truncate max-w-[75%]">{cat}</span>
-                    <span className="text-tce-green font-semibold">{count}</span>
+        {/* Category breakdown & Recent Admin Notifications */}
+        <div className="lg:col-span-2 space-y-5">
+          <div className="card">
+            <h2 className="font-display text-base md:text-lg font-bold text-tce-dark dark:text-white mb-4">Top Categories</h2>
+            <div className="space-y-3">
+              {topCats.map(([cat, count]) => {
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0
+                return (
+                  <div key={cat}>
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-gray-700 dark:text-gray-300 truncate max-w-[75%]">{cat}</span>
+                      <span className="text-tce-green font-semibold">{count}</span>
+                    </div>
+                    <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-tce-green rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
+                    </div>
                   </div>
-                  <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-tce-green rounded-full transition-all duration-700" style={{ width: `${pct}%` }} />
+                )
+              })}
+              {topCats.length === 0 && (
+                <p className="text-gray-400 dark:text-gray-500 text-sm text-center py-6">No data yet</p>
+              )}
+            </div>
+          </div>
+
+          {/* Broadcast Notifications List */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-display text-base font-bold text-tce-dark dark:text-white flex items-center gap-2">
+                <span>📢</span> Sent Notifications
+              </h2>
+              <button
+                onClick={() => setShowNotifModal(true)}
+                className="text-xs text-tce-green font-medium hover:underline bg-transparent border-0 cursor-pointer"
+              >
+                + New
+              </button>
+            </div>
+
+            {loadingNotifs ? (
+              <p className="text-xs text-gray-400 py-4 text-center">Loading notifications...</p>
+            ) : adminNotifs.length === 0 ? (
+              <p className="text-xs text-gray-400 py-4 text-center">No broadcast notifications sent yet</p>
+            ) : (
+              <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+                {adminNotifs.map((n) => (
+                  <div
+                    key={n.id}
+                    className="p-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/40 space-y-2 relative group"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-xs font-bold text-tce-dark dark:text-white leading-snug">
+                        {n.title || 'Notification'}
+                      </h3>
+                      <button
+                        onClick={() => handleDeleteNotif(n.id)}
+                        className="text-gray-400 hover:text-red-500 text-xs bg-transparent border-0 cursor-pointer p-0.5"
+                        title="Delete notification"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+
+                    <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
+                      {n.message}
+                    </p>
+
+                    {n.imageUrl && (
+                      <div className="mt-1.5 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 max-h-32 bg-gray-900 flex items-center justify-center">
+                        <img
+                          src={n.imageUrl}
+                          alt="Notification attachment"
+                          className="max-h-32 w-full object-contain"
+                        />
+                      </div>
+                    )}
+
+                    <p className="text-[10px] text-gray-400">
+                      {formatRelative(n.createdAt)}
+                    </p>
                   </div>
-                </div>
-              )
-            })}
-            {topCats.length === 0 && (
-              <p className="text-gray-400 dark:text-gray-500 text-sm text-center py-6">No data yet</p>
+                ))}
+              </div>
             )}
           </div>
         </div>

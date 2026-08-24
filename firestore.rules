@@ -108,8 +108,8 @@ service cloud.firestore {
                        resource.data.status    == 'Submitted'      &&
                        onlyFields(['imageUrl', 'imagePublicId', 'updatedAt']);
 
-      // Admin updates go through Netlify Function (update-complaint) via Admin SDK
-      allow update: if false; // Admin SDK bypasses
+      // Admin updates allowed for authenticated admins or via Admin SDK
+      allow update: if isAdmin();
 
       // Nobody can delete complaints
       allow delete: if false;
@@ -117,21 +117,17 @@ service cloud.firestore {
 
     // ── Notifications collection ──────────────────────────────────────────────
     match /notifications/{notifId} {
-      // Student can only read their own notifications
-      allow read:   if isActiveStudent() &&
-                       resource.data.userId == ownStudentId();
+      // Student can read their own notifications or admin broadcast notifications
+      allow read:   if (isActiveStudent() && (resource.data.userId == ownStudentId() || resource.data.createdBy == 'admin'))
+                       || isAdmin();
 
-      // Admin can read all notifications
-      allow read:   if isAdmin();
+      // Admin can create, update, delete notifications
+      allow create, update, delete: if isAdmin();
 
       // Students can mark their own notifications as read (update only 'read' field)
       allow update: if isActiveStudent()                        &&
                        resource.data.userId == ownStudentId()   &&
                        onlyFields(['read']);
-
-      // Creation is server-side only (Netlify Functions via Admin SDK)
-      allow create: if false;
-      allow delete: if false;
     }
   }
 }

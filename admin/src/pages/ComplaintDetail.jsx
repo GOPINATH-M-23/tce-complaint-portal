@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getComplaint, updateComplaint, getStudentDetailsForComplaint } from '@/firebase/complaints'
+import { uploadToCloudinary, validateImage } from '@/utils/cloudinary'
 import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
 import Spinner from '@/components/ui/Spinner'
 import { STATUSES, PRIORITIES } from '@/utils/constants'
@@ -17,6 +18,13 @@ export default function ComplaintDetail() {
   const [status,    setStatus]    = useState('')
   const [priority,  setPriority]  = useState('')
   const [reply,     setReply]     = useState('')
+
+  // Proof / Response Image state
+  const [proofFile, setProofFile] = useState(null)
+  const [proofPreview, setProofPreview] = useState(null)
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [validationError, setValidationError] = useState('')
+  const fileInputRef = useRef(null)
 
   // Show Student state
   const [showStudentModal, setShowStudentModal] = useState(false)
@@ -35,6 +43,39 @@ export default function ComplaintDetail() {
     })
   }, [id])
 
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    setValidationError('')
+
+    if (!file) {
+      setProofFile(null)
+      setProofPreview(null)
+      return
+    }
+
+    const err = validateImage(file)
+    if (err) {
+      setValidationError(err)
+      toast.error(err)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      return
+    }
+
+    setProofFile(file)
+    const previewUrl = URL.createObjectURL(file)
+    setProofPreview(previewUrl)
+  }
+
+  const handleRemoveProof = () => {
+    setProofFile(null)
+    if (proofPreview) {
+      URL.revokeObjectURL(proofPreview)
+      setProofPreview(null)
+    }
+    setValidationError('')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   const handleShowStudent = async () => {
     setShowStudentModal(true)
     if (!studentDetails && complaint) {
@@ -52,14 +93,33 @@ export default function ComplaintDetail() {
 
   const handleSave = async () => {
     setSaving(true)
+    setUploadProgress(0)
+
     try {
-      await updateComplaint(id, { status, priority, adminReply: reply })
+      let adminResponseImageUrl = complaint.adminResponseImageUrl || ''
+      let adminResponseImagePublicId = complaint.adminResponseImagePublicId || ''
+
+      if (proofFile) {
+        const uploadRes = await uploadToCloudinary(proofFile, id, (pct) => setUploadProgress(pct))
+        adminResponseImageUrl = uploadRes.imageUrl || ''
+        adminResponseImagePublicId = uploadRes.publicId || ''
+      }
+
+      await updateComplaint(id, {
+        status,
+        priority,
+        adminReply: reply,
+        adminResponseImageUrl,
+        adminResponseImagePublicId,
+      })
+
       toast.success('Complaint updated — student notified.')
       navigate('/complaints')
     } catch (err) {
-      toast.error(err.message)
+      toast.error(err.message || 'Failed to update complaint.')
     } finally {
       setSaving(false)
+      setUploadProgress(0)
     }
   }
 
@@ -153,6 +213,77 @@ export default function ComplaintDetail() {
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
             Student will receive a real-time notification when you save.
           </p>
+        </div>
+
+        {/* Proof / Response Image (Optional) */}
+        <div>
+          <label className="form-label">
+            Proof / Response Image <span className="text-xs text-gray-400 font-normal">(Optional, max 5MB - JPG, JPEG, PNG, WebP)</span>
+          </label>
+
+          {!proofPreview ? (
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              onChange={handleFileChange}
+              disabled={saving}
+              className="block w-full text-sm text-gray-500 dark:text-gray-400
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-xl file:border-0
+                file:text-xs file:font-semibold
+                file:bg-tce-green/10 file:text-tce-green
+                hover:file:bg-tce-green/20
+                cursor-pointer"
+            />
+          ) : (
+            <div className="relative mt-2 inline-block rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-gray-50 dark:bg-gray-800 p-2">
+              <img
+                src={proofPreview}
+                alt="Response proof preview"
+                className="max-h-48 max-w-full rounded-lg object-contain"
+              />
+              <button
+                type="button"
+                onClick={handleRemoveProof}
+                disabled={saving}
+                className="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold shadow-md cursor-pointer transition-colors"
+                title="Remove image"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {validationError && (
+            <p className="text-xs text-red-500 mt-1">{validationError}</p>
+          )}
+
+          {saving && proofFile && (
+            <div className="space-y-1 mt-2">
+              <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
+                <span>Uploading response proof to Cloudinary...</span>
+                <span>{uploadProgress}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-tce-green h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {complaint.adminResponseImageUrl && !proofPreview && (
+            <div className="mt-3">
+              <p className="text-xs font-semibold text-tce-muted dark:text-gray-400 mb-1.5">Existing Admin Response Proof</p>
+              <img
+                src={complaint.adminResponseImageUrl}
+                alt="Admin response proof"
+                className="rounded-xl max-h-48 object-contain border border-tce-green/20"
+              />
+            </div>
+          )}
         </div>
 
         {complaint.adminReply && (

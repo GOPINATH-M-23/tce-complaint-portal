@@ -34,8 +34,8 @@ export const updateComplaint = async (id, updates) => {
     updatedAt: serverTimestamp(),
   })
 
-  // Send realtime notification to student when status or reply changes
-  if (updates.status || updates.adminReply) {
+  // Send realtime notification to student when status, reply, or response image changes
+  if (updates.status || updates.adminReply || updates.adminResponseImageUrl) {
     const comp = await getComplaint(id)
     if (!comp) return
     const hasReply  = !!(updates.adminReply && updates.adminReply.trim())
@@ -56,17 +56,23 @@ export const updateComplaint = async (id, updates) => {
     }
 
     if (message) {
+      const adminResponseImageUrl = updates.adminResponseImageUrl || comp.adminResponseImageUrl || ''
+      const adminResponseImagePublicId = updates.adminResponseImagePublicId || comp.adminResponseImagePublicId || ''
+
       await addDoc(collection(db, 'notifications'), {
-        userId:         comp.studentId,
-        role:           'student',
+        userId:                 comp.studentId,
+        role:                   'student',
         type,
         message,
-        complaintId:    id,
-        complaintTitle: comp.title,
-        status:         updates.status || comp.status,
-        adminReply:     updates.adminReply || '',
-        read:           false,
-        createdAt:      serverTimestamp(),
+        complaintId:            id,
+        complaintTitle:         comp.title,
+        status:                 updates.status || comp.status,
+        adminReply:             updates.adminReply || '',
+        adminResponseImageUrl,
+        imageUrl:               adminResponseImageUrl,
+        adminResponseImagePublicId,
+        read:                   false,
+        createdAt:              serverTimestamp(),
       })
     }
   }

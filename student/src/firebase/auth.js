@@ -159,9 +159,20 @@ export const fetchUserProfile = async (uid) => {
 
 // ── Password reset ────────────────────────────────────────────────────────────
 export const resetPassword = async (email) => {
+  const trimmed = email ? email.trim().toLowerCase() : ''
+  if (!trimmed) {
+    throw new Error('Please enter your college email address.')
+  }
+  if (!isValidStudentEmail(trimmed)) {
+    throw new Error('Only @student.tce.edu email addresses are allowed.')
+  }
   try {
-    await sendPasswordResetEmail(auth, email)
+    await sendPasswordResetEmail(auth, trimmed)
   } catch (err) {
+    console.error('[resetPassword Error]', {
+      code: err?.code,
+      message: err?.message,
+    })
     throw new Error(friendlyAuthError(err))
   }
 }

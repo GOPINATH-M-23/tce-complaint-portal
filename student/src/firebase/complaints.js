@@ -90,18 +90,45 @@ export const getComplaint = async (id) => {
 
 // ── Notifications (realtime) ──────────────────────────────────────────────────
 export const subscribeNotifications = (userId, callback) => {
-  const q = query(
+  const notifMap = new Map()
+
+  const emitSorted = () => {
+    const list = Array.from(notifMap.values()).sort((a, b) => {
+      const tA = a.createdAt?.seconds ? a.createdAt.seconds * 1000 : (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (new Date(a.createdAt || 0)).getTime())
+      const tB = b.createdAt?.seconds ? b.createdAt.seconds * 1000 : (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (new Date(b.createdAt || 0)).getTime())
+      return tB - tA
+    })
+    callback(list)
+  }
+
+  // 1. User specific notifications
+  const qUser = query(
     collection(db, 'notifications'),
     where('userId', '==', userId),
     orderBy('createdAt', 'desc'),
   )
-  return onSnapshot(q, (snap) => {
-    const map = new Map()
-    snap.docs.forEach((d) => {
-      map.set(d.id, { id: d.id, ...d.data() })
-    })
-    callback(Array.from(map.values()))
-  })
+
+  // 2. Admin broadcast notifications
+  const qAdmin = query(
+    collection(db, 'notifications'),
+    where('createdBy', '==', 'admin'),
+    orderBy('createdAt', 'desc'),
+  )
+
+  const unsub1 = onSnapshot(qUser, (snap) => {
+    snap.docs.forEach((d) => notifMap.set(d.id, { id: d.id, ...d.data() }))
+    emitSorted()
+  }, (err) => console.error('User notif sub error:', err))
+
+  const unsub2 = onSnapshot(qAdmin, (snap) => {
+    snap.docs.forEach((d) => notifMap.set(d.id, { id: d.id, ...d.data() }))
+    emitSorted()
+  }, (err) => console.error('Admin notif sub error:', err))
+
+  return () => {
+    unsub1()
+    unsub2()
+  }
 }
 
 export const markNotificationRead = (id) =>
