@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { adminLogin, adminGoogleLogin } from '@/firebase/auth'
+import { adminLogin, adminGoogleLogin, resetPassword } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
@@ -24,6 +24,13 @@ export default function LoginForm() {
   const [loading,     setLoading]     = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error,       setError]       = useState('')
+
+  // Forgot password modal state
+  const [showForgotModal, setShowForgotModal] = useState(false)
+  const [resetEmail, setResetEmail] = useState('')
+  const [resetLoading, setResetLoading] = useState(false)
+  const [resetError, setResetError] = useState('')
+  const [resetSuccess, setResetSuccess] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -53,6 +60,31 @@ export default function LoginForm() {
       setError(err.message || 'Google sign-in failed.')
     } finally {
       setGoogleLoading(false)
+    }
+  }
+
+  const openForgotModal = () => {
+    setResetEmail(email.trim())
+    setResetError('')
+    setResetSuccess('')
+    setShowForgotModal(true)
+  }
+
+  const handleResetSubmit = async (e) => {
+    e.preventDefault()
+    setResetError('')
+    setResetSuccess('')
+    setResetLoading(true)
+
+    try {
+      await resetPassword(resetEmail)
+      const successMsg = 'Password reset link sent. Please check your email, including your spam or junk folder.'
+      setResetSuccess(successMsg)
+      toast.success(successMsg)
+    } catch (err) {
+      setResetError(err.message || 'Failed to send password reset email.')
+    } finally {
+      setResetLoading(false)
     }
   }
 
@@ -104,7 +136,16 @@ export default function LoginForm() {
                 value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
             </div>
             <div>
-              <label className="form-label">Password</label>
+              <div className="flex items-center justify-between mb-1">
+                <label className="form-label mb-0">Password</label>
+                <button
+                  type="button"
+                  onClick={openForgotModal}
+                  className="text-xs text-tce-green hover:underline font-medium bg-transparent border-0 cursor-pointer"
+                >
+                  Forgot Password?
+                </button>
+              </div>
               <div className="relative">
                 <input type={showPw ? 'text' : 'password'} className="form-input pr-10"
                   placeholder="Enter your password"
@@ -143,6 +184,86 @@ export default function LoginForm() {
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700/60 rounded-2xl shadow-2xl p-6 max-w-md w-full relative">
+            <button
+              onClick={() => setShowForgotModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg font-bold bg-transparent border-0 cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="text-center mb-5">
+              <div className="w-12 h-12 mx-auto mb-3 bg-tce-green/10 text-tce-green rounded-full flex items-center justify-center text-xl font-bold">
+                🔑
+              </div>
+              <h2 className="font-display text-xl font-bold text-tce-dark dark:text-white">
+                Reset Password
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Enter your registered admin email address to receive a secure password reset link.
+              </p>
+            </div>
+
+            <form onSubmit={handleResetSubmit} className="space-y-4">
+              <div>
+                <label className="form-label">Admin Email</label>
+                <input
+                  type="email"
+                  className="form-input"
+                  placeholder="Enter your admin email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                  autoFocus
+                  disabled={resetLoading}
+                />
+              </div>
+
+              {resetError && (
+                <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
+                  <span className="shrink-0 text-red-500">⚠️</span>
+                  <span>{resetError}</span>
+                </div>
+              )}
+
+              {resetSuccess && (
+                <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
+                  <span className="shrink-0 text-emerald-500">✓</span>
+                  <span>{resetSuccess}</span>
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(false)}
+                  className="btn-outline flex-1 py-2.5 text-xs font-semibold"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="btn-primary flex-1 py-2.5 text-xs font-semibold flex items-center justify-center gap-1.5 disabled:opacity-60"
+                >
+                  {resetLoading ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <span>Send Reset Link</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -101,9 +101,34 @@ export const toggleStudentStatus = async (uid, active) => {
 
 // ── Password reset ────────────────────────────────────────────────────────────
 export const resetPassword = async (email) => {
+  const trimmed = email ? email.trim() : ''
+  if (!trimmed) {
+    throw new Error('Please enter your admin email address.')
+  }
+
+  const actionCodeSettings = {
+    url: typeof window !== 'undefined' && window.location.origin
+      ? `${window.location.origin}/reset-password`
+      : 'https://tce-admin-portal.vercel.app/reset-password',
+    handleCodeInApp: true,
+  }
+
   try {
-    await sendPasswordResetEmail(auth, email)
+    await sendPasswordResetEmail(auth, trimmed, actionCodeSettings)
   } catch (err) {
-    throw new Error(friendlyAuthError(err))
+    console.warn('[resetPassword Attempt 1 failed]', {
+      code: err?.code,
+      message: err?.message,
+    })
+    if (err?.code === 'auth/unauthorized-continue-uri' || err?.code === 'auth/invalid-continue-uri') {
+      try {
+        await sendPasswordResetEmail(auth, trimmed)
+      } catch (fallbackErr) {
+        console.error('[resetPassword Fallback Error]', fallbackErr)
+        throw new Error(friendlyAuthError(fallbackErr))
+      }
+    } else {
+      throw new Error(friendlyAuthError(err))
+    }
   }
 }

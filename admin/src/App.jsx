@@ -7,6 +7,7 @@ import AdminRoute from '@/routes/AdminRoute'
 // Public Admin Pages
 import AdminLandingPage from '@/pages/AdminLandingPage'
 import AdminLogin from '@/pages/AdminLogin'
+import ResetPassword from '@/pages/ResetPassword'
 
 // Admin Pages & Layout
 import AdminLayout from '@/layouts/AdminLayout'
@@ -24,8 +25,9 @@ export default function App() {
         <ComplaintProvider>
           <Routes>
             {/* Public Admin Landing Page & Login */}
-            <Route path="/"      element={<AdminLandingPage />} />
-            <Route path="/login" element={<AdminLogin />} />
+            <Route path="/"               element={<AdminLandingPage />} />
+            <Route path="/login"          element={<AdminLogin />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
             {/* Protected Admin Routes */}
             <Route element={<AdminRoute />}>
