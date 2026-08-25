@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { studentLogin, studentGoogleLogin, resetPassword } from '@/firebase/auth'
+import { studentLogin, studentGoogleLogin, resetPassword, resendStudentVerification } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
@@ -25,6 +25,7 @@ export default function LoginForm() {
   const [loading,     setLoading]     = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
   const [error,       setError]       = useState('')
+  const [resendLoading, setResendLoading] = useState(false)
 
   // Forgot password modal state
   const [showForgotModal, setShowForgotModal] = useState(false)
@@ -45,6 +46,22 @@ export default function LoginForm() {
       setError(err.message || 'Login failed. Please try again.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleResendVerification = async () => {
+    if (!email || !password) {
+      toast.error('Please enter your email and password to resend verification link.')
+      return
+    }
+    setResendLoading(true)
+    try {
+      await resendStudentVerification(email, password)
+      toast.success('Verification email resent. Please check your inbox.')
+    } catch (err) {
+      toast.error(err.message || 'Failed to resend verification email.')
+    } finally {
+      setResendLoading(false)
     }
   }
 
@@ -161,11 +178,23 @@ export default function LoginForm() {
             </div>
 
             {error && (
-              <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm px-3 py-2.5 rounded-xl flex items-start gap-2">
-                <span className="shrink-0 mt-0.5 text-red-500">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                </span>
-                {error}
+              <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm px-3 py-2.5 rounded-xl flex flex-col gap-1.5">
+                <div className="flex items-start gap-2">
+                  <span className="shrink-0 mt-0.5 text-red-500">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                  </span>
+                  <span>{error}</span>
+                </div>
+                {error.includes('Please verify your email') && (
+                  <button
+                    type="button"
+                    onClick={handleResendVerification}
+                    disabled={resendLoading}
+                    className="text-xs font-semibold text-tce-green hover:underline text-left bg-transparent border-0 cursor-pointer disabled:opacity-50 ml-5"
+                  >
+                    {resendLoading ? 'Resending verification email...' : 'Resend verification email'}
+                  </button>
+                )}
               </div>
             )}
 

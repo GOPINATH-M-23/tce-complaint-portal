@@ -61,10 +61,6 @@ export const uploadToCloudinary = async (file, complaintId = '', onProgress) => 
   const validationError = validateImage(file)
   if (validationError) throw new Error(validationError)
 
-  if (!CLOUD_NAME) {
-    throw new Error('VITE_CLOUDINARY_CLOUD_NAME is not configured.')
-  }
-
   // 2. Compress before upload
   const compressed = await compressImage(file)
 
@@ -88,6 +84,11 @@ export const uploadToCloudinary = async (file, complaintId = '', onProgress) => 
 
   const { data: sigData } = await sigRes.json()
   // sigData = { signature, timestamp, apiKey, cloudName, folder, allowedFormats }
+  const cloudName = sigData?.cloudName || import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || CLOUD_NAME
+
+  if (!cloudName) {
+    throw new Error('VITE_CLOUDINARY_CLOUD_NAME is not configured.')
+  }
 
   // 5. Build FormData for direct Cloudinary upload
   const formData = new FormData()
@@ -102,7 +103,7 @@ export const uploadToCloudinary = async (file, complaintId = '', onProgress) => 
   // 6. Upload directly to Cloudinary with progress tracking
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
-    xhr.open('POST', `https://api.cloudinary.com/v1_1/${sigData.cloudName || CLOUD_NAME}/image/upload`)
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`)
 
     if (onProgress) {
       xhr.upload.onprogress = (e) => {

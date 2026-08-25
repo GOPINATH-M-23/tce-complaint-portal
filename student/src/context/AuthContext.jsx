@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '@/firebase/config'
 import { fetchUserProfile } from '@/firebase/auth'
 
@@ -12,6 +12,13 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
       if (fbUser) {
+        const isGoogle = fbUser.providerData?.some((p) => p.providerId === 'google.com')
+        if (!fbUser.emailVerified && !isGoogle) {
+          await signOut(auth).catch(() => {})
+          setUser(null)
+          setLoading(false)
+          return
+        }
         try {
           const profile = await fetchUserProfile(fbUser.uid)
           setUser(profile)

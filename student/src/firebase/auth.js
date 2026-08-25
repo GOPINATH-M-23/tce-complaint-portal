@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   sendPasswordResetEmail,
+  sendEmailVerification,
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth'
@@ -12,17 +13,29 @@ import { auth, db } from './config'
 import { friendlyAuthError } from '@/utils/authErrors'
 
 // ── Validate student email domain ─────────────────────────────────────────────
-export const isValidStudentEmail = (email) =>
-  email.trim().toLowerCase().endsWith('@student.tce.edu')
+const STUDENT_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@student\.tce\.edu$/i
+
+export const isValidStudentEmail = (email) => {
+  if (!email || typeof email !== 'string') return false
+  return STUDENT_EMAIL_REGEX.test(email.trim())
+}
 
 // ── Student Login ─────────────────────────────────────────────────────────────
 export const studentLogin = async (email, password) => {
   const trimmed = email.trim().toLowerCase()
   if (!isValidStudentEmail(trimmed)) {
-    throw new Error('Only @student.tce.edu email addresses are allowed.')
+    throw new Error('Please use your official @student.tce.edu email address.')
   }
   try {
     const cred = await signInWithEmailAndPassword(auth, trimmed, password)
+
+    if (!cred.user.emailVerified) {
+      await signOut(auth)
+      const err = new Error('Please verify your email address before logging in.')
+      err.code = 'auth/email-not-verified'
+      throw err
+    }
+
     const snap = await getDoc(doc(db, 'students', cred.user.uid))
     if (!snap.exists()) throw new Error('Student record not found. Please register your account first.')
     if (!snap.data().active) throw new Error('Your account has been deactivated. Contact admin.')
@@ -33,7 +46,38 @@ export const studentLogin = async (email, password) => {
       message: err?.message,
       operation: 'studentLogin',
     })
-    if (err.message.startsWith('Student') || err.message.startsWith('Your account') || err.message.startsWith('Only @student')) throw err
+    if (
+      err.message.startsWith('Please verify your email') ||
+      err.message.startsWith('Student') ||
+      err.message.startsWith('Your account') ||
+      err.message.startsWith('Please use your official') ||
+      err.message.startsWith('Only @student')
+    ) throw err
+    throw new Error(friendlyAuthError(err))
+  }
+}
+
+// ── Resend Student Email Verification ─────────────────────────────────────────
+export const resendStudentVerification = async (email, password) => {
+  const trimmed = email.trim().toLowerCase()
+  if (!isValidStudentEmail(trimmed)) {
+    throw new Error('Please use your official @student.tce.edu email address.')
+  }
+  try {
+    const cred = await signInWithEmailAndPassword(auth, trimmed, password)
+    if (cred.user.emailVerified) {
+      await signOut(auth)
+      throw new Error('Your email address is already verified. You can log in directly.')
+    }
+    await sendEmailVerification(cred.user)
+    await signOut(auth)
+    return true
+  } catch (err) {
+    if (
+      err.message.includes('already verified') ||
+      err.message.startsWith('Please use your official') ||
+      err.message.startsWith('Only @student')
+    ) throw err
     throw new Error(friendlyAuthError(err))
   }
 }
@@ -49,7 +93,7 @@ export const studentGoogleLogin = async () => {
     // Enforce college domain for Google sign-in
     if (!isValidStudentEmail(email)) {
       await signOut(auth)
-      throw new Error('Only @student.tce.edu Google accounts are allowed.')
+      throw new Error('Please use your official @student.tce.edu email address.')
     }
 
     // Check if student already registered in Firestore
@@ -77,7 +121,7 @@ export const studentGoogleLogin = async () => {
       message: err?.message,
       operation: 'studentGoogleLogin',
     })
-    if (err.message.startsWith('No student') || err.message.startsWith('Your account') || err.message.startsWith('Only @student')) throw err
+    if (err.message.startsWith('No student') || err.message.startsWith('Your account') || err.message.startsWith('Please use your official') || err.message.startsWith('Only @student')) throw err
     throw new Error(friendlyAuthError(err))
   }
 }
@@ -86,7 +130,7 @@ export const studentGoogleLogin = async () => {
 export const studentSignup = async ({ name, email, dept, year, password, phone = '', regNo = '', rollNo = '' }) => {
   const trimmed = email.trim().toLowerCase()
   if (!isValidStudentEmail(trimmed)) {
-    throw new Error('Only @student.tce.edu email addresses are allowed.')
+    throw new Error('Please use your official @student.tce.edu email address.')
   }
 
   const studentId = trimmed.split('@')[0]
@@ -119,6 +163,10 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
   try {
     const cred = await createUserWithEmailAndPassword(auth, trimmed, password)
     await updateProfile(cred.user, { displayName: name })
+
+    // Send Firebase email verification email
+    await sendEmailVerification(cred.user)
+
     const profile = {
       uid:       cred.user.uid,
       name,
@@ -135,9 +183,14 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
       createdAt: serverTimestamp(),
     }
     await setDoc(doc(db, 'students', cred.user.uid), profile)
-    return { ...profile, role: 'student' }
+
+    // Sign out user so they are not logged in as unverified
+    await signOut(auth)
+
+    return { ...profile, role: 'student', emailVerificationSent: true }
   } catch (err) {
     if (
+      err.message.startsWith('Please use your official') ||
       err.message.startsWith('Only @student') ||
       err.message.startsWith('Your student') ||
       err.message.startsWith('The registration') ||

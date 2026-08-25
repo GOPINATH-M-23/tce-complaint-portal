@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { studentSignup } from '@/firebase/auth'
+import { studentSignup, isValidStudentEmail } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import { DEPARTMENTS } from '@/utils/constants'
 import toast from 'react-hot-toast'
@@ -31,8 +31,8 @@ export default function StudentSignup() {
     if (!form.name.trim())  e.name  = 'Full Name is required.'
     
     if (!form.email.trim()) e.email = 'College Email is required.'
-    else if (!form.email.toLowerCase().endsWith('@student.tce.edu'))
-      e.email = 'Must be a @student.tce.edu email.'
+    else if (!isValidStudentEmail(form.email.trim()))
+      e.email = 'Please use your official @student.tce.edu email address.'
 
     if (!form.phone.trim())              e.phone = 'Phone Number is required.'
     else if (!PHONE_RE.test(form.phone)) e.phone = 'Enter a valid 10-digit Indian mobile number.'
@@ -61,7 +61,7 @@ export default function StudentSignup() {
     if (!validate()) return
     setLoading(true)
     try {
-      const userData = await studentSignup({
+      await studentSignup({
         name:     form.name.trim(),
         email:    form.email.trim().toLowerCase(),
         dept:     form.dept,
@@ -71,9 +71,8 @@ export default function StudentSignup() {
         rollNo:   form.rollNo.trim(),
         password: form.password,
       })
-      setUser(userData)
-      toast.success(`Welcome, ${userData.name}! Account created.`)
-      navigate('/dashboard')
+      toast.success('Account created. Please verify your email address before logging in.', { duration: 6000 })
+      navigate('/login')
     } catch (err) {
       setErrors({ form: err.message || 'Signup failed. Please try again.' })
     } finally {

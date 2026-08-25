@@ -19,8 +19,17 @@ export default async function handler(req, res) {
     const apiKey = process.env.CLOUDINARY_API_KEY || process.env.VITE_CLOUDINARY_API_KEY
     const apiSecret = process.env.CLOUDINARY_API_SECRET
 
-    if (!apiSecret || !apiKey || !cloudName) {
-      return res.status(500).json({ error: 'Cloudinary credentials not configured on server.' })
+    const missing = []
+    if (!cloudName) missing.push('CLOUDINARY_CLOUD_NAME')
+    if (!apiKey) missing.push('CLOUDINARY_API_KEY')
+    if (!apiSecret) missing.push('CLOUDINARY_API_SECRET')
+
+    if (missing.length > 0) {
+      console.error('[Cloudinary Signature API Error] Missing environment variables in Student Vercel environment:', missing.join(', '))
+      return res.status(500).json({
+        error: 'Cloudinary server configuration is incomplete.',
+        details: `Missing environment variable(s): ${missing.join(', ')} in Vercel Student environment.`,
+      })
     }
 
     const timestamp = Math.round(Date.now() / 1000)
@@ -55,6 +64,7 @@ export default async function handler(req, res) {
       }
     })
   } catch (err) {
-    return res.status(500).json({ error: err.message || 'Server error' })
+    console.error('[Cloudinary Signature API Exception]', err)
+    return res.status(500).json({ error: err.message || 'Server error generating upload signature' })
   }
 }
