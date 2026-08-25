@@ -12,6 +12,39 @@ export default defineConfig(({ mode }) => {
       {
         name: 'api-upload-signature-dev-plugin',
         configureServer(server) {
+          server.middlewares.use('/api/send-otp', async (req, res) => {
+            try {
+              const sendOtpHandler = (await import('./api/send-otp.js')).default
+              await sendOtpHandler(req, res)
+            } catch (err) {
+              res.statusCode = 500
+              res.setHeader('Content-Type', 'application/json')
+              res.end(JSON.stringify({ error: err.message || 'Error executing send-otp' }))
+            }
+          })
+
+          server.middlewares.use('/api/verify-otp', async (req, res) => {
+            try {
+              const verifyOtpHandler = (await import('./api/verify-otp.js')).default
+              await verifyOtpHandler(req, res)
+            } catch (err) {
+              res.statusCode = 500
+              res.setHeader('Content-Type', 'application/json')
+              res.end(JSON.stringify({ error: err.message || 'Error executing verify-otp' }))
+            }
+          })
+
+          server.middlewares.use('/api/update-year', async (req, res) => {
+            try {
+              const updateYearHandler = (await import('./api/update-year.js')).default
+              await updateYearHandler(req, res)
+            } catch (err) {
+              res.statusCode = 500
+              res.setHeader('Content-Type', 'application/json')
+              res.end(JSON.stringify({ error: err.message || 'Error executing update-year' }))
+            }
+          })
+
           server.middlewares.use('/api/upload-signature', (req, res) => {
             if (req.method === 'OPTIONS') {
               res.statusCode = 200

@@ -126,6 +126,68 @@ export const studentGoogleLogin = async () => {
   }
 }
 
+// ── Send Student OTP ──────────────────────────────────────────────────────────
+export const sendStudentOtp = async (email) => {
+  const trimmed = email ? email.trim().toLowerCase() : ''
+  if (!isValidStudentEmail(trimmed)) {
+    throw new Error('Please use your official @student.tce.edu email address.')
+  }
+  const res = await fetch('/api/send-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: trimmed }),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to send verification code.')
+  }
+  return data
+}
+
+// ── Verify Student OTP ────────────────────────────────────────────────────────
+export const verifyStudentOtp = async (email, otp, challenge, expiresAt) => {
+  const trimmedEmail = email ? email.trim().toLowerCase() : ''
+  const trimmedOtp   = otp   ? otp.trim() : ''
+  if (!isValidStudentEmail(trimmedEmail)) {
+    throw new Error('Please use your official @student.tce.edu email address.')
+  }
+  if (!trimmedOtp || !/^\d{6}$/.test(trimmedOtp)) {
+    throw new Error('Invalid verification code.')
+  }
+  const res = await fetch('/api/verify-otp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: trimmedEmail, otp: trimmedOtp, challenge, expiresAt }),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    throw new Error(data.error || 'Invalid verification code.')
+  }
+  return data
+}
+
+// ── Update Student Year ───────────────────────────────────────────────────────
+export const updateStudentYear = async (email, otp, challenge, expiresAt, newYear) => {
+  const trimmedEmail = email ? email.trim().toLowerCase() : ''
+  const trimmedOtp   = otp   ? otp.trim() : ''
+  if (!isValidStudentEmail(trimmedEmail)) {
+    throw new Error('Please use your official @student.tce.edu email address.')
+  }
+  if (!trimmedOtp || !/^\d{6}$/.test(trimmedOtp)) {
+    throw new Error('Invalid verification code.')
+  }
+  const res = await fetch('/api/update-year', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: trimmedEmail, otp: trimmedOtp, challenge, expiresAt, newYear }),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    throw new Error(data.error || 'Invalid verification code.')
+  }
+  return data
+}
+
 // ── Student Self-Signup (email/password only) ─────────────────────────────────
 export const studentSignup = async ({ name, email, dept, year, password, phone = '', regNo = '', rollNo = '' }) => {
   const trimmed = email.trim().toLowerCase()
