@@ -37,7 +37,9 @@ export default function LoginForm({ role = 'student' }) {
         ? await adminLogin(email, password)
         : await studentLogin(email, password)
       setUser(userData)
-      toast.success(`Welcome back, ${userData.name}!`)
+      if (isAdmin) {
+        toast.success(`Welcome back, ${userData.name}!`)
+      }
       navigate(isAdmin ? '/admin' : '/student')
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.')

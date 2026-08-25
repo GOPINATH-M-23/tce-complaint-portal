@@ -90,12 +90,12 @@ export default function StudentSidebar() {
         <div className="flex gap-2">
           {/* Pill toggle */}
           <button onClick={toggle} aria-label="Toggle dark mode"
-            className="flex items-center justify-between w-12 h-6 rounded-full px-1 border-0 cursor-pointer transition-colors duration-300 shrink-0 relative"
+            className="flex items-center justify-between w-12 h-6 rounded-full px-1.5 border-0 cursor-pointer transition-colors duration-300 shrink-0 relative"
             style={{ background: dark ? '#1f4d3a' : '#e5e7eb' }}>
             <Sun className="w-3 h-3 text-amber-500 z-10 select-none" />
             <Moon className="w-3 h-3 text-slate-400 dark:text-slate-200 z-10 select-none" />
-            <span className="absolute ml-0.5 w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-transform duration-300"
-              style={{ transform: dark ? 'translateX(20px)' : 'translateX(0px)' }} />
+            <span className="absolute top-[3px] left-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-transform duration-300"
+              style={{ transform: dark ? 'translateX(24px)' : 'translateX(0px)' }} />
           </button>
           {/* Sidebar Logout Button */}
           <button onClick={handleLogout} className="btn-outline flex-1 text-xs py-1.5 cursor-pointer">

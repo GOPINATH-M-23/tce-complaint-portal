@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
 import tceLogo   from '@/assets/tcenew.png'
 import tceCampus from '@/assets/tceai.png'
-import { collection, getDocs } from "firebase/firestore"
+import { collection, getDocs, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase/config"
 import { ShieldCheck, Zap, BarChart2, Bot, Smartphone, Tag, Camera, MessageSquare, TrendingUp, Bell, MapPin, Phone, Mail, Globe, Check, Sparkles } from 'lucide-react'
 
@@ -42,55 +42,59 @@ export default function LandingPage() {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-  const t = setTimeout(() => setVisible(true), 100)
-  return () => clearTimeout(t)
-}, [])
-  const [totalComplaints, setTotalComplaints] = useState(0)
+    const t = setTimeout(() => setVisible(true), 100)
+    return () => clearTimeout(t)
+  }, [])
+
+  const [totalComplaints, setTotalComplaints]       = useState(0)
   const [resolvedComplaints, setResolvedComplaints] = useState(0)
   const [progressComplaints, setProgressComplaints] = useState(0)
-  const [highComplaints, setHighComplaints] = useState(0)
+  const [highComplaints, setHighComplaints]         = useState(0)
+  const [loadingStats, setLoadingStats]             = useState(true)
 
   useEffect(() => {
-    const fetchComplaints = async () => {
-      const snapshot = await getDocs(collection(db, "complaints"))
-      const data = snapshot.docs.map(doc => doc.data())
-
-      setTotalComplaints(data.length)
-      setResolvedComplaints(
-        data.filter(c => c.status === "Resolved").length
+    let unsub
+    try {
+      unsub = onSnapshot(
+        collection(db, 'complaints'),
+        (snapshot) => {
+          const data = snapshot.docs.map((doc) => doc.data())
+          setTotalComplaints(data.length)
+          setResolvedComplaints(data.filter((c) => c.status === 'Resolved').length)
+          setProgressComplaints(data.filter((c) => c.status === 'In Progress').length)
+          setHighComplaints(data.filter((c) => ['High', 'Critical'].includes(c.priority)).length)
+          setLoadingStats(false)
+        },
+        async (err) => {
+          console.warn('Realtime stats listener failed, falling back to getDocs:', err)
+          try {
+            const snapshot = await getDocs(collection(db, 'complaints'))
+            const data = snapshot.docs.map((doc) => doc.data())
+            setTotalComplaints(data.length)
+            setResolvedComplaints(data.filter((c) => c.status === 'Resolved').length)
+            setProgressComplaints(data.filter((c) => c.status === 'In Progress').length)
+            setHighComplaints(data.filter((c) => ['High', 'Critical'].includes(c.priority)).length)
+          } catch (e) {
+            console.error('Error loading complaint counts:', e)
+          } finally {
+            setLoadingStats(false)
+          }
+        }
       )
-      setProgressComplaints(
-        data.filter(c => c.status === "In Progress").length
-      )
-      setHighComplaints(
-        data.filter(c => c.priority === "High").length
-      )
+    } catch (e) {
+      console.error('Error setting up stats listener:', e)
+      setLoadingStats(false)
     }
 
-    fetchComplaints()
+    return () => unsub?.()
   }, [])
+
   const PREVIEW_STATS = [
-  {
-    n: totalComplaints,
-    l: "Total Complaints",
-    c: "#7dd3b0"
-  },
-  {
-    n: resolvedComplaints,
-    l: "Resolved",
-    c: "#86efac"
-  },
-  {
-    n: progressComplaints,
-    l: "In Progress",
-    c: "#fcd34d"
-  },
-  {
-    n: highComplaints,
-    l: "High Priority",
-    c: "#f87171"
-  }
-]
+    { n: loadingStats ? '...' : totalComplaints,     l: 'Total Complaints', c: '#7dd3b0' },
+    { n: loadingStats ? '...' : resolvedComplaints,  l: 'Resolved',         c: '#86efac' },
+    { n: loadingStats ? '...' : progressComplaints,  l: 'In Progress',      c: '#fcd34d' },
+    { n: loadingStats ? '...' : highComplaints,      l: 'High Priority',    c: '#f87171' },
+  ]
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">

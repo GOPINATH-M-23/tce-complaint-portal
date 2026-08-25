@@ -35,14 +35,14 @@ export default function MobileHeader({ title }) {
         <button
           onClick={toggle}
           aria-label="Toggle dark mode"
-          className="relative flex items-center justify-between w-14 h-7 rounded-full px-1.5 border-0 cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-tce-green/40"
+          className="relative flex items-center justify-between w-14 h-7 rounded-full px-1.5 border-0 cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-tce-green/40 shrink-0"
           style={{ background: dark ? '#1f4d3a' : '#e5e7eb' }}
         >
           <Sun className="w-3.5 h-3.5 text-amber-500 z-10 select-none" />
           <Moon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-200 z-10 select-none" />
           <span
-            className="absolute top-[3px] w-[22px] h-[22px] rounded-full bg-white shadow-sm transition-transform duration-300"
-            style={{ transform: dark ? 'translateX(28px)' : 'translateX(1px)' }}
+            className="absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full bg-white shadow-sm transition-transform duration-300"
+            style={{ transform: dark ? 'translateX(28px)' : 'translateX(0px)' }}
           />
         </button>
 

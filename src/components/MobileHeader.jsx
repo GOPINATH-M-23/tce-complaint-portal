@@ -51,8 +51,8 @@ export default function MobileHeader({ title }) {
           <Moon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-200 z-10 select-none" />
           {/* Sliding knob */}
           <span
-            className="absolute top-[3px] w-[22px] h-[22px] rounded-full bg-white shadow-sm transition-transform duration-300"
-            style={{ transform: dark ? 'translateX(28px)' : 'translateX(1px)' }}
+            className="absolute top-[3px] left-[3px] w-[22px] h-[22px] rounded-full bg-white shadow-sm transition-transform duration-300"
+            style={{ transform: dark ? 'translateX(28px)' : 'translateX(0px)' }}
           />
         </button>
 

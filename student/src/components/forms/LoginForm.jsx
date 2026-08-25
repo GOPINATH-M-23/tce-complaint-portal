@@ -40,7 +40,6 @@ export default function LoginForm() {
     try {
       const userData = await studentLogin(email, password)
       setUser(userData)
-      toast.success(`Welcome back, ${userData.name}!`)
       navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.')
@@ -55,7 +54,6 @@ export default function LoginForm() {
     try {
       const userData = await studentGoogleLogin()
       setUser(userData)
-      toast.success(`Welcome back, ${userData.name}!`)
       navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Google sign-in failed.')

@@ -39,7 +39,7 @@ export function ComplaintProvider({ children }) {
       )
     } else {
       unsub1 = subscribeStudentComplaints(
-        user.studentId || user.uid,
+        user,
         (data) => { setComplaints(data); setLoadingComps(false) },
         handleError,
       )

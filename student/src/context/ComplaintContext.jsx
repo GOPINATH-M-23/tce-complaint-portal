@@ -32,7 +32,7 @@ export function ComplaintProvider({ children }) {
     }
 
     unsub1 = subscribeStudentComplaints(
-      user.studentId || user.uid,
+      user,
       (data) => {
         setComplaints(data)
         setLoadingComps(false)

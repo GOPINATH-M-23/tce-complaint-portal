@@ -63,23 +63,56 @@ export const submitComplaint = async (data, imageFile, onProgress) => {
 }
 
 // ── Get complaints for student (real-time, deduplicated by ID) ────────────────
-export const subscribeStudentComplaints = (studentId, callback, onError) => {
-  const q = query(
-    collection(db, 'complaints'),
-    where('studentId', '==', studentId),
-    orderBy('createdAt', 'desc'),
-  )
-  return onSnapshot(
-    q,
-    (snap) => {
-      const map = new Map()
-      snap.docs.forEach((d) => {
-        map.set(d.id, { id: d.id, ...d.data() })
-      })
-      callback(Array.from(map.values()))
-    },
-    (err)  => onError?.(err),
-  )
+export const subscribeStudentComplaints = (studentIdentifier, callback, onError) => {
+  const identifiers = new Set()
+  if (typeof studentIdentifier === 'string') {
+    identifiers.add(studentIdentifier)
+  } else if (studentIdentifier && typeof studentIdentifier === 'object') {
+    if (studentIdentifier.studentId) identifiers.add(studentIdentifier.studentId)
+    if (studentIdentifier.regNo)     identifiers.add(studentIdentifier.regNo)
+    if (studentIdentifier.uid)       identifiers.add(studentIdentifier.uid)
+    if (studentIdentifier.email)     identifiers.add(studentIdentifier.email.split('@')[0])
+  }
+
+  const ids = Array.from(identifiers).filter(Boolean)
+  if (ids.length === 0) {
+    callback([])
+    return () => {}
+  }
+
+  const compMap = new Map()
+  const unsubs = []
+
+  const emitSorted = () => {
+    const list = Array.from(compMap.values()).sort((a, b) => {
+      const tA = a.createdAt?.seconds ? a.createdAt.seconds * 1000 : (a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (new Date(a.createdAt || 0)).getTime())
+      const tB = b.createdAt?.seconds ? b.createdAt.seconds * 1000 : (b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (new Date(b.createdAt || 0)).getTime())
+      return tB - tA
+    })
+    callback(list)
+  }
+
+  ids.forEach((id) => {
+    const q = query(
+      collection(db, 'complaints'),
+      where('studentId', '==', id),
+    )
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        snap.docs.forEach((d) => {
+          compMap.set(d.id, { id: d.id, ...d.data() })
+        })
+        emitSorted()
+      },
+      (err) => onError?.(err),
+    )
+    unsubs.push(unsub)
+  })
+
+  return () => {
+    unsubs.forEach((u) => u?.())
+  }
 }
 
 // ── Get single complaint ──────────────────────────────────────────────────────
