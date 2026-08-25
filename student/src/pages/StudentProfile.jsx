@@ -122,44 +122,24 @@ export default function StudentProfile() {
             {k === 'Year' ? (
               <div className="flex items-center gap-2">
                 {isEditingYear ? (
-                  otpStep ? (
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        maxLength={6}
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                        placeholder="6-digit OTP"
-                        className="input-field py-1 px-2 w-24 text-center text-sm"
-                        disabled={loading}
-                      />
-                      <button onClick={handleVerifyYearOtp} disabled={loading || otp.length !== 6} className="p-1.5 text-tce-green hover:bg-tce-green/10 rounded-md">
-                        <Check className="w-4 h-4" />
-                      </button>
-                      <button onClick={cancelYearEdit} disabled={loading} className="p-1.5 text-red-500 hover:bg-red-50 rounded-md">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <select
-                        value={newYear}
-                        onChange={(e) => setNewYear(Number(e.target.value))}
-                        className="input-field py-1 px-2 w-20 text-sm"
-                        disabled={loading}
-                      >
-                        {[1, 2, 3, 4, 5].map((y) => (
-                          <option key={y} value={y}>Year {y}</option>
-                        ))}
-                      </select>
-                      <button onClick={handleSendYearOtp} disabled={loading} className="btn-primary py-1 px-3 text-xs h-auto min-h-0">
-                        {loading ? '...' : 'Save'}
-                      </button>
-                      <button onClick={cancelYearEdit} disabled={loading} className="p-1.5 text-red-500 hover:bg-red-50 rounded-md">
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={newYear}
+                      onChange={(e) => setNewYear(Number(e.target.value))}
+                      className="input-field py-1 px-2 w-20 text-sm"
+                      disabled={loading}
+                    >
+                      {[1, 2, 3, 4, 5].map((y) => (
+                        <option key={y} value={y}>Year {y}</option>
+                      ))}
+                    </select>
+                    <button onClick={handleSendYearOtp} disabled={loading} className="btn-primary py-1 px-3 text-xs h-auto min-h-0">
+                      {loading ? '...' : 'Save'}
+                    </button>
+                    <button onClick={cancelYearEdit} disabled={loading} className="p-1.5 text-red-500 hover:bg-red-50 rounded-md">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
                 ) : (
                   <>
                     <span className="font-medium text-tce-dark dark:text-white text-right truncate">{v}</span>
@@ -226,6 +206,73 @@ export default function StudentProfile() {
       <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
         To update your profile details, please contact the college admin.
       </p>
+
+      {/* OTP Verification Modal */}
+      {otpStep && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-tce-dark border border-gray-200 dark:border-gray-800 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            
+            <button 
+              onClick={cancelYearEdit}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center mb-6">
+              <div className="w-12 h-12 bg-tce-green/10 text-tce-green rounded-full flex items-center justify-center mx-auto mb-4">
+                <Check className="w-6 h-6" />
+              </div>
+              <h2 className="font-display text-xl font-bold text-tce-dark dark:text-white mb-2">
+                Verify Your Email
+              </h2>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                We sent a 6-digit verification code to:<br/>
+                <span className="font-medium text-tce-dark dark:text-white">{user?.email}</span>
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              <div>
+                <input
+                  type="text"
+                  maxLength={6}
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                  placeholder="Enter 6-digit OTP"
+                  className="input-field w-full text-center text-xl sm:text-2xl tracking-[0.3em] sm:tracking-[0.5em] placeholder:tracking-normal placeholder:font-sans placeholder:text-base placeholder:font-normal py-3 font-mono font-bold transition-all"
+                  disabled={loading}
+                />
+              </div>
+              
+              <button 
+                onClick={handleVerifyYearOtp} 
+                disabled={loading || otp.length !== 6} 
+                className="btn-primary w-full py-3"
+              >
+                {loading ? 'Verifying...' : 'Verify & Update Year'}
+              </button>
+
+              <div className="flex flex-col gap-2 text-center mt-4">
+                <button 
+                  onClick={handleSendYearOtp} 
+                  disabled={loading}
+                  className="text-sm text-tce-green hover:text-tce-green/80 font-medium transition-colors"
+                >
+                  Didn't receive the code? Resend Code
+                </button>
+                <button 
+                  onClick={cancelYearEdit}
+                  disabled={loading}
+                  className="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                >
+                  Change Year or Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

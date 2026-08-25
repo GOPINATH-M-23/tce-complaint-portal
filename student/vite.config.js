@@ -6,6 +6,12 @@ import crypto from 'crypto'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
+  // Inject server-side environment variables into Node's process.env
+  // so local API handlers (e.g., send-otp, update-year) can access them.
+  // This does NOT expose them to the client bundle (Vite only bundles VITE_ vars).
+  Object.assign(process.env, env)
+
+
   return {
     plugins: [
       react(),
