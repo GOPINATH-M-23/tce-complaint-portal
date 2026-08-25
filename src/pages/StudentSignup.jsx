@@ -17,6 +17,7 @@ const GoogleIcon = () => (
 
 const PHONE_RE = /^[6-9]\d{9}$/
 const REGNO_RE = /^\d{16}$/   // e.g. 2403917720521023
+const ROLLNO_RE = /^[0-9]{6}$/
 
 export default function StudentSignup() {
   const { setUser } = useAuth()
@@ -24,7 +25,7 @@ export default function StudentSignup() {
 
   const [form, setForm] = useState({
     name: '', email: '', dept: '', year: '',
-    phone: '', regNo: '',
+    phone: '', regNo: '', rollNo: '',
     password: '', confirmPassword: '',
   })
   const [showPw,        setShowPw]        = useState(false)
@@ -34,7 +35,7 @@ export default function StudentSignup() {
 
   // Google signup collects extra fields via a mini-modal
   const [googleStep,    setGoogleStep]    = useState(false)
-  const [googleExtra,   setGoogleExtra]   = useState({ dept: '', year: '', phone: '', regNo: '' })
+  const [googleExtra,   setGoogleExtra]   = useState({ dept: '', year: '', phone: '', regNo: '', rollNo: '' })
   const [googleExtraErr, setGoogleExtraErr] = useState({})
 
   const set = (k, v) => { setForm((f) => ({ ...f, [k]: v })); setErrors((e) => ({ ...e, [k]: '' })) }
@@ -50,6 +51,8 @@ export default function StudentSignup() {
     else if (!PHONE_RE.test(form.phone)) e.phone = 'Enter a valid 10-digit Indian mobile number'
     if (!form.regNo.trim())              e.regNo = 'Registration number is required'
     else if (!REGNO_RE.test(form.regNo)) e.regNo = '16-digit registration number'
+    if (!form.rollNo.trim())              e.rollNo = 'Roll Number is required'
+    else if (!ROLLNO_RE.test(form.rollNo)) e.rollNo = 'Roll Number must be exactly 6 digits'
     if (!form.dept)                         e.dept     = 'Department is required'
     if (![1,2,3,4].includes(Number(form.year))) e.year = 'Please select a valid year'
     if (form.password.length < 6)        e.password = 'Password must be at least 6 characters'
@@ -80,6 +83,7 @@ export default function StudentSignup() {
         year:     Number(form.year),
         phone:    form.phone.trim(),
         regNo:    form.regNo.trim().toUpperCase(),
+        rollNo:   form.rollNo.trim(),
         password: form.password,
       })
       toast.success(`Welcome, ${userData.name}! Account created.`)
@@ -125,20 +129,16 @@ export default function StudentSignup() {
             </p>
           </div>
 
-          {/* Google signup button */}
-          <button type="button" onClick={handleGoogleStart}
-            disabled={loading || googleLoading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 rounded-xl border-[1.5px] border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 disabled:opacity-60 mb-5">
-            {googleLoading
-              ? <span className="w-4 h-4 border-2 border-gray-300 border-t-tce-green rounded-full animate-spin" />
-              : <GoogleIcon />
-            }
-            {googleLoading ? 'Setting up…' : 'Sign up with Google'}
+          {/* Google Sign In Button */}
+          <button type="button" onClick={handleGoogleStart} disabled={googleLoading}
+            className="w-full py-3 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-tce-dark dark:text-white text-sm font-semibold flex items-center justify-center gap-3 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors mb-4 cursor-pointer">
+            <GoogleIcon />
+            <span>Continue with Google</span>
           </button>
 
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-3 my-4">
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-            <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">or create with email</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">or register with password</span>
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
           </div>
 
@@ -151,7 +151,7 @@ export default function StudentSignup() {
 
             {/* Name */}
             <div>
-              <label className="form-label">Full Name</label>
+              <label className="form-label">Full Name *</label>
               <input type="text" className="form-input" placeholder="Your full name"
                 value={form.name} onChange={(e) => set('name', e.target.value)} autoFocus required />
               {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
@@ -159,25 +159,33 @@ export default function StudentSignup() {
 
             {/* Email */}
             <div>
-              <label className="form-label">College Email</label>
+              <label className="form-label">College Email *</label>
               <input type="email" className="form-input" placeholder="yourID@student.tce.edu"
                 value={form.email} onChange={(e) => set('email', e.target.value)} required />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
-            {/* Phone + Reg No */}
+            {/* Phone */}
+            <div>
+              <label className="form-label">Phone Number *</label>
+              <input type="tel" className="form-input" placeholder="10-digit mobile number"
+                value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))} required />
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            </div>
+
+            {/* Reg No + Roll No */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="form-label">Phone Number</label>
-                <input type="tel" className="form-input" placeholder="10-digit mobile number"
-                  value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))} required />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-              </div>
-              <div>
-                <label className="form-label">Registration Number</label>
+                <label className="form-label">Registration Number *</label>
                 <input type="text" className="form-input" placeholder="e.g. 2403917720521023"
                   value={form.regNo} onChange={(e) => set('regNo', e.target.value.toUpperCase())} required />
                 {errors.regNo && <p className="text-red-500 text-xs mt-1">{errors.regNo}</p>}
+              </div>
+              <div>
+                <label className="form-label">Roll Number *</label>
+                <input type="text" inputMode="numeric" maxLength={6} className="form-input" placeholder="e.g. 670710"
+                  value={form.rollNo} onChange={(e) => set('rollNo', e.target.value.replace(/\D/g, '').slice(0, 6))} required />
+                {errors.rollNo && <p className="text-red-500 text-xs mt-1">{errors.rollNo}</p>}
               </div>
             </div>
 

@@ -83,7 +83,7 @@ export const studentGoogleLogin = async () => {
 }
 
 // ── Student Self-Signup (email/password only) ─────────────────────────────────
-export const studentSignup = async ({ name, email, dept, year, password, phone = '', regNo = '' }) => {
+export const studentSignup = async ({ name, email, dept, year, password, phone = '', regNo = '', rollNo = '' }) => {
   const trimmed = email.trim().toLowerCase()
   if (!isValidStudentEmail(trimmed)) {
     throw new Error('Only @student.tce.edu email addresses are allowed.')
@@ -128,6 +128,7 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
       year:      Number(year),
       phone:     phone || '',
       regNo:     regNo || '',
+      rollNo:    rollNo || '',
       photoURL:  '',
       active:    true,
       authMethod: 'email',

@@ -5,6 +5,7 @@ import { auth } from '@/firebase/config'
 import { friendlyAuthError } from '@/utils/authErrors'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
+import { Eye, EyeOff, AlertTriangle, Check, ArrowLeft } from 'lucide-react'
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams()
@@ -95,7 +96,7 @@ export default function ResetPassword() {
           ) : codeError ? (
             <div className="space-y-4">
               <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm p-4 rounded-xl flex items-start gap-2.5">
-                <span className="shrink-0 text-lg mt-0.5">⚠️</span>
+                <AlertTriangle className="shrink-0 w-5 h-5 mt-0.5 text-red-500" />
                 <div>
                   <p className="font-semibold text-sm">Invalid or Expired Link</p>
                   <p className="text-xs mt-1 leading-relaxed">{codeError}</p>
@@ -110,8 +111,8 @@ export default function ResetPassword() {
             </div>
           ) : success ? (
             <div className="space-y-4 text-center">
-              <div className="w-12 h-12 mx-auto bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center text-xl font-bold">
-                ✓
+              <div className="w-12 h-12 mx-auto bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center font-bold">
+                <Check className="w-6 h-6" />
               </div>
               <div>
                 <h2 className="font-display text-lg font-bold text-tce-dark dark:text-white">
@@ -152,10 +153,11 @@ export default function ResetPassword() {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer p-1"
                     onClick={() => setShowPw(!showPw)}
+                    aria-label={showPw ? 'Hide password' : 'Show password'}
                   >
-                    {showPw ? '👁️' : '🙈'}
+                    {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -175,7 +177,7 @@ export default function ResetPassword() {
 
               {formError && (
                 <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
-                  <span className="shrink-0 text-red-500">⚠️</span>
+                  <AlertTriangle className="shrink-0 w-4 h-4 text-red-500 mt-0.5" />
                   <span>{formError}</span>
                 </div>
               )}
@@ -193,9 +195,10 @@ export default function ResetPassword() {
           <div className="mt-5 text-center">
             <button
               onClick={() => navigate('/login')}
-              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer"
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer flex items-center justify-center gap-1 mx-auto"
             >
-              ← Back to Student Login
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to Student Login</span>
             </button>
           </div>
         </div>
@@ -203,3 +206,4 @@ export default function ResetPassword() {
     </div>
   )
 }
+

@@ -24,6 +24,7 @@ export default function StudentProfile() {
     ['Full Name',            user?.name],
     ['Student ID',           user?.studentId],
     ['Registration Number',  user?.regNo   || '—'],
+    ['Roll Number',          user?.rollNo  || '—'],
     ['Phone Number',         user?.phone   || '—'],
     ['Email',                user?.email],
     ['Department',           user?.dept],

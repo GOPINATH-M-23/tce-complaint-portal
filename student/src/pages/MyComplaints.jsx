@@ -5,8 +5,9 @@ import ComplaintRow from '@/components/ComplaintRow'
 import EmptyState from '@/components/ui/EmptyState'
 import Spinner from '@/components/ui/Spinner'
 import { CATEGORIES, STATUSES } from '@/utils/constants'
-import { formatDate } from '@/utils/helpers'
+import { formatDate, formatDateTime } from '@/utils/helpers'
 import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
+import { ClipboardList, X } from 'lucide-react'
 
 export default function MyComplaints() {
   const { complaints, loadingComps } = useComplaints()
@@ -46,7 +47,7 @@ export default function MyComplaints() {
         <div className="flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:pb-0 md:items-center">
           <input
             className="form-input shrink-0 w-44 md:max-w-xs"
-            placeholder="🔍 Search…"
+            placeholder="Search…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -67,7 +68,7 @@ export default function MyComplaints() {
       {/* List */}
       {filtered.length === 0 ? (
         <EmptyState
-          icon="📋"
+          icon={<ClipboardList className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />}
           title="No past complaints found"
           desc="Try adjusting your filters or submit a new complaint."
           action={
@@ -94,11 +95,12 @@ export default function MyComplaints() {
               </h2>
               <button
                 onClick={() => setSelected(null)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl bg-transparent border-0 cursor-pointer shrink-0"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl bg-transparent border-0 cursor-pointer shrink-0 flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                ✕
+                <X className="w-5 h-5" />
               </button>
             </div>
+
             <div className="flex flex-wrap gap-2 mb-4">
               <CategoryBadge category={selected.category} />
               <StatusBadge status={selected.status} />
@@ -132,7 +134,7 @@ export default function MyComplaints() {
               </div>
             )}
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 text-right">
-              Submitted on {formatDate(selected.createdAt)}
+              Submitted on {formatDateTime(selected.createdAt)}
             </p>
           </div>
         </div>

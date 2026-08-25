@@ -5,14 +5,15 @@ import { useComplaints } from '@/context/ComplaintContext'
 import { useTheme } from '@/context/ThemeContext'
 import tceLogo from '@/assets/tce-logo.png'
 import toast from 'react-hot-toast'
+import { Home, LayoutDashboard, ClipboardList, Users, TrendingUp, Settings, Sun, Moon } from 'lucide-react'
 
 const NAV = [
-  { to: '/',            label: 'Home',           icon: '🏠' },
-  { to: '/dashboard',   label: 'Dashboard',      icon: '▣' },
-  { to: '/complaints', label: 'All Complaints', icon: '≡', badge: true },
-  { to: '/students',   label: 'Students',       icon: '⊕' },
-  { to: '/analytics',  label: 'Analytics',      icon: '↗' },
-  { to: '/settings',   label: 'Settings',       icon: '⚙' },
+  { to: '/',            label: 'Home',           icon: Home },
+  { to: '/dashboard',   label: 'Dashboard',      icon: LayoutDashboard },
+  { to: '/complaints', label: 'All Complaints', icon: ClipboardList, badge: true },
+  { to: '/students',   label: 'Students',       icon: Users },
+  { to: '/analytics',  label: 'Analytics',      icon: TrendingUp },
+  { to: '/settings',   label: 'Settings',       icon: Settings },
 ]
 
 export default function AdminSidebar() {
@@ -44,13 +45,13 @@ export default function AdminSidebar() {
 
       {/* Nav */}
       <nav className="flex flex-col gap-1 flex-1">
-        {NAV.map(({ to, label, icon, badge }) => (
+        {NAV.map(({ to, label, icon: Icon, badge }) => (
           <NavLink key={to} to={to} end={to === '/'}
             className={({ isActive }) =>
               `sidebar-item sidebar-item-dark ${isActive ? 'sidebar-item-active-dark' : ''}`
             }>
-            <span className="w-5 text-sm leading-none opacity-80">{icon}</span>
-            <span className="flex-1">{label}</span>
+            <Icon className="w-4 h-4 shrink-0 opacity-80" />
+            <span className="flex-1 ml-2.5">{label}</span>
             {badge && unreadCount > 0 && (
               <span className="ml-auto w-5 h-5 rounded-full bg-red-500 text-white text-[11px] flex items-center justify-center font-semibold">
                 {unreadCount > 9 ? '9+' : unreadCount}
@@ -76,8 +77,8 @@ export default function AdminSidebar() {
           <button onClick={toggle} aria-label="Toggle dark mode"
             className="relative flex items-center justify-between w-12 h-6 rounded-full px-1 border-0 cursor-pointer transition-colors duration-300 shrink-0"
             style={{ background: dark ? '#3d8c6a' : 'rgba(255,255,255,0.2)' }}>
-            <span className="text-[10px] text-white/70 select-none">☀</span>
-            <span className="text-[10px] text-white/70 select-none">☽</span>
+            <Sun className="w-3 h-3 text-amber-300 z-10 select-none" />
+            <Moon className="w-3 h-3 text-white/70 z-10 select-none" />
             <span className="absolute top-[3px] w-[18px] h-[18px] rounded-full bg-white shadow transition-transform duration-300"
               style={{ transform: dark ? 'translateX(20px)' : 'translateX(0px)' }} />
           </button>
@@ -91,3 +92,4 @@ export default function AdminSidebar() {
     </aside>
   )
 }
+

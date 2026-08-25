@@ -4,17 +4,19 @@ import { markNotificationRead, markAllNotificationsRead } from '@/firebase/compl
 import { useAuth } from '@/context/AuthContext'
 import { formatRelative } from '@/utils/helpers'
 import EmptyState from '@/components/ui/EmptyState'
+import { Check, MessageSquare, RefreshCw, Megaphone, Bell, ZoomIn, X } from 'lucide-react'
 
 const TYPE_META = {
-  submitted:        { icon: '✓',  bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-200 dark:border-emerald-800/50', dot: 'bg-emerald-500' },
-  reply:            { icon: '💬', bg: 'bg-blue-50   dark:bg-blue-950/30',    border: 'border-blue-200   dark:border-blue-800/50',    dot: 'bg-blue-500'   },
-  status_update:    { icon: '↻',  bg: 'bg-amber-50  dark:bg-amber-950/30',   border: 'border-amber-200  dark:border-amber-800/50',   dot: 'bg-amber-500'  },
-  reply_and_status: { icon: '↻',  bg: 'bg-purple-50 dark:bg-purple-950/30',  border: 'border-purple-200 dark:border-purple-800/50',  dot: 'bg-purple-500' },
-  update:           { icon: '📢', bg: 'bg-gray-50   dark:bg-gray-800/50',    border: 'border-gray-200   dark:border-gray-700/50',    dot: 'bg-tce-green'  },
+  submitted:        { icon: Check,        bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-200 dark:border-emerald-800/50', dot: 'bg-emerald-500' },
+  reply:            { icon: MessageSquare, bg: 'bg-blue-50   dark:bg-blue-950/30',    border: 'border-blue-200   dark:border-blue-800/50',    dot: 'bg-blue-500'   },
+  status_update:    { icon: RefreshCw,    bg: 'bg-amber-50  dark:bg-amber-950/30',   border: 'border-amber-200  dark:border-amber-800/50',   dot: 'bg-amber-500'  },
+  reply_and_status: { icon: RefreshCw,    bg: 'bg-purple-50 dark:bg-purple-950/30',  border: 'border-purple-200 dark:border-purple-800/50',  dot: 'bg-purple-500' },
+  update:           { icon: Megaphone,    bg: 'bg-gray-50   dark:bg-gray-800/50',    border: 'border-gray-200   dark:border-gray-700/50',    dot: 'bg-tce-green'  },
 }
 
 function NotifCard({ n, onRead, onImageClick }) {
   const meta = TYPE_META[n.type] || TYPE_META.update
+  const IconComponent = meta.icon
 
   return (
     <div
@@ -27,7 +29,7 @@ function NotifCard({ n, onRead, onImageClick }) {
     >
       {/* Icon dot */}
       <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 mt-0.5 ${n.read ? 'bg-gray-300 dark:bg-gray-600' : meta.dot}`}>
-        {meta.icon}
+        <IconComponent className="w-3.5 h-3.5" />
       </div>
 
       <div className="flex-1 min-w-0">
@@ -59,7 +61,8 @@ function NotifCard({ n, onRead, onImageClick }) {
                 className="max-h-56 md:max-h-64 w-full object-contain rounded-xl transition-transform duration-200 group-hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-semibold gap-1.5">
-                <span>🔍 Click to expand</span>
+                <ZoomIn className="w-4 h-4" />
+                <span>Click to expand</span>
               </div>
             </div>
           </div>
@@ -118,7 +121,7 @@ export default function StudentNotifications() {
 
       {notifications.length === 0 ? (
         <EmptyState
-          icon="🔔"
+          icon={<Bell className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />}
           title="No notifications yet"
           desc="You'll be notified when your complaint status changes or admin publishes an update."
         />
@@ -169,10 +172,10 @@ export default function StudentNotifications() {
             />
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-2 right-2 bg-white/20 hover:bg-white/40 text-white rounded-full p-2 text-sm font-bold border-0 cursor-pointer backdrop-blur-md"
+              className="absolute top-2 right-2 bg-white/20 hover:bg-white/40 text-white rounded-full p-2 text-sm font-bold border-0 cursor-pointer backdrop-blur-md flex items-center justify-center"
               title="Close"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -180,3 +183,4 @@ export default function StudentNotifications() {
     </div>
   )
 }
+

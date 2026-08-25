@@ -1,25 +1,35 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getComplaint, updateComplaint } from '@/firebase/complaints'
-import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
+import { useComplaints } from '@/context/ComplaintContext'
+import { getComplaintById, updateComplaintStatus, updateComplaintPriority, addAdminReply } from '@/firebase/complaints'
 import Spinner from '@/components/ui/Spinner'
+import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
+import { formatDate, formatRelative } from '@/utils/helpers'
 import { STATUSES, PRIORITIES } from '@/utils/constants'
-import { formatDate } from '@/utils/helpers'
 import toast from 'react-hot-toast'
+import { ArrowLeft, User, X } from 'lucide-react'
 
 export default function ComplaintDetail() {
-  const { id }   = useParams()
+  const { id } = useParams()
   const navigate = useNavigate()
+  const { markRead } = useComplaints()
 
   const [complaint, setComplaint] = useState(null)
-  const [loading,   setLoading]   = useState(true)
-  const [saving,    setSaving]    = useState(false)
-  const [status,    setStatus]    = useState('')
-  const [priority,  setPriority]  = useState('')
-  const [reply,     setReply]     = useState('')
+  const [loading, setLoading] = useState(true)
+  const [updating, setUpdating] = useState(false)
+
+  // Reply form state
+  const [replyText, setReplyText] = useState('')
+  const [newStatus, setNewStatus] = useState('')
+  const [replyImage, setReplyImage] = useState(null)
+  const [replyImagePreview, setReplyImagePreview] = useState(null)
+  const [uploadProgress, setUploadProgress] = useState(0)
+
+  // Modals & Student info states
+  const [showStudentInfo, setShowStudentInfo] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null)
 
   useEffect(() => {
-    getComplaint(id).then((c) => {
       if (!c) { toast.error('Complaint not found'); navigate('/admin/complaints'); return }
       setComplaint(c)
       setStatus(c.status)

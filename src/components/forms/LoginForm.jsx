@@ -4,6 +4,7 @@ import { studentLogin, adminLogin, studentGoogleLogin } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
+import { ArrowLeft, X, Key, AlertTriangle, Check } from 'lucide-react'
 
 // Google "G" SVG icon (no emoji)
 const GoogleIcon = () => (
@@ -173,12 +174,77 @@ export default function LoginForm({ role = 'student' }) {
 
           <div className="mt-3 text-center">
             <button onClick={() => navigate('/')}
-              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer">
-              ← Back to home
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer flex items-center justify-center gap-1 mx-auto">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to home</span>
             </button>
           </div>
         </div>
       </div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700/60 rounded-2xl shadow-2xl p-6 max-w-md w-full relative">
+            <button
+              onClick={() => setShowForgotModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg font-bold bg-transparent border-0 cursor-pointer p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center mb-5">
+              <div className="w-12 h-12 mx-auto mb-3 bg-tce-green/10 text-tce-green rounded-full flex items-center justify-center">
+                <Key className="w-6 h-6" />
+              </div>
+              <h2 className="font-display text-xl font-bold text-tce-dark dark:text-white">
+                Reset Password
+              </h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Enter your college email address to receive a secure password reset link.
+              </p>
+            </div>
+
+            <form onSubmit={handleResetSubmit} className="space-y-4">
+              <div>
+                <label className="form-label">College Email Address</label>
+                <input
+                  type="email"
+                  className="form-input"
+                  placeholder="your.id@student.tce.edu"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  required
+                  autoFocus
+                  disabled={resetLoading}
+                />
+              </div>
+
+              {resetError && (
+                <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                  <span>{resetError}</span>
+                </div>
+              )}
+
+              {resetSuccess && (
+                <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
+                  <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                  <span>{resetSuccess}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={resetLoading}
+                className="btn-primary w-full py-2.5 text-sm font-semibold disabled:opacity-60"
+              >
+                {resetLoading ? 'Sending...' : 'Send Reset Link'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

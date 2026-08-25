@@ -30,7 +30,7 @@ export const STATUSES = [
 export const PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
 
 export const DEPARTMENTS = [
-  'CSE', 'ECE', 'EEE', 'MECH', 'CIVIL', 'IT', 'MCT', 'ICE', 'BME',
+  'IT', 'CIVIL', 'CSBS', 'CSE', 'AI-ML', 'ECE', 'EEE', 'MECH', 'AMCS', 'MCT', 'VLSI', 'EC', 'FASHION', 'ICE', 'BME',
 ]
 
 export const PRIORITY_THRESHOLDS = {

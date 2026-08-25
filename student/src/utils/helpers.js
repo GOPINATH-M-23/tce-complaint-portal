@@ -9,6 +9,26 @@ export const formatDate = (ts) => {
   return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
+export const formatDateTime = (ts) => {
+  if (!ts) return '—'
+  const d = ts.toDate ? ts.toDate() : new Date(ts)
+  if (isNaN(d.getTime())) return '—'
+
+  const day = d.getDate()
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const month = monthNames[d.getMonth()]
+  const year = d.getFullYear()
+
+  let hours = d.getHours()
+  const minutes = d.getMinutes().toString().padStart(2, '0')
+  const ampm = hours >= 12 ? 'PM' : 'AM'
+  hours = hours % 12
+  hours = hours ? hours : 12
+  const strTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`
+
+  return `${day} ${month} ${year} · ${strTime}`
+}
+
 export const formatRelative = (ts) => {
   if (!ts) return ''
   const d    = ts.toDate ? ts.toDate() : new Date(ts)

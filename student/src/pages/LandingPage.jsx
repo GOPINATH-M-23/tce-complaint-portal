@@ -6,6 +6,8 @@ import tceCampus from '@/assets/tceai.png'
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "@/firebase/config"
 
+import { Lock, Zap, BarChart3, Bot, Smartphone, Tag, Camera, MessageCircle, TrendingUp, Bell, MapPin, Phone, Mail, Globe, Sparkles } from 'lucide-react'
+
 const HERO_STATS = [
   { n: '6,500+', l: 'Students' },
   { n: '18',     l: 'Departments' },
@@ -14,26 +16,26 @@ const HERO_STATS = [
 ]
 
 const WHY = [
-  { icon: '🔒', title: 'Safe & Private',     desc: 'Your complaints are completely private. Only you and admins can see your grievances.' },
-  { icon: '⚡', title: 'Fast Resolution',    desc: 'Smart priority system ensures urgent issues like ragging are handled immediately.' },
-  { icon: '📊', title: 'Real-time Tracking', desc: 'Track your complaint from submission to resolution — live updates every step.' },
-  { icon: '🤖', title: 'Smart Priority',     desc: 'Auto-escalates priority when multiple students report the same issue.' },
+  { icon: Lock,           title: 'Safe & Private',     desc: 'Your complaints are completely private. Only you and admins can see your grievances.' },
+  { icon: Zap,            title: 'Fast Resolution',    desc: 'Smart priority system ensures urgent issues like ragging are handled immediately.' },
+  { icon: BarChart3,      title: 'Real-time Tracking', desc: 'Track your complaint from submission to resolution — live updates every step.' },
+  { icon: Bot,            title: 'Smart Priority',     desc: 'Auto-escalates priority when multiple students report the same issue.' },
 ]
 
 const FEATURES = [
-  { icon: '📱', t: 'Real-time Updates',  d: 'Instant status notifications' },
-  { icon: '🏷️', t: '18 Categories',      d: 'Organised complaint types' },
-  { icon: '📸', t: 'Image Proof',        d: 'Upload evidence photos' },
-  { icon: '💬', t: 'Admin Replies',      d: 'Direct communication' },
-  { icon: '📈', t: 'Analytics',          d: 'Visual complaint insights' },
-  { icon: '🔔', t: 'Notifications',      d: 'Never miss an update' },
+  { icon: Smartphone,     t: 'Real-time Updates',  d: 'Instant status notifications' },
+  { icon: Tag,            t: '18 Categories',      d: 'Organised complaint types' },
+  { icon: Camera,         t: 'Image Proof',        d: 'Upload evidence photos' },
+  { icon: MessageCircle,  t: 'Admin Replies',      d: 'Direct communication' },
+  { icon: TrendingUp,     t: 'Analytics',          d: 'Visual complaint insights' },
+  { icon: Bell,           t: 'Notifications',      d: 'Never miss an update' },
 ]
 
 const CONTACT = [
-  { icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },
-  { icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },
-  { icon: '📧', t: 'Email',   v: 'principal@tce.edu' },
-  { icon: '🌐', t: 'Website', v: 'www.tce.edu' },
+  { icon: MapPin, t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },
+  { icon: Phone,  t: 'Phone',   v: '+91 452 248 2240' },
+  { icon: Mail,   t: 'Email',   v: 'principal@tce.edu' },
+  { icon: Globe,  t: 'Website', v: 'www.tce.edu' },
 ]
 
 export default function LandingPage() {
@@ -170,13 +172,18 @@ export default function LandingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-            {WHY.map((f) => (
-              <div key={f.title} className="glass-white p-6 md:p-7 text-center hover:-translate-y-1 transition-transform duration-300">
-                <div className="text-4xl mb-4">{f.icon}</div>
-                <h3 className="font-display text-[16px] md:text-[17px] font-bold text-tce-dark dark:text-tce-dark mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-600 leading-relaxed">{f.desc}</p>
-              </div>
-            ))}
+            {WHY.map((f) => {
+              const Icon = f.icon
+              return (
+                <div key={f.title} className="glass-white p-6 md:p-7 text-center hover:-translate-y-1 transition-transform duration-300">
+                  <div className="w-12 h-12 rounded-2xl bg-tce-green/10 dark:bg-tce-green/20 text-tce-green flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="font-display text-[16px] md:text-[17px] font-bold text-tce-dark dark:text-tce-dark mb-2">{f.title}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-600 leading-relaxed">{f.desc}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -191,16 +198,21 @@ export default function LandingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
-            {FEATURES.map((f) => (
-              <div key={f.t}
-                className="flex items-center gap-4 p-4 md:p-5 rounded-2xl border-[1.5px] border-tce-dark/10 dark:border-gray-700 bg-tce-cream dark:bg-gray-900 hover:border-tce-green dark:hover:border-tce-green transition-colors">
-                <div className="text-3xl shrink-0">{f.icon}</div>
-                <div>
-                  <div className="font-semibold text-tce-dark dark:text-white text-sm">{f.t}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{f.d}</div>
+            {FEATURES.map((f) => {
+              const Icon = f.icon
+              return (
+                <div key={f.t}
+                  className="flex items-center gap-4 p-4 md:p-5 rounded-2xl border-[1.5px] border-tce-dark/10 dark:border-gray-700 bg-tce-cream dark:bg-gray-900 hover:border-tce-green dark:hover:border-tce-green transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-tce-green/10 dark:bg-tce-green/20 text-tce-green flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-tce-dark dark:text-white text-sm">{f.t}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{f.d}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -225,10 +237,11 @@ export default function LandingPage() {
           <div className="text-center mt-10">
             <p className="text-white/70 text-sm mb-4">Join thousands of students using the portal</p>
             <button
-              className="btn-primary px-8 py-3 text-base shadow-xl"
+              className="btn-primary px-8 py-3 text-base shadow-xl flex items-center justify-center gap-2 mx-auto"
               onClick={() => navigate('/signup')}
             >
-              ✨ Create Your Account
+              <Sparkles className="w-5 h-5" />
+              <span>Create Your Account</span>
             </button>
           </div>
         </div>
@@ -242,15 +255,20 @@ export default function LandingPage() {
               Get In Touch
             </h2>
             <div className="flex flex-col gap-4">
-              {CONTACT.map((c) => (
-                <div key={c.t} className="flex gap-4 p-4 rounded-xl bg-tce-cream dark:bg-gray-900">
-                  <span className="text-xl">{c.icon}</span>
-                  <div>
-                    <div className="font-semibold text-tce-dark dark:text-white text-sm">{c.t}</div>
-                    <div className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{c.v}</div>
+              {CONTACT.map((c) => {
+                const Icon = c.icon
+                return (
+                  <div key={c.t} className="flex gap-4 p-4 rounded-xl bg-tce-cream dark:bg-gray-900 items-start">
+                    <span className="w-9 h-9 rounded-lg bg-tce-green/10 dark:bg-tce-green/20 text-tce-green flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <div className="font-semibold text-tce-dark dark:text-white text-sm">{c.t}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{c.v}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
           <div className="flex items-center justify-center">

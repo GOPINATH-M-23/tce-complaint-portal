@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import tceLogo from '@/assets/tcenew.png'
 import { useTheme } from '@/context/ThemeContext'
 import { useAuth } from '@/context/AuthContext'
+import { Sun, Moon, Menu, X } from 'lucide-react'
 
 export default function AdminNavbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -47,10 +48,10 @@ export default function AdminNavbar() {
         ))}
         <button
           onClick={toggle}
-          className="text-white/70 hover:text-white text-lg transition-colors bg-transparent border-0 cursor-pointer"
+          className="text-white/70 hover:text-white transition-colors bg-transparent border-0 cursor-pointer p-1"
           aria-label="Toggle theme"
         >
-          {dark ? '☀️' : '🌙'}
+          {dark ? <Sun className="w-5 h-5 text-amber-300" /> : <Moon className="w-5 h-5" />}
         </button>
         {user ? (
           <button className="btn-primary text-sm px-6 py-2" onClick={() => navigate('/dashboard')}>
@@ -65,10 +66,11 @@ export default function AdminNavbar() {
 
       {/* Mobile hamburger */}
       <button
-        className="md:hidden text-white text-2xl bg-transparent border-0 cursor-pointer"
+        className="md:hidden text-white bg-transparent border-0 cursor-pointer p-1"
         onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
       >
-        {menuOpen ? '✕' : '☰'}
+        {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
       {/* Mobile menu */}
@@ -92,3 +94,4 @@ export default function AdminNavbar() {
     </nav>
   )
 }
+

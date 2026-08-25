@@ -112,6 +112,7 @@ export const createStudentAccount = async (data) => {
       year:      data.year,
       phone:     data.phone || '',
       regNo:     data.regNo || '',
+      rollNo:    data.rollNo || '',
       photoURL:  '',
       active:    true,
       createdAt: serverTimestamp(),

@@ -5,9 +5,11 @@ import { useAuth } from '@/context/AuthContext'
 import { DEPARTMENTS } from '@/utils/constants'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
+import { ArrowLeft } from 'lucide-react'
 
 const PHONE_RE = /^[6-9]\d{9}$/
 const REGNO_RE = /^\d{16}$/
+const ROLLNO_RE = /^[0-9]{6}$/
 
 export default function StudentSignup() {
   const { setUser } = useAuth()
@@ -15,7 +17,7 @@ export default function StudentSignup() {
 
   const [form, setForm] = useState({
     name: '', email: '', dept: '', year: '',
-    phone: '', regNo: '',
+    phone: '', regNo: '', rollNo: '',
     password: '', confirmPassword: '',
   })
   const [showPw,  setShowPw]  = useState(false)
@@ -37,6 +39,9 @@ export default function StudentSignup() {
 
     if (!form.regNo.trim())              e.regNo = 'Registration Number is required.'
     else if (!REGNO_RE.test(form.regNo)) e.regNo = '16-digit registration number required.'
+
+    if (!form.rollNo.trim())              e.rollNo = 'Roll Number is required.'
+    else if (!ROLLNO_RE.test(form.rollNo)) e.rollNo = 'Roll Number must be exactly 6 digits.'
 
     if (!form.dept)                         e.dept = 'Department is required.'
     if (!form.year)                         e.year = 'Year is required.'
@@ -63,6 +68,7 @@ export default function StudentSignup() {
         year:     Number(form.year),
         phone:    form.phone.trim(),
         regNo:    form.regNo.trim().toUpperCase(),
+        rollNo:   form.rollNo.trim(),
         password: form.password,
       })
       setUser(userData)
@@ -114,19 +120,27 @@ export default function StudentSignup() {
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
-            {/* Phone + Reg No */}
+            {/* Phone */}
+            <div>
+              <label className="form-label">Phone Number *</label>
+              <input type="tel" className="form-input" placeholder="10-digit mobile number"
+                value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))} required />
+              {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            </div>
+
+            {/* Reg No + Roll No */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="form-label">Phone Number *</label>
-                <input type="tel" className="form-input" placeholder="10-digit mobile number"
-                  value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g, '').slice(0, 10))} required />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-              </div>
               <div>
                 <label className="form-label">Registration Number *</label>
                 <input type="text" className="form-input" placeholder="e.g. 2403917720521023"
                   value={form.regNo} onChange={(e) => set('regNo', e.target.value.toUpperCase())} required />
                 {errors.regNo && <p className="text-red-500 text-xs mt-1">{errors.regNo}</p>}
+              </div>
+              <div>
+                <label className="form-label">Roll Number *</label>
+                <input type="text" inputMode="numeric" maxLength={6} className="form-input" placeholder="e.g. 670710"
+                  value={form.rollNo} onChange={(e) => set('rollNo', e.target.value.replace(/\D/g, '').slice(0, 6))} required />
+                {errors.rollNo && <p className="text-red-500 text-xs mt-1">{errors.rollNo}</p>}
               </div>
             </div>
 
@@ -201,8 +215,9 @@ export default function StudentSignup() {
               </button>
             </p>
             <button onClick={() => navigate('/')}
-              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer">
-              ← Back to home
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer flex items-center justify-center gap-1 mx-auto">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to home</span>
             </button>
           </div>
         </div>

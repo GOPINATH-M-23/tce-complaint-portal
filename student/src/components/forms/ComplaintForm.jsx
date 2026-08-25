@@ -5,6 +5,7 @@ import { validateImage } from '@/utils/cloudinary'
 import { useAuth } from '@/context/AuthContext'
 import { CATEGORIES, CATEGORY_ICONS } from '@/utils/constants'
 import toast from 'react-hot-toast'
+import { Camera } from 'lucide-react'
 
 export default function ComplaintForm() {
   const { user } = useAuth()
@@ -147,7 +148,7 @@ export default function ComplaintForm() {
             </div>
           ) : (
             <div className="p-6 text-center">
-              <div className="text-3xl mb-2 text-gray-400">📸</div>
+              <Camera className="w-8 h-8 mx-auto mb-2 text-gray-400 dark:text-gray-500" />
               <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                 Click or drag an image here
               </div>

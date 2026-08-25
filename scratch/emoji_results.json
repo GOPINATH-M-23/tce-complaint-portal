@@ -1,0 +1,2136 @@
+[
+  {
+    "file": "./student/src/components/forms/ComplaintForm.jsx",
+    "line": 150,
+    "matches": [
+      "📸"
+    ],
+    "text": "<div className=\"text-3xl mb-2 text-gray-400\">📸</div>"
+  },
+  {
+    "file": "./student/src/components/forms/LoginForm.jsx",
+    "line": 193,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to home"
+  },
+  {
+    "file": "./student/src/components/forms/LoginForm.jsx",
+    "line": 207,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./student/src/components/forms/LoginForm.jsx",
+    "line": 212,
+    "matches": [
+      "🔑"
+    ],
+    "text": "🔑"
+  },
+  {
+    "file": "./student/src/components/forms/LoginForm.jsx",
+    "line": 239,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-red-500\">⚠️</span>"
+  },
+  {
+    "file": "./student/src/components/forms/LoginForm.jsx",
+    "line": 246,
+    "matches": [
+      "✓"
+    ],
+    "text": "<span className=\"shrink-0 text-emerald-500\">✓</span>"
+  },
+  {
+    "file": "./student/src/components/MobileHeader.jsx",
+    "line": 41,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☀</span>"
+  },
+  {
+    "file": "./student/src/components/MobileHeader.jsx",
+    "line": 42,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☽</span>"
+  },
+  {
+    "file": "./student/src/components/Navbar.jsx",
+    "line": 53,
+    "matches": [
+      "☀",
+      "🌙"
+    ],
+    "text": "{dark ? '☀️' : '🌙'}"
+  },
+  {
+    "file": "./student/src/components/Navbar.jsx",
+    "line": 79,
+    "matches": [
+      "✕",
+      "☰"
+    ],
+    "text": "{menuOpen ? '✕' : '☰'}"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 10,
+    "matches": [
+      "🏠"
+    ],
+    "text": "{ to: '/',               icon: '🏠', label: 'Home', end: true },"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 11,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/dashboard',      icon: '📊', label: 'Dashboard' },"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 12,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/complaints',     icon: '📋', label: 'Past Complaints' },"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 14,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ to: '/notifications',  icon: '🔔', label: 'Notifications', badge: true },"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 15,
+    "matches": [
+      "👤"
+    ],
+    "text": "{ to: '/profile',        icon: '👤', label: 'Profile' },"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 94,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[10px] px-0.5 select-none\">☀</span>"
+  },
+  {
+    "file": "./student/src/components/StudentSidebar.jsx",
+    "line": 95,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[10px] px-0.5 select-none\">☽</span>"
+  },
+  {
+    "file": "./student/src/components/ui/EmptyState.jsx",
+    "line": 1,
+    "matches": [
+      "📋"
+    ],
+    "text": "export default function EmptyState({ icon = '📋', title, desc, action }) {"
+  },
+  {
+    "file": "./student/src/components/ui/Modal.jsx",
+    "line": 18,
+    "matches": [
+      "✕"
+    ],
+    "text": "<button onClick={onClose} className=\"text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none bg-transparent border-0 cursor-pointer\">✕</button>"
+  },
+  {
+    "file": "./student/src/layouts/StudentLayout.jsx",
+    "line": 7,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/dashboard',      icon: '📊', label: 'Dashboard' },"
+  },
+  {
+    "file": "./student/src/layouts/StudentLayout.jsx",
+    "line": 8,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/complaints',     icon: '📋', label: 'Complaints' },"
+  },
+  {
+    "file": "./student/src/layouts/StudentLayout.jsx",
+    "line": 9,
+    "matches": [
+      "➕"
+    ],
+    "text": "{ to: '/complaints/new', icon: '➕', label: 'New',       fab: true },"
+  },
+  {
+    "file": "./student/src/layouts/StudentLayout.jsx",
+    "line": 10,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ to: '/notifications',  icon: '🔔', label: 'Alerts',   badge: true },"
+  },
+  {
+    "file": "./student/src/layouts/StudentLayout.jsx",
+    "line": 11,
+    "matches": [
+      "👤"
+    ],
+    "text": "{ to: '/profile',        icon: '👤', label: 'Profile' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 17,
+    "matches": [
+      "🔒"
+    ],
+    "text": "{ icon: '🔒', title: 'Safe & Private',     desc: 'Your complaints are completely private. Only you and admins can see your grievances.' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 18,
+    "matches": [
+      "⚡"
+    ],
+    "text": "{ icon: '⚡', title: 'Fast Resolution',    desc: 'Smart priority system ensures urgent issues like ragging are handled immediately.' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 19,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ icon: '📊', title: 'Real-time Tracking', desc: 'Track your complaint from submission to resolution — live updates every step.' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 20,
+    "matches": [
+      "🤖"
+    ],
+    "text": "{ icon: '🤖', title: 'Smart Priority',     desc: 'Auto-escalates priority when multiple students report the same issue.' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 24,
+    "matches": [
+      "📱"
+    ],
+    "text": "{ icon: '📱', t: 'Real-time Updates',  d: 'Instant status notifications' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 25,
+    "matches": [
+      "🏷"
+    ],
+    "text": "{ icon: '🏷️', t: '18 Categories',      d: 'Organised complaint types' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 26,
+    "matches": [
+      "📸"
+    ],
+    "text": "{ icon: '📸', t: 'Image Proof',        d: 'Upload evidence photos' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 27,
+    "matches": [
+      "💬"
+    ],
+    "text": "{ icon: '💬', t: 'Admin Replies',      d: 'Direct communication' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 28,
+    "matches": [
+      "📈"
+    ],
+    "text": "{ icon: '📈', t: 'Analytics',          d: 'Visual complaint insights' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 29,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ icon: '🔔', t: 'Notifications',      d: 'Never miss an update' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 33,
+    "matches": [
+      "📍"
+    ],
+    "text": "{ icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 34,
+    "matches": [
+      "📞"
+    ],
+    "text": "{ icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 35,
+    "matches": [
+      "📧"
+    ],
+    "text": "{ icon: '📧', t: 'Email',   v: 'principal@tce.edu' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 36,
+    "matches": [
+      "🌐"
+    ],
+    "text": "{ icon: '🌐', t: 'Website', v: 'www.tce.edu' },"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 147,
+    "matches": [
+      "✓"
+    ],
+    "text": "<span className=\"text-tce-green font-bold\">✓</span> {f}"
+  },
+  {
+    "file": "./student/src/pages/LandingPage.jsx",
+    "line": 231,
+    "matches": [
+      "✨"
+    ],
+    "text": "✨ Create Your Account"
+  },
+  {
+    "file": "./student/src/pages/MyComplaints.jsx",
+    "line": 49,
+    "matches": [
+      "🔍"
+    ],
+    "text": "placeholder=\"🔍 Search…\""
+  },
+  {
+    "file": "./student/src/pages/MyComplaints.jsx",
+    "line": 70,
+    "matches": [
+      "📋"
+    ],
+    "text": "icon=\"📋\""
+  },
+  {
+    "file": "./student/src/pages/MyComplaints.jsx",
+    "line": 99,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./student/src/pages/ResetPassword.jsx",
+    "line": 98,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-lg mt-0.5\">⚠️</span>"
+  },
+  {
+    "file": "./student/src/pages/ResetPassword.jsx",
+    "line": 114,
+    "matches": [
+      "✓"
+    ],
+    "text": "✓"
+  },
+  {
+    "file": "./student/src/pages/ResetPassword.jsx",
+    "line": 158,
+    "matches": [
+      "👁",
+      "🙈"
+    ],
+    "text": "{showPw ? '👁️' : '🙈'}"
+  },
+  {
+    "file": "./student/src/pages/ResetPassword.jsx",
+    "line": 178,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-red-500\">⚠️</span>"
+  },
+  {
+    "file": "./student/src/pages/ResetPassword.jsx",
+    "line": 198,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to Student Login"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 27,
+    "matches": [
+      "👋"
+    ],
+    "text": "Welcome back, {user?.name?.split(' ')[0]}! 👋"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 43,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total\"    value={total}    icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 44,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Pending\"  value={pending}  icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 45,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolved\" value={resolved} icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 46,
+    "matches": [
+      "💬"
+    ],
+    "text": "<StatCard label=\"Replies\"  value={replied}  icon=\"💬\" color=\"#7c3aed\" />"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 60,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 65,
+    "matches": [
+      "📋"
+    ],
+    "text": "<div className=\"text-4xl mb-3\">📋</div>"
+  },
+  {
+    "file": "./student/src/pages/StudentDashboard.jsx",
+    "line": 90,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 9,
+    "matches": [
+      "✓"
+    ],
+    "text": "submitted:        { icon: '✓',  bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-200 dark:border-emerald-800/50', dot: 'bg-emerald-500' },"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 10,
+    "matches": [
+      "💬"
+    ],
+    "text": "reply:            { icon: '💬', bg: 'bg-blue-50   dark:bg-blue-950/30',    border: 'border-blue-200   dark:border-blue-800/50',    dot: 'bg-blue-500'   },"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 11,
+    "matches": [
+      "↻"
+    ],
+    "text": "status_update:    { icon: '↻',  bg: 'bg-amber-50  dark:bg-amber-950/30',   border: 'border-amber-200  dark:border-amber-800/50',   dot: 'bg-amber-500'  },"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 12,
+    "matches": [
+      "↻"
+    ],
+    "text": "reply_and_status: { icon: '↻',  bg: 'bg-purple-50 dark:bg-purple-950/30',  border: 'border-purple-200 dark:border-purple-800/50',  dot: 'bg-purple-500' },"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 13,
+    "matches": [
+      "📢"
+    ],
+    "text": "update:           { icon: '📢', bg: 'bg-gray-50   dark:bg-gray-800/50',    border: 'border-gray-200   dark:border-gray-700/50',    dot: 'bg-tce-green'  },"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 62,
+    "matches": [
+      "🔍"
+    ],
+    "text": "<span>🔍 Click to expand</span>"
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 121,
+    "matches": [
+      "🔔"
+    ],
+    "text": "icon=\"🔔\""
+  },
+  {
+    "file": "./student/src/pages/StudentNotifications.jsx",
+    "line": 175,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./student/src/pages/StudentSignup.jsx",
+    "line": 205,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to home"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 59,
+    "matches": [
+      "💧"
+    ],
+    "text": "'Water Issues':      '💧',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 60,
+    "matches": [
+      "🍽"
+    ],
+    "text": "'Food Problems':     '🍽️',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 61,
+    "matches": [
+      "🧹"
+    ],
+    "text": "'Sanitary Issues':   '🧹',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 62,
+    "matches": [
+      "🚿"
+    ],
+    "text": "'Bathroom Issues':   '🚿',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 63,
+    "matches": [
+      "🏠"
+    ],
+    "text": "'Hostel Problems':   '🏠',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 64,
+    "matches": [
+      "👨",
+      "‍",
+      "🏫"
+    ],
+    "text": "'Staff Issues':      '👨‍🏫',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 65,
+    "matches": [
+      "🚨"
+    ],
+    "text": "'Ragging':           '🚨',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 66,
+    "matches": [
+      "🛡"
+    ],
+    "text": "'Student Safety':    '🛡️',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 67,
+    "matches": [
+      "📶"
+    ],
+    "text": "'WiFi Problems':     '📶',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 68,
+    "matches": [
+      "⚡"
+    ],
+    "text": "'Electrical Issues': '⚡',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 69,
+    "matches": [
+      "🏫"
+    ],
+    "text": "'Classroom Problems':'🏫',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 70,
+    "matches": [
+      "🔬"
+    ],
+    "text": "'Lab Problems':      '🔬',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 71,
+    "matches": [
+      "🚌"
+    ],
+    "text": "'Transport Problems':'🚌',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 72,
+    "matches": [
+      "📚"
+    ],
+    "text": "'Library Problems':  '📚',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 73,
+    "matches": [
+      "🏥"
+    ],
+    "text": "'Medical Support':   '🏥',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 74,
+    "matches": [
+      "🧠"
+    ],
+    "text": "'Mental Health':     '🧠',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 75,
+    "matches": [
+      "📖"
+    ],
+    "text": "'Academic Issues':   '📖',"
+  },
+  {
+    "file": "./student/src/utils/constants.js",
+    "line": 76,
+    "matches": [
+      "📌"
+    ],
+    "text": "'Other':             '📌',"
+  },
+  {
+    "file": "./admin/src/components/AdminNavbar.jsx",
+    "line": 53,
+    "matches": [
+      "☀",
+      "🌙"
+    ],
+    "text": "{dark ? '☀️' : '🌙'}"
+  },
+  {
+    "file": "./admin/src/components/AdminNavbar.jsx",
+    "line": 71,
+    "matches": [
+      "✕",
+      "☰"
+    ],
+    "text": "{menuOpen ? '✕' : '☰'}"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 10,
+    "matches": [
+      "🏠"
+    ],
+    "text": "{ to: '/',            label: 'Home',           icon: '🏠' },"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 11,
+    "matches": [
+      "▣"
+    ],
+    "text": "{ to: '/dashboard',   label: 'Dashboard',      icon: '▣' },"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 14,
+    "matches": [
+      "↗"
+    ],
+    "text": "{ to: '/analytics',  label: 'Analytics',      icon: '↗' },"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 15,
+    "matches": [
+      "⚙"
+    ],
+    "text": "{ to: '/settings',   label: 'Settings',       icon: '⚙' },"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 79,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[10px] text-white/70 select-none\">☀</span>"
+  },
+  {
+    "file": "./admin/src/components/AdminSidebar.jsx",
+    "line": 80,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[10px] text-white/70 select-none\">☽</span>"
+  },
+  {
+    "file": "./admin/src/components/forms/LoginForm.jsx",
+    "line": 182,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to home"
+  },
+  {
+    "file": "./admin/src/components/forms/LoginForm.jsx",
+    "line": 196,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./admin/src/components/forms/LoginForm.jsx",
+    "line": 201,
+    "matches": [
+      "🔑"
+    ],
+    "text": "🔑"
+  },
+  {
+    "file": "./admin/src/components/forms/LoginForm.jsx",
+    "line": 228,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-red-500\">⚠️</span>"
+  },
+  {
+    "file": "./admin/src/components/forms/LoginForm.jsx",
+    "line": 235,
+    "matches": [
+      "✓"
+    ],
+    "text": "<span className=\"shrink-0 text-emerald-500\">✓</span>"
+  },
+  {
+    "file": "./admin/src/components/forms/NotificationForm.jsx",
+    "line": 81,
+    "matches": [
+      "📢"
+    ],
+    "text": "<span className=\"text-xl\">📢</span>"
+  },
+  {
+    "file": "./admin/src/components/forms/NotificationForm.jsx",
+    "line": 157,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./admin/src/components/forms/NotificationForm.jsx",
+    "line": 196,
+    "matches": [
+      "🚀"
+    ],
+    "text": "<span>🚀</span>"
+  },
+  {
+    "file": "./admin/src/components/MobileHeader.jsx",
+    "line": 40,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☀</span>"
+  },
+  {
+    "file": "./admin/src/components/MobileHeader.jsx",
+    "line": 41,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☽</span>"
+  },
+  {
+    "file": "./admin/src/components/ui/EmptyState.jsx",
+    "line": 1,
+    "matches": [
+      "📋"
+    ],
+    "text": "export default function EmptyState({ icon = '📋', title, desc, action }) {"
+  },
+  {
+    "file": "./admin/src/components/ui/Modal.jsx",
+    "line": 18,
+    "matches": [
+      "✕"
+    ],
+    "text": "<button onClick={onClose} className=\"text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none bg-transparent border-0 cursor-pointer\">✕</button>"
+  },
+  {
+    "file": "./admin/src/layouts/AdminLayout.jsx",
+    "line": 8,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/dashboard',   icon: '📊', label: 'Dashboard' },"
+  },
+  {
+    "file": "./admin/src/layouts/AdminLayout.jsx",
+    "line": 9,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/complaints', icon: '📋', label: 'Complaints', badge: true },"
+  },
+  {
+    "file": "./admin/src/layouts/AdminLayout.jsx",
+    "line": 10,
+    "matches": [
+      "👥"
+    ],
+    "text": "{ to: '/students',   icon: '👥', label: 'Students' },"
+  },
+  {
+    "file": "./admin/src/layouts/AdminLayout.jsx",
+    "line": 11,
+    "matches": [
+      "📈"
+    ],
+    "text": "{ to: '/analytics',  icon: '📈', label: 'Analytics' },"
+  },
+  {
+    "file": "./admin/src/layouts/AdminLayout.jsx",
+    "line": 12,
+    "matches": [
+      "⚙"
+    ],
+    "text": "{ to: '/settings',   icon: '⚙️', label: 'Settings' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 87,
+    "matches": [
+      "📢"
+    ],
+    "text": "<span>📢</span>"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 109,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total\" value={total} icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 116,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Pending\" value={pending} icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 123,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolved\" value={resolved} icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 130,
+    "matches": [
+      "🚨"
+    ],
+    "text": "<StatCard label=\"High/Critical\" value={critical} icon=\"🚨\" color=\"#dc2626\" />"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 161,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 205,
+    "matches": [
+      "📢"
+    ],
+    "text": "<span>📢</span> Sent Notifications"
+  },
+  {
+    "file": "./admin/src/pages/AdminDashboard.jsx",
+    "line": 235,
+    "matches": [
+      "🗑"
+    ],
+    "text": "🗑️"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 10,
+    "matches": [
+      "🛡"
+    ],
+    "text": "{ icon: '🛡️', title: 'Secure Admin Access', desc: 'Pre-authorized administrator authentication via Firebase & Google OAuth.' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 11,
+    "matches": [
+      "⚡"
+    ],
+    "text": "{ icon: '⚡', title: 'Real-time Resolution', desc: 'Live snapshot tracking of incoming complaints across 18 campus departments.' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 12,
+    "matches": [
+      "👤"
+    ],
+    "text": "{ icon: '👤', title: 'Student Identity Verification', desc: 'Direct access to student registration details, department records, and submission history.' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 13,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ icon: '📊', title: 'Analytics & Trends', desc: 'Comprehensive visual metrics for resolution speed, department workloads, and priority escalations.' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 17,
+    "matches": [
+      "📍"
+    ],
+    "text": "{ icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 18,
+    "matches": [
+      "📞"
+    ],
+    "text": "{ icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 19,
+    "matches": [
+      "📧"
+    ],
+    "text": "{ icon: '📧', t: 'Email',   v: 'principal@tce.edu' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 20,
+    "matches": [
+      "🌐"
+    ],
+    "text": "{ icon: '🌐', t: 'Website', v: 'www.tce.edu' },"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 97,
+    "matches": [
+      "🔐"
+    ],
+    "text": "🔐 Admin Login"
+  },
+  {
+    "file": "./admin/src/pages/AdminLandingPage.jsx",
+    "line": 146,
+    "matches": [
+      "✓"
+    ],
+    "text": "<span className=\"text-tce-green font-bold\">✓</span> {f}"
+  },
+  {
+    "file": "./admin/src/pages/AdminSettings.jsx",
+    "line": 96,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[11px] select-none\">☀</span>"
+  },
+  {
+    "file": "./admin/src/pages/AdminSettings.jsx",
+    "line": 97,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[11px] select-none\">☽</span>"
+  },
+  {
+    "file": "./admin/src/pages/AllComplaints.jsx",
+    "line": 59,
+    "matches": [
+      "🔍"
+    ],
+    "text": "placeholder=\"🔍 Search…\""
+  },
+  {
+    "file": "./admin/src/pages/AllComplaints.jsx",
+    "line": 88,
+    "matches": [
+      "📋"
+    ],
+    "text": "<EmptyState icon=\"📋\" title=\"No complaints found\" desc=\"Try adjusting your filters.\" />"
+  },
+  {
+    "file": "./admin/src/pages/Analytics.jsx",
+    "line": 30,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total Complaints\"  value={total}       icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./admin/src/pages/Analytics.jsx",
+    "line": 31,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolution Rate\"   value={`${rate}%`}  icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./admin/src/pages/Analytics.jsx",
+    "line": 32,
+    "matches": [
+      "📌"
+    ],
+    "text": "<StatCard label=\"Top Issue\"         value={topIssue?.[0]?.split(' ')[0] || '—'} icon=\"📌\" color=\"#7c3aed\" />"
+  },
+  {
+    "file": "./admin/src/pages/Analytics.jsx",
+    "line": 33,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Unresolved\"        value={total - resolved} icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./admin/src/pages/ComplaintDetail.jsx",
+    "line": 132,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to All Complaints"
+  },
+  {
+    "file": "./admin/src/pages/ComplaintDetail.jsx",
+    "line": 161,
+    "matches": [
+      "👤"
+    ],
+    "text": "<span>👤</span> Show Student"
+  },
+  {
+    "file": "./admin/src/pages/ComplaintDetail.jsx",
+    "line": 253,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./admin/src/pages/ComplaintDetail.jsx",
+    "line": 321,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./admin/src/pages/ResetPassword.jsx",
+    "line": 97,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-lg mt-0.5\">⚠️</span>"
+  },
+  {
+    "file": "./admin/src/pages/ResetPassword.jsx",
+    "line": 113,
+    "matches": [
+      "✓"
+    ],
+    "text": "✓"
+  },
+  {
+    "file": "./admin/src/pages/ResetPassword.jsx",
+    "line": 157,
+    "matches": [
+      "👁",
+      "🙈"
+    ],
+    "text": "{showPw ? '👁️' : '🙈'}"
+  },
+  {
+    "file": "./admin/src/pages/ResetPassword.jsx",
+    "line": 177,
+    "matches": [
+      "⚠"
+    ],
+    "text": "<span className=\"shrink-0 text-red-500\">⚠️</span>"
+  },
+  {
+    "file": "./admin/src/pages/ResetPassword.jsx",
+    "line": 197,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to Admin Login"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 59,
+    "matches": [
+      "💧"
+    ],
+    "text": "'Water Issues':      '💧',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 60,
+    "matches": [
+      "🍽"
+    ],
+    "text": "'Food Problems':     '🍽️',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 61,
+    "matches": [
+      "🧹"
+    ],
+    "text": "'Sanitary Issues':   '🧹',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 62,
+    "matches": [
+      "🚿"
+    ],
+    "text": "'Bathroom Issues':   '🚿',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 63,
+    "matches": [
+      "🏠"
+    ],
+    "text": "'Hostel Problems':   '🏠',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 64,
+    "matches": [
+      "👨",
+      "‍",
+      "🏫"
+    ],
+    "text": "'Staff Issues':      '👨‍🏫',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 65,
+    "matches": [
+      "🚨"
+    ],
+    "text": "'Ragging':           '🚨',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 66,
+    "matches": [
+      "🛡"
+    ],
+    "text": "'Student Safety':    '🛡️',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 67,
+    "matches": [
+      "📶"
+    ],
+    "text": "'WiFi Problems':     '📶',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 68,
+    "matches": [
+      "⚡"
+    ],
+    "text": "'Electrical Issues': '⚡',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 69,
+    "matches": [
+      "🏫"
+    ],
+    "text": "'Classroom Problems':'🏫',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 70,
+    "matches": [
+      "🔬"
+    ],
+    "text": "'Lab Problems':      '🔬',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 71,
+    "matches": [
+      "🚌"
+    ],
+    "text": "'Transport Problems':'🚌',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 72,
+    "matches": [
+      "📚"
+    ],
+    "text": "'Library Problems':  '📚',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 73,
+    "matches": [
+      "🏥"
+    ],
+    "text": "'Medical Support':   '🏥',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 74,
+    "matches": [
+      "🧠"
+    ],
+    "text": "'Mental Health':     '🧠',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 75,
+    "matches": [
+      "📖"
+    ],
+    "text": "'Academic Issues':   '📖',"
+  },
+  {
+    "file": "./admin/src/utils/constants.js",
+    "line": 76,
+    "matches": [
+      "📌"
+    ],
+    "text": "'Other':             '📌',"
+  },
+  {
+    "file": "./src/components/AdminSidebar.jsx",
+    "line": 10,
+    "matches": [
+      "▣"
+    ],
+    "text": "{ to: '/admin',            label: 'Dashboard',     icon: '▣' },"
+  },
+  {
+    "file": "./src/components/AdminSidebar.jsx",
+    "line": 13,
+    "matches": [
+      "↗"
+    ],
+    "text": "{ to: '/admin/analytics',  label: 'Analytics',      icon: '↗' },"
+  },
+  {
+    "file": "./src/components/AdminSidebar.jsx",
+    "line": 14,
+    "matches": [
+      "⚙"
+    ],
+    "text": "{ to: '/admin/settings',   label: 'Settings',       icon: '⚙' },"
+  },
+  {
+    "file": "./src/components/AdminSidebar.jsx",
+    "line": 75,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[10px] text-white/70 select-none\">☀</span>"
+  },
+  {
+    "file": "./src/components/AdminSidebar.jsx",
+    "line": 76,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[10px] text-white/70 select-none\">☽</span>"
+  },
+  {
+    "file": "./src/components/forms/ComplaintForm.jsx",
+    "line": 150,
+    "matches": [
+      "📸"
+    ],
+    "text": "<div className=\"text-3xl mb-2 text-gray-400\">📸</div>"
+  },
+  {
+    "file": "./src/components/forms/LoginForm.jsx",
+    "line": 177,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to home"
+  },
+  {
+    "file": "./src/components/MobileHeader.jsx",
+    "line": 48,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☀</span>"
+  },
+  {
+    "file": "./src/components/MobileHeader.jsx",
+    "line": 50,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[11px] leading-none select-none\" aria-hidden>☽</span>"
+  },
+  {
+    "file": "./src/components/Navbar.jsx",
+    "line": 51,
+    "matches": [
+      "☀",
+      "🌙"
+    ],
+    "text": "{dark ? '☀️' : '🌙'}"
+  },
+  {
+    "file": "./src/components/Navbar.jsx",
+    "line": 75,
+    "matches": [
+      "✕",
+      "☰"
+    ],
+    "text": "{menuOpen ? '✕' : '☰'}"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 10,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/student',                icon: '📊', label: 'Dashboard' },"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 11,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/student/complaints',     icon: '📋', label: 'My Complaints' },"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 13,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ to: '/student/notifications',  icon: '🔔', label: 'Notifications', badge: true },"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 14,
+    "matches": [
+      "👤"
+    ],
+    "text": "{ to: '/student/profile',        icon: '👤', label: 'Profile' },"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 86,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[10px] px-0.5 select-none\">☀</span>"
+  },
+  {
+    "file": "./src/components/StudentSidebar.jsx",
+    "line": 87,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[10px] px-0.5 select-none\">☽</span>"
+  },
+  {
+    "file": "./src/components/ui/EmptyState.jsx",
+    "line": 1,
+    "matches": [
+      "📋"
+    ],
+    "text": "export default function EmptyState({ icon = '📋', title, desc, action }) {"
+  },
+  {
+    "file": "./src/components/ui/Modal.jsx",
+    "line": 18,
+    "matches": [
+      "✕"
+    ],
+    "text": "<button onClick={onClose} className=\"text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl leading-none bg-transparent border-0 cursor-pointer\">✕</button>"
+  },
+  {
+    "file": "./src/firebase/config.js",
+    "line": 7,
+    "matches": [
+      "→"
+    ],
+    "text": "//    3. Enable Authentication → Email/Password AND Google"
+  },
+  {
+    "file": "./src/layouts/AdminLayout.jsx",
+    "line": 8,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/admin',            icon: '📊', label: 'Dashboard', end: true },"
+  },
+  {
+    "file": "./src/layouts/AdminLayout.jsx",
+    "line": 9,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/admin/complaints', icon: '📋', label: 'Complaints', badge: true },"
+  },
+  {
+    "file": "./src/layouts/AdminLayout.jsx",
+    "line": 10,
+    "matches": [
+      "👥"
+    ],
+    "text": "{ to: '/admin/students',   icon: '👥', label: 'Students' },"
+  },
+  {
+    "file": "./src/layouts/AdminLayout.jsx",
+    "line": 11,
+    "matches": [
+      "📈"
+    ],
+    "text": "{ to: '/admin/analytics',  icon: '📈', label: 'Analytics' },"
+  },
+  {
+    "file": "./src/layouts/AdminLayout.jsx",
+    "line": 12,
+    "matches": [
+      "⚙"
+    ],
+    "text": "{ to: '/admin/settings',   icon: '⚙️', label: 'Settings' },"
+  },
+  {
+    "file": "./src/layouts/StudentLayout.jsx",
+    "line": 7,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ to: '/student',                 icon: '📊', label: 'Dashboard',  end: true },"
+  },
+  {
+    "file": "./src/layouts/StudentLayout.jsx",
+    "line": 8,
+    "matches": [
+      "📋"
+    ],
+    "text": "{ to: '/student/complaints',      icon: '📋', label: 'Complaints' },"
+  },
+  {
+    "file": "./src/layouts/StudentLayout.jsx",
+    "line": 9,
+    "matches": [
+      "➕"
+    ],
+    "text": "{ to: '/student/complaints/new',  icon: '➕', label: 'New',        fab: true },"
+  },
+  {
+    "file": "./src/layouts/StudentLayout.jsx",
+    "line": 10,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ to: '/student/notifications',   icon: '🔔', label: 'Alerts',    badge: true },"
+  },
+  {
+    "file": "./src/layouts/StudentLayout.jsx",
+    "line": 11,
+    "matches": [
+      "👤"
+    ],
+    "text": "{ to: '/student/profile',         icon: '👤', label: 'Profile' },"
+  },
+  {
+    "file": "./src/pages/admin/AdminDashboard.jsx",
+    "line": 68,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total\" value={total} icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./src/pages/admin/AdminDashboard.jsx",
+    "line": 76,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Pending\" value={pending} icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./src/pages/admin/AdminDashboard.jsx",
+    "line": 84,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolved\" value={resolved} icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./src/pages/admin/AdminDashboard.jsx",
+    "line": 92,
+    "matches": [
+      "🚨"
+    ],
+    "text": "<StatCard label=\"High/Critical\" value={critical} icon=\"🚨\" color=\"#dc2626\" />"
+  },
+  {
+    "file": "./src/pages/admin/AdminDashboard.jsx",
+    "line": 123,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./src/pages/admin/AdminSettings.jsx",
+    "line": 97,
+    "matches": [
+      "☀"
+    ],
+    "text": "<span className=\"text-[11px] select-none\">☀</span>"
+  },
+  {
+    "file": "./src/pages/admin/AdminSettings.jsx",
+    "line": 98,
+    "matches": [
+      "☽"
+    ],
+    "text": "<span className=\"text-[11px] select-none\">☽</span>"
+  },
+  {
+    "file": "./src/pages/admin/AllComplaints.jsx",
+    "line": 59,
+    "matches": [
+      "🔍"
+    ],
+    "text": "placeholder=\"🔍 Search…\""
+  },
+  {
+    "file": "./src/pages/admin/AllComplaints.jsx",
+    "line": 88,
+    "matches": [
+      "📋"
+    ],
+    "text": "<EmptyState icon=\"📋\" title=\"No complaints found\" desc=\"Try adjusting your filters.\" />"
+  },
+  {
+    "file": "./src/pages/admin/Analytics.jsx",
+    "line": 30,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total Complaints\"  value={total}       icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./src/pages/admin/Analytics.jsx",
+    "line": 31,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolution Rate\"   value={`${rate}%`}  icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./src/pages/admin/Analytics.jsx",
+    "line": 32,
+    "matches": [
+      "📌"
+    ],
+    "text": "<StatCard label=\"Top Issue\"         value={topIssue?.[0]?.split(' ')[0] || '—'} icon=\"📌\" color=\"#7c3aed\" />"
+  },
+  {
+    "file": "./src/pages/admin/Analytics.jsx",
+    "line": 33,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Unresolved\"        value={total - resolved} icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./src/pages/admin/ComplaintDetail.jsx",
+    "line": 52,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to All Complaints"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 17,
+    "matches": [
+      "🔒"
+    ],
+    "text": "{ icon: '🔒', title: 'Safe & Private',     desc: 'Your complaints are completely private. Only you and admins can see your grievances.' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 18,
+    "matches": [
+      "⚡"
+    ],
+    "text": "{ icon: '⚡', title: 'Fast Resolution',    desc: 'Smart priority system ensures urgent issues like ragging are handled immediately.' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 19,
+    "matches": [
+      "📊"
+    ],
+    "text": "{ icon: '📊', title: 'Real-time Tracking', desc: 'Track your complaint from submission to resolution — live updates every step.' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 20,
+    "matches": [
+      "🤖"
+    ],
+    "text": "{ icon: '🤖', title: 'Smart Priority',     desc: 'Auto-escalates priority when multiple students report the same issue.' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 24,
+    "matches": [
+      "📱"
+    ],
+    "text": "{ icon: '📱', t: 'Real-time Updates',  d: 'Instant status notifications' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 25,
+    "matches": [
+      "🏷"
+    ],
+    "text": "{ icon: '🏷️', t: '18 Categories',      d: 'Organised complaint types' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 26,
+    "matches": [
+      "📸"
+    ],
+    "text": "{ icon: '📸', t: 'Image Proof',        d: 'Upload evidence photos' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 27,
+    "matches": [
+      "💬"
+    ],
+    "text": "{ icon: '💬', t: 'Admin Replies',      d: 'Direct communication' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 28,
+    "matches": [
+      "📈"
+    ],
+    "text": "{ icon: '📈', t: 'Analytics',          d: 'Visual complaint insights' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 29,
+    "matches": [
+      "🔔"
+    ],
+    "text": "{ icon: '🔔', t: 'Notifications',      d: 'Never miss an update' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 34,
+    "matches": [
+      "📍"
+    ],
+    "text": "{ icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 35,
+    "matches": [
+      "📞"
+    ],
+    "text": "{ icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 36,
+    "matches": [
+      "📧"
+    ],
+    "text": "{ icon: '📧', t: 'Email',   v: 'principal@tce.edu' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 37,
+    "matches": [
+      "🌐"
+    ],
+    "text": "{ icon: '🌐', t: 'Website', v: 'www.tce.edu' },"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 172,
+    "matches": [
+      "✓"
+    ],
+    "text": "<span className=\"text-tce-green font-bold\">✓</span> {f}"
+  },
+  {
+    "file": "./src/pages/LandingPage.jsx",
+    "line": 256,
+    "matches": [
+      "✨"
+    ],
+    "text": "✨ Create Your Account"
+  },
+  {
+    "file": "./src/pages/student/MyComplaints.jsx",
+    "line": 49,
+    "matches": [
+      "🔍"
+    ],
+    "text": "placeholder=\"🔍 Search…\""
+  },
+  {
+    "file": "./src/pages/student/MyComplaints.jsx",
+    "line": 70,
+    "matches": [
+      "📋"
+    ],
+    "text": "icon=\"📋\""
+  },
+  {
+    "file": "./src/pages/student/MyComplaints.jsx",
+    "line": 99,
+    "matches": [
+      "✕"
+    ],
+    "text": "✕"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 27,
+    "matches": [
+      "👋"
+    ],
+    "text": "Welcome back, {user?.name?.split(' ')[0]}! 👋"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 43,
+    "matches": [
+      "📊"
+    ],
+    "text": "<StatCard label=\"Total\"    value={total}    icon=\"📊\" color=\"#1f4d3a\" />"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 44,
+    "matches": [
+      "⏳"
+    ],
+    "text": "<StatCard label=\"Pending\"  value={pending}  icon=\"⏳\" color=\"#ca8a04\" />"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 45,
+    "matches": [
+      "✅"
+    ],
+    "text": "<StatCard label=\"Resolved\" value={resolved} icon=\"✅\" color=\"#16a34a\" />"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 46,
+    "matches": [
+      "💬"
+    ],
+    "text": "<StatCard label=\"Replies\"  value={replied}  icon=\"💬\" color=\"#7c3aed\" />"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 60,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 65,
+    "matches": [
+      "📋"
+    ],
+    "text": "<div className=\"text-4xl mb-3\">📋</div>"
+  },
+  {
+    "file": "./src/pages/student/StudentDashboard.jsx",
+    "line": 90,
+    "matches": [
+      "→"
+    ],
+    "text": "View all →"
+  },
+  {
+    "file": "./src/pages/student/StudentNotifications.jsx",
+    "line": 8,
+    "matches": [
+      "✓"
+    ],
+    "text": "submitted:        { icon: '✓',  bg: 'bg-emerald-50 dark:bg-emerald-950/30', border: 'border-emerald-200 dark:border-emerald-800/50', dot: 'bg-emerald-500' },"
+  },
+  {
+    "file": "./src/pages/student/StudentNotifications.jsx",
+    "line": 9,
+    "matches": [
+      "💬"
+    ],
+    "text": "reply:            { icon: '💬', bg: 'bg-blue-50   dark:bg-blue-950/30',    border: 'border-blue-200   dark:border-blue-800/50',    dot: 'bg-blue-500'   },"
+  },
+  {
+    "file": "./src/pages/student/StudentNotifications.jsx",
+    "line": 10,
+    "matches": [
+      "↻"
+    ],
+    "text": "status_update:    { icon: '↻',  bg: 'bg-amber-50  dark:bg-amber-950/30',   border: 'border-amber-200  dark:border-amber-800/50',   dot: 'bg-amber-500'  },"
+  },
+  {
+    "file": "./src/pages/student/StudentNotifications.jsx",
+    "line": 11,
+    "matches": [
+      "↻"
+    ],
+    "text": "reply_and_status: { icon: '↻',  bg: 'bg-purple-50 dark:bg-purple-950/30',  border: 'border-purple-200 dark:border-purple-800/50',  dot: 'bg-purple-500' },"
+  },
+  {
+    "file": "./src/pages/student/StudentNotifications.jsx",
+    "line": 85,
+    "matches": [
+      "🔔"
+    ],
+    "text": "icon=\"🔔\""
+  },
+  {
+    "file": "./src/pages/StudentSignup.jsx",
+    "line": 254,
+    "matches": [
+      "←"
+    ],
+    "text": "← Back to home"
+  },
+  {
+    "file": "./src/routes/AdminRoute.jsx",
+    "line": 10,
+    "matches": [
+      "→"
+    ],
+    "text": "// Not logged in → admin login page"
+  },
+  {
+    "file": "./src/routes/AdminRoute.jsx",
+    "line": 13,
+    "matches": [
+      "→"
+    ],
+    "text": "// Logged in but not admin → student dashboard (no admin access)"
+  },
+  {
+    "file": "./src/routes/ProtectedRoute.jsx",
+    "line": 10,
+    "matches": [
+      "→"
+    ],
+    "text": "// Not logged in → redirect to appropriate login page"
+  },
+  {
+    "file": "./src/routes/ProtectedRoute.jsx",
+    "line": 15,
+    "matches": [
+      "→"
+    ],
+    "text": "// Wrong role → redirect to own dashboard (prevents students hitting admin routes)"
+  },
+  {
+    "file": "./src/utils/cloudinary.js",
+    "line": 4,
+    "matches": [
+      "→"
+    ],
+    "text": "* Architecture change from v1 (unsigned) → v2 (signed):"
+  },
+  {
+    "file": "./src/utils/cloudinary.js",
+    "line": 7,
+    "matches": [
+      "→"
+    ],
+    "text": "*   Client → Cloudinary directly with unsigned preset in VITE_ variable"
+  },
+  {
+    "file": "./src/utils/cloudinary.js",
+    "line": 11,
+    "matches": [
+      "→"
+    ],
+    "text": "*   Step 1: Client → POST /api/upload-signature (Netlify Function)"
+  },
+  {
+    "file": "./src/utils/cloudinary.js",
+    "line": 13,
+    "matches": [
+      "→"
+    ],
+    "text": "*   Step 2: Client → Cloudinary directly with the server-generated signature"
+  },
+  {
+    "file": "./src/utils/cloudinary.js",
+    "line": 21,
+    "matches": [
+      "→"
+    ],
+    "text": "*   The two-step approach uploads the binary directly from browser → Cloudinary"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 59,
+    "matches": [
+      "💧"
+    ],
+    "text": "'Water Issues':      '💧',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 60,
+    "matches": [
+      "🍽"
+    ],
+    "text": "'Food Problems':     '🍽️',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 61,
+    "matches": [
+      "🧹"
+    ],
+    "text": "'Sanitary Issues':   '🧹',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 62,
+    "matches": [
+      "🚿"
+    ],
+    "text": "'Bathroom Issues':   '🚿',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 63,
+    "matches": [
+      "🏠"
+    ],
+    "text": "'Hostel Problems':   '🏠',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 64,
+    "matches": [
+      "👨",
+      "‍",
+      "🏫"
+    ],
+    "text": "'Staff Issues':      '👨‍🏫',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 65,
+    "matches": [
+      "🚨"
+    ],
+    "text": "'Ragging':           '🚨',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 66,
+    "matches": [
+      "🛡"
+    ],
+    "text": "'Student Safety':    '🛡️',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 67,
+    "matches": [
+      "📶"
+    ],
+    "text": "'WiFi Problems':     '📶',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 68,
+    "matches": [
+      "⚡"
+    ],
+    "text": "'Electrical Issues': '⚡',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 69,
+    "matches": [
+      "🏫"
+    ],
+    "text": "'Classroom Problems':'🏫',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 70,
+    "matches": [
+      "🔬"
+    ],
+    "text": "'Lab Problems':      '🔬',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 71,
+    "matches": [
+      "🚌"
+    ],
+    "text": "'Transport Problems':'🚌',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 72,
+    "matches": [
+      "📚"
+    ],
+    "text": "'Library Problems':  '📚',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 73,
+    "matches": [
+      "🏥"
+    ],
+    "text": "'Medical Support':   '🏥',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 74,
+    "matches": [
+      "🧠"
+    ],
+    "text": "'Mental Health':     '🧠',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 75,
+    "matches": [
+      "📖"
+    ],
+    "text": "'Academic Issues':   '📖',"
+  },
+  {
+    "file": "./src/utils/constants.js",
+    "line": 76,
+    "matches": [
+      "📌"
+    ],
+    "text": "'Other':             '📌',"
+  }
+]

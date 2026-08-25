@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { StatusBadge, PriorityBadge } from './ui/Badge'
-import { formatDate } from '@/utils/helpers'
+import { formatDate, formatDateTime } from '@/utils/helpers'
 
 export default function ComplaintRow({ complaint, isAdmin = false, onClick }) {
   const navigate = useNavigate()
@@ -28,8 +28,8 @@ export default function ComplaintRow({ complaint, isAdmin = false, onClick }) {
           {/* Admin shows student info; student shows category + date. ID hidden from both UIs. */}
           <div className="text-xs text-tce-green dark:text-tce-green/70 mt-0.5 truncate">
             {isAdmin
-              ? `${complaint.studentName} (${complaint.studentId}) · ${complaint.category} · ${formatDate(complaint.createdAt)}`
-              : `${complaint.category} · ${formatDate(complaint.createdAt)}`
+              ? `${complaint.studentName} (${complaint.studentId}) · ${complaint.category} · ${formatDateTime(complaint.createdAt)}`
+              : `${complaint.category} · ${formatDateTime(complaint.createdAt)}`
             }
           </div>
           {complaint.adminReply && !isAdmin && (

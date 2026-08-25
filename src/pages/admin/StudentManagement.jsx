@@ -7,6 +7,7 @@ import Spinner from '@/components/ui/Spinner'
 import { DEPARTMENTS } from '@/utils/constants'
 import { useStudentStats } from '@/hooks/useStudentStats'
 import toast from 'react-hot-toast'
+import { UserPlus } from 'lucide-react'
 
 const PHONE_RE = /^[6-9]\d{9}$/
 const REGNO_RE = /^[0-9]{2}[A-Z]{2}[0-9]{3}$/i
@@ -173,8 +174,9 @@ export default function StudentManagement() {
             {students.length} registered students
           </p>
         </div>
-        <button className="btn-primary text-sm px-4 py-2" onClick={() => setShowAdd(true)}>
-          + Add Student
+        <button className="btn-primary text-sm px-4 py-2 flex items-center gap-1.5" onClick={() => setShowAdd(true)}>
+          <UserPlus className="w-4 h-4" />
+          <span>Add Student</span>
         </button>
       </div>
 

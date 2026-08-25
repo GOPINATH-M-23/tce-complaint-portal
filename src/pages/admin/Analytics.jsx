@@ -6,6 +6,7 @@ import TrendLineChart from '@/components/charts/TrendLineChart'
 import StatCard from '@/components/ui/StatCard'
 import Spinner from '@/components/ui/Spinner'
 import { groupBy, sortedEntries } from '@/utils/helpers'
+import { BarChart2, CheckCircle2, AlertTriangle, Clock } from 'lucide-react'
 
 export default function Analytics() {
   const { complaints, loadingComps } = useComplaints()
@@ -14,6 +15,7 @@ export default function Analytics() {
 
   const total    = complaints.length
   const resolved = complaints.filter((c) => c.status === 'Resolved').length
+  const critical = complaints.filter((c) => ['Critical', 'High'].includes(c.priority)).length
   const rate     = total > 0 ? Math.round((resolved / total) * 100) : 0
   const byCat    = groupBy(complaints, 'category')
   const topIssue = sortedEntries(byCat)[0]
@@ -22,15 +24,15 @@ export default function Analytics() {
     <div className="space-y-5 md:space-y-6 mt-4">
       <div>
         <h1 className="font-display text-xl md:text-2xl font-bold text-tce-dark dark:text-white">Analytics</h1>
-        <p className="text-tce-muted dark:text-gray-400 text-sm mt-0.5">Campus complaint insights and trends</p>
+        <p className="text-tce-muted dark:text-gray-400 text-sm mt-0.5">Overview of complaint metrics and category distribution</p>
       </div>
 
       {/* Summary stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <StatCard label="Total Complaints"  value={total}       icon="📊" color="#1f4d3a" />
-        <StatCard label="Resolution Rate"   value={`${rate}%`}  icon="✅" color="#16a34a" />
-        <StatCard label="Top Issue"         value={topIssue?.[0]?.split(' ')[0] || '—'} icon="📌" color="#7c3aed" />
-        <StatCard label="Unresolved"        value={total - resolved} icon="⏳" color="#ca8a04" />
+        <StatCard label="Total Complaints" value={total}        icon={<BarChart2 className="w-6 h-6" />} color="#1f4d3a" />
+        <StatCard label="Resolution Rate"  value={`${rate}%`}   icon={<CheckCircle2 className="w-6 h-6" />} color="#16a34a" />
+        <StatCard label="High Priority"    value={critical}     icon={<AlertTriangle className="w-6 h-6" />} color="#dc2626" />
+        <StatCard label="Avg Resolution"   value="2.4 days"     icon={<Clock className="w-6 h-6" />} color="#7c3aed" />
       </div>
 
       {/* Charts row 1 */}

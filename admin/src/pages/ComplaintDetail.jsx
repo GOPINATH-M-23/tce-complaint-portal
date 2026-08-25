@@ -5,8 +5,9 @@ import { uploadToCloudinary, validateImage } from '@/utils/cloudinary'
 import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
 import Spinner from '@/components/ui/Spinner'
 import { STATUSES, PRIORITIES } from '@/utils/constants'
-import { formatDate } from '@/utils/helpers'
+import { formatDate, formatDateTime } from '@/utils/helpers'
 import toast from 'react-hot-toast'
+import { ArrowLeft, User, X } from 'lucide-react'
 
 export default function ComplaintDetail() {
   const { id }   = useParams()
@@ -129,7 +130,7 @@ export default function ComplaintDetail() {
     <div className="max-w-3xl space-y-5 md:space-y-6 mt-4">
       <button onClick={() => navigate('/complaints')}
         className="text-sm text-tce-green hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer">
-        ← Back to All Complaints
+        <ArrowLeft size={16} /> Back to All Complaints
       </button>
 
       {/* Header card */}
@@ -137,7 +138,7 @@ export default function ComplaintDetail() {
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex-1 min-w-0">
             <p className="text-xs text-tce-muted dark:text-gray-400 mb-1">
-              {formatDate(complaint.createdAt)} · {complaint.studentName} ({complaint.studentId})
+              Submitted: {formatDateTime(complaint.createdAt)} · {complaint.studentName} ({complaint.studentId})
             </p>
             <h1 className="font-display text-xl md:text-2xl font-bold text-tce-dark dark:text-white">
               {complaint.title}
@@ -158,7 +159,7 @@ export default function ComplaintDetail() {
             onClick={handleShowStudent}
             className="btn-primary text-xs md:text-sm px-4 py-2 flex items-center gap-2 shadow-md"
           >
-            <span>👤</span> Show Student
+            <User size={16} /> Show Student
           </button>
         </div>
 
@@ -250,7 +251,7 @@ export default function ComplaintDetail() {
                 className="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold shadow-md cursor-pointer transition-colors"
                 title="Remove image"
               >
-                ✕
+                <X size={20} />
               </button>
             </div>
           )}
@@ -318,7 +319,7 @@ export default function ComplaintDetail() {
                 onClick={() => setShowStudentModal(false)}
                 className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl bg-transparent border-0 cursor-pointer"
               >
-                ✕
+                <X size={20} />
               </button>
             </div>
 

@@ -8,6 +8,7 @@ import NotificationForm from '@/components/forms/NotificationForm'
 import { subscribeAdminNotifications, deleteAdminNotification } from '@/firebase/notifications'
 import { groupBy, formatRelative } from '@/utils/helpers'
 import toast from 'react-hot-toast'
+import { Megaphone, BarChart2, Clock, CheckCircle2, AlertTriangle, ArrowRight, Plus, Trash2, X } from 'lucide-react'
 
 export default function AdminDashboard() {
   const { complaints, loadingComps } = useComplaints()
@@ -84,7 +85,7 @@ export default function AdminDashboard() {
             onClick={() => setShowNotifModal(!showNotifModal)}
             className="btn-primary text-xs md:text-sm px-3.5 py-1.5 flex items-center gap-1.5 font-medium shrink-0"
           >
-            <span>📢</span>
+            <Megaphone className="w-4 h-4 shrink-0" />
             <span>{showNotifModal ? 'Hide Notification Form' : 'Send Notification'}</span>
           </button>
           {unread > 0 && (
@@ -106,28 +107,28 @@ export default function AdminDashboard() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <div onClick={() => navigate('/complaints')} className="cursor-pointer">
-          <StatCard label="Total" value={total} icon="📊" color="#1f4d3a" />
+          <StatCard label="Total" value={total} icon={<BarChart2 className="w-8 h-8 md:w-10 md:h-10" />} color="#1f4d3a" />
         </div>
 
         <div
           onClick={() => toggleFilter('pending')}
           className={`cursor-pointer rounded-2xl transition-all duration-200 ${activeFilter === 'pending' ? 'ring-2 ring-amber-400 ring-offset-2 dark:ring-offset-gray-950' : 'hover:opacity-90'}`}
         >
-          <StatCard label="Pending" value={pending} icon="⏳" color="#ca8a04" />
+          <StatCard label="Pending" value={pending} icon={<Clock className="w-8 h-8 md:w-10 md:h-10" />} color="#ca8a04" />
         </div>
 
         <div
           onClick={() => toggleFilter('resolved')}
           className={`cursor-pointer rounded-2xl transition-all duration-200 ${activeFilter === 'resolved' ? 'ring-2 ring-emerald-400 ring-offset-2 dark:ring-offset-gray-950' : 'hover:opacity-90'}`}
         >
-          <StatCard label="Resolved" value={resolved} icon="✅" color="#16a34a" />
+          <StatCard label="Resolved" value={resolved} icon={<CheckCircle2 className="w-8 h-8 md:w-10 md:h-10" />} color="#16a34a" />
         </div>
 
         <div
           onClick={() => toggleFilter('inprogress')}
           className={`cursor-pointer rounded-2xl transition-all duration-200 ${activeFilter === 'inprogress' ? 'ring-2 ring-red-400 ring-offset-2 dark:ring-offset-gray-950' : 'hover:opacity-90'}`}
         >
-          <StatCard label="High/Critical" value={critical} icon="🚨" color="#dc2626" />
+          <StatCard label="High/Critical" value={critical} icon={<AlertTriangle className="w-8 h-8 md:w-10 md:h-10" />} color="#dc2626" />
         </div>
       </div>
 
@@ -140,9 +141,10 @@ export default function AdminDashboard() {
           </span>
           <button
             onClick={() => setActiveFilter(null)}
-            className="text-xs text-tce-green hover:underline bg-transparent border-0 cursor-pointer"
+            className="text-xs text-tce-green hover:underline bg-transparent border-0 cursor-pointer flex items-center gap-1"
           >
-            Clear filter ×
+            <span>Clear filter</span>
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
       )}
@@ -155,10 +157,11 @@ export default function AdminDashboard() {
               {activeFilter ? `${filterLabel[activeFilter]} Complaints` : 'Recent Complaints'}
             </h2>
             <button
-              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer"
+              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer flex items-center gap-1"
               onClick={() => navigate('/complaints')}
             >
-              View all →
+              <span>View all</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
           <div className="space-y-3">
@@ -202,13 +205,15 @@ export default function AdminDashboard() {
           <div className="card">
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-display text-base font-bold text-tce-dark dark:text-white flex items-center gap-2">
-                <span>📢</span> Sent Notifications
+                <Megaphone className="w-4 h-4 text-tce-green shrink-0" />
+                <span>Sent Notifications</span>
               </h2>
               <button
                 onClick={() => setShowNotifModal(true)}
-                className="text-xs text-tce-green font-medium hover:underline bg-transparent border-0 cursor-pointer"
+                className="text-xs text-tce-green font-medium hover:underline bg-transparent border-0 cursor-pointer flex items-center gap-1"
               >
-                + New
+                <Plus className="w-3.5 h-3.5" />
+                <span>New</span>
               </button>
             </div>
 
@@ -229,10 +234,10 @@ export default function AdminDashboard() {
                       </h3>
                       <button
                         onClick={() => handleDeleteNotif(n.id)}
-                        className="text-gray-400 hover:text-red-500 text-xs bg-transparent border-0 cursor-pointer p-0.5"
+                        className="text-gray-400 hover:text-red-500 text-xs bg-transparent border-0 cursor-pointer p-1 rounded hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                         title="Delete notification"
                       >
-                        🗑️
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
 

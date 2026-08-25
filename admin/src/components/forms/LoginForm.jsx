@@ -4,6 +4,7 @@ import { adminLogin, adminGoogleLogin, resetPassword } from '@/firebase/auth'
 import { useAuth } from '@/context/AuthContext'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
+import { Eye, EyeOff, ArrowLeft, Key, X, AlertTriangle, Check } from 'lucide-react'
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" className="shrink-0">
@@ -151,22 +152,19 @@ export default function LoginForm() {
                   placeholder="Enter your password"
                   value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer"
-                  onClick={() => setShowPw(!showPw)}>
-                  {showPw
-                    ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                    : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer p-1"
+                  onClick={() => setShowPw(!showPw)}
+                  aria-label={showPw ? 'Hide password' : 'Show password'}
+                >
+                  {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             {error && (
               <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm px-3 py-2.5 rounded-xl flex items-start gap-2">
-                <span className="shrink-0 mt-0.5 text-red-500">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                </span>
-                {error}
+                <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                <span>{error}</span>
               </div>
             )}
 
@@ -178,8 +176,9 @@ export default function LoginForm() {
 
           <div className="mt-5 text-center">
             <button onClick={() => navigate('/')}
-              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer">
-              ← Back to home
+              className="text-xs text-gray-400 dark:text-gray-500 hover:text-tce-dark dark:hover:text-gray-300 bg-transparent border-0 cursor-pointer flex items-center justify-center gap-1 mx-auto">
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to home</span>
             </button>
           </div>
         </div>
@@ -191,14 +190,15 @@ export default function LoginForm() {
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700/60 rounded-2xl shadow-2xl p-6 max-w-md w-full relative">
             <button
               onClick={() => setShowForgotModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-lg font-bold bg-transparent border-0 cursor-pointer"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 bg-transparent border-0 cursor-pointer p-1"
+              aria-label="Close modal"
             >
-              ✕
+              <X className="w-5 h-5" />
             </button>
 
             <div className="text-center mb-5">
-              <div className="w-12 h-12 mx-auto mb-3 bg-tce-green/10 text-tce-green rounded-full flex items-center justify-center text-xl font-bold">
-                🔑
+              <div className="w-12 h-12 mx-auto mb-3 bg-tce-green/10 text-tce-green rounded-full flex items-center justify-center">
+                <Key className="w-6 h-6" />
               </div>
               <h2 className="font-display text-xl font-bold text-tce-dark dark:text-white">
                 Reset Password
@@ -225,14 +225,14 @@ export default function LoginForm() {
 
               {resetError && (
                 <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
-                  <span className="shrink-0 text-red-500">⚠️</span>
+                  <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
                   <span>{resetError}</span>
                 </div>
               )}
 
               {resetSuccess && (
                 <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs px-3 py-2.5 rounded-xl flex items-start gap-2">
-                  <span className="shrink-0 text-emerald-500">✓</span>
+                  <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                   <span>{resetSuccess}</span>
                 </div>
               )}
@@ -267,3 +267,4 @@ export default function LoginForm() {
     </div>
   )
 }
+

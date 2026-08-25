@@ -5,6 +5,7 @@ import StatCard from '@/components/ui/StatCard'
 import ComplaintRow from '@/components/ComplaintRow'
 import Spinner from '@/components/ui/Spinner'
 import { formatRelative } from '@/utils/helpers'
+import { BarChart2, Clock, CheckCircle2, MessageSquare, ClipboardList, ArrowRight } from 'lucide-react'
 
 export default function StudentDashboard() {
   const { user } = useAuth()
@@ -24,7 +25,7 @@ export default function StudentDashboard() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h1 className="font-display text-xl md:text-2xl font-bold text-tce-dark dark:text-white">
-            Welcome back, {user?.name?.split(' ')[0]}! 👋
+            Welcome back, {user?.name?.split(' ')[0]}!
           </h1>
           <p className="text-tce-muted dark:text-gray-400 text-sm mt-0.5 truncate max-w-[220px] md:max-w-none">
             {user?.email}
@@ -40,10 +41,10 @@ export default function StudentDashboard() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <StatCard label="Total"    value={total}    icon="📊" color="#1f4d3a" />
-        <StatCard label="Pending"  value={pending}  icon="⏳" color="#ca8a04" />
-        <StatCard label="Resolved" value={resolved} icon="✅" color="#16a34a" />
-        <StatCard label="Replies"  value={replied}  icon="💬" color="#7c3aed" />
+        <StatCard label="Total"    value={total}    icon={<BarChart2 className="w-8 h-8 md:w-10 md:h-10" />} color="#1f4d3a" />
+        <StatCard label="Pending"  value={pending}  icon={<Clock className="w-8 h-8 md:w-10 md:h-10" />} color="#ca8a04" />
+        <StatCard label="Resolved" value={resolved} icon={<CheckCircle2 className="w-8 h-8 md:w-10 md:h-10" />} color="#16a34a" />
+        <StatCard label="Replies"  value={replied}  icon={<MessageSquare className="w-8 h-8 md:w-10 md:h-10" />} color="#7c3aed" />
       </div>
 
       <div className="grid lg:grid-cols-5 gap-5 md:gap-6">
@@ -54,15 +55,16 @@ export default function StudentDashboard() {
               Recent Complaints
             </h2>
             <button
-              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer"
+              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer flex items-center gap-1"
               onClick={() => navigate('/complaints')}
             >
-              View all →
+              <span>View all</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
           {complaints.length === 0 ? (
             <div className="text-center py-10">
-              <div className="text-4xl mb-3">📋</div>
+              <ClipboardList className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
               <p className="text-gray-500 dark:text-gray-400 text-sm">No complaints yet</p>
               <button className="btn-primary mt-4 text-sm" onClick={() => navigate('/complaints/new')}>
                 Submit first complaint
@@ -84,12 +86,14 @@ export default function StudentDashboard() {
               Notifications
             </h2>
             <button
-              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer"
+              className="text-sm text-tce-green hover:underline bg-transparent border-0 cursor-pointer flex items-center gap-1"
               onClick={() => navigate('/notifications')}
             >
-              View all →
+              <span>View all</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+
           {notifications.length === 0 ? (
             <p className="text-sm text-gray-400 text-center py-8">No notifications yet</p>
           ) : (

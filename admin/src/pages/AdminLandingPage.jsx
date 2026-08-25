@@ -5,19 +5,20 @@ import tceLogo   from '@/assets/tcenew.png'
 import tceCampus from '@/assets/tceai.png'
 import { collection, getDocs, onSnapshot } from "firebase/firestore"
 import { db } from "@/firebase/config"
+import { ShieldCheck, Zap, UserCheck, BarChart2, MapPin, Phone, Mail, Globe, Lock, Check } from 'lucide-react'
 
 const ADMIN_FEATURES = [
-  { icon: '🛡️', title: 'Secure Admin Access', desc: 'Pre-authorized administrator authentication via Firebase & Google OAuth.' },
-  { icon: '⚡', title: 'Real-time Resolution', desc: 'Live snapshot tracking of incoming complaints across 18 campus departments.' },
-  { icon: '👤', title: 'Student Identity Verification', desc: 'Direct access to student registration details, department records, and submission history.' },
-  { icon: '📊', title: 'Analytics & Trends', desc: 'Comprehensive visual metrics for resolution speed, department workloads, and priority escalations.' },
+  { icon: ShieldCheck, title: 'Secure Admin Access', desc: 'Pre-authorized administrator authentication via Firebase & Google OAuth.' },
+  { icon: Zap,         title: 'Real-time Resolution', desc: 'Live snapshot tracking of incoming complaints across 18 campus departments.' },
+  { icon: UserCheck,   title: 'Student Identity Verification', desc: 'Direct access to student registration details, department records, and submission history.' },
+  { icon: BarChart2,   title: 'Analytics & Trends', desc: 'Comprehensive visual metrics for resolution speed, department workloads, and priority escalations.' },
 ]
 
 const CONTACT = [
-  { icon: '📍', t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },
-  { icon: '📞', t: 'Phone',   v: '+91 452 248 2240' },
-  { icon: '📧', t: 'Email',   v: 'principal@tce.edu' },
-  { icon: '🌐', t: 'Website', v: 'www.tce.edu' },
+  { icon: MapPin, t: 'Address', v: 'Thiruparankundram, Madurai – 625 015, Tamil Nadu' },
+  { icon: Phone,  t: 'Phone',   v: '+91 452 248 2240' },
+  { icon: Mail,   t: 'Email',   v: 'principal@tce.edu' },
+  { icon: Globe,  t: 'Website', v: 'www.tce.edu' },
 ]
 
 export default function AdminLandingPage() {
@@ -91,10 +92,11 @@ export default function AdminLandingPage() {
           </p>
           <div className="flex gap-4 justify-center">
             <button
-              className="btn-primary text-sm md:text-[15px] px-8 md:px-10 py-3 md:py-3.5 shadow-xl shadow-tce-dark/40 font-semibold"
+              className="btn-primary text-sm md:text-[15px] px-8 md:px-10 py-3 md:py-3.5 shadow-xl shadow-tce-dark/40 font-semibold flex items-center gap-2"
               onClick={() => navigate('/login')}
             >
-              🔐 Admin Login
+              <Lock className="w-4 h-4" />
+              <span>Admin Login</span>
             </button>
           </div>
 
@@ -143,7 +145,7 @@ export default function AdminLandingPage() {
             <div className="grid grid-cols-2 gap-3">
               {['Authorized Access Only', 'Real-time Student Data', 'Status & Priority Updates', 'Official Admin Replies', 'Departmental Insights', 'Audit Logging'].map((f) => (
                 <div key={f} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span className="text-tce-green font-bold">✓</span> {f}
+                  <Check className="w-4 h-4 text-tce-green shrink-0 font-bold" /> {f}
                 </div>
               ))}
             </div>
@@ -169,11 +171,13 @@ export default function AdminLandingPage() {
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-            {ADMIN_FEATURES.map((f) => (
-              <div key={f.title} className="glass-white p-6 md:p-7 text-center hover:-translate-y-1 transition-transform duration-300">
-                <div className="text-4xl mb-4">{f.icon}</div>
-                <h3 className="font-display text-[16px] md:text-[17px] font-bold text-tce-dark dark:text-tce-dark mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-600 leading-relaxed">{f.desc}</p>
+            {ADMIN_FEATURES.map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="glass-white p-6 md:p-7 text-center hover:-translate-y-1 transition-transform duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-tce-green/10 text-tce-green flex items-center justify-center mx-auto mb-4">
+                  <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="font-display text-[16px] md:text-[17px] font-bold text-tce-dark dark:text-tce-dark mb-2">{title}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-600 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -188,12 +192,14 @@ export default function AdminLandingPage() {
               Administrator Support
             </h2>
             <div className="flex flex-col gap-4">
-              {CONTACT.map((c) => (
-                <div key={c.t} className="flex gap-4 p-4 rounded-xl bg-tce-cream dark:bg-gray-900">
-                  <span className="text-xl">{c.icon}</span>
+              {CONTACT.map(({ icon: Icon, t, v }) => (
+                <div key={t} className="flex gap-4 p-4 rounded-xl bg-tce-cream dark:bg-gray-900">
+                  <div className="w-10 h-10 rounded-xl bg-tce-dark/10 dark:bg-tce-green/20 text-tce-dark dark:text-tce-green flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5" />
+                  </div>
                   <div>
-                    <div className="font-semibold text-tce-dark dark:text-white text-sm">{c.t}</div>
-                    <div className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{c.v}</div>
+                    <div className="font-semibold text-tce-dark dark:text-white text-sm">{t}</div>
+                    <div className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{v}</div>
                   </div>
                 </div>
               ))}
@@ -229,4 +235,5 @@ export default function AdminLandingPage() {
     </div>
   )
 }
+
 

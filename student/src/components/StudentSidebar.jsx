@@ -5,14 +5,15 @@ import { useComplaints } from '@/context/ComplaintContext'
 import { useTheme } from '@/context/ThemeContext'
 import tceLogo from '@/assets/tcenew.png'
 import toast from 'react-hot-toast'
+import { Home, LayoutDashboard, ClipboardList, Plus, Bell, User, Sun, Moon } from 'lucide-react'
 
 const NAV = [
-  { to: '/',               icon: '🏠', label: 'Home', end: true },
-  { to: '/dashboard',      icon: '📊', label: 'Dashboard' },
-  { to: '/complaints',     icon: '📋', label: 'Past Complaints' },
-  { to: '/complaints/new', icon: '+',  label: 'New Complaint', iconStyle: true },
-  { to: '/notifications',  icon: '🔔', label: 'Notifications', badge: true },
-  { to: '/profile',        icon: '👤', label: 'Profile' },
+  { to: '/',               icon: Home,            label: 'Home', end: true },
+  { to: '/dashboard',      icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/complaints',     icon: ClipboardList,   label: 'Past Complaints' },
+  { to: '/complaints/new', icon: Plus,            label: 'New Complaint', iconStyle: true },
+  { to: '/notifications',  icon: Bell,            label: 'Notifications', badge: true },
+  { to: '/profile',        icon: User,            label: 'Profile' },
 ]
 
 export default function StudentSidebar() {
@@ -47,16 +48,16 @@ export default function StudentSidebar() {
 
       {/* Nav */}
       <nav className="flex flex-col gap-1 flex-1">
-        {NAV.map(({ to, icon, label, badge, iconStyle, end }) => (
+        {NAV.map(({ to, icon: Icon, label, badge, iconStyle, end }) => (
           <NavLink key={to} to={to} end={end}
             className={({ isActive }) =>
               `sidebar-item sidebar-item-light ${isActive ? 'sidebar-item-active-light' : ''}`
             }>
             {iconStyle
-              ? <span className="w-5 h-5 flex items-center justify-center rounded-md bg-tce-dark/10 dark:bg-tce-green/20 text-tce-dark dark:text-tce-green font-bold text-sm leading-none">+</span>
-              : <span>{icon}</span>
+              ? <span className="w-5 h-5 flex items-center justify-center rounded-md bg-tce-dark/10 dark:bg-tce-green/20 text-tce-dark dark:text-tce-green font-bold shrink-0"><Icon className="w-3.5 h-3.5" /></span>
+              : <Icon className="w-5 h-5 shrink-0 opacity-80" />
             }
-            <span className="flex-1">{label}</span>
+            <span className="flex-1 ml-2">{label}</span>
             {badge && unreadNotifs > 0 && (
               <span className="ml-auto w-5 h-5 rounded-full bg-red-500 text-white text-[11px] flex items-center justify-center font-semibold">
                 {unreadNotifs > 9 ? '9+' : unreadNotifs}
@@ -89,10 +90,10 @@ export default function StudentSidebar() {
         <div className="flex gap-2">
           {/* Pill toggle */}
           <button onClick={toggle} aria-label="Toggle dark mode"
-            className="flex items-center justify-between w-12 h-6 rounded-full px-0.5 border-0 cursor-pointer transition-colors duration-300 shrink-0"
+            className="flex items-center justify-between w-12 h-6 rounded-full px-1 border-0 cursor-pointer transition-colors duration-300 shrink-0 relative"
             style={{ background: dark ? '#1f4d3a' : '#e5e7eb' }}>
-            <span className="text-[10px] px-0.5 select-none">☀</span>
-            <span className="text-[10px] px-0.5 select-none">☽</span>
+            <Sun className="w-3 h-3 text-amber-500 z-10 select-none" />
+            <Moon className="w-3 h-3 text-slate-400 dark:text-slate-200 z-10 select-none" />
             <span className="absolute ml-0.5 w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-transform duration-300"
               style={{ transform: dark ? 'translateX(20px)' : 'translateX(0px)' }} />
           </button>
@@ -105,3 +106,4 @@ export default function StudentSidebar() {
     </aside>
   )
 }
+

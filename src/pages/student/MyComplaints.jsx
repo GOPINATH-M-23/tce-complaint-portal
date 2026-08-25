@@ -5,8 +5,9 @@ import ComplaintRow from '@/components/ComplaintRow'
 import EmptyState from '@/components/ui/EmptyState'
 import Spinner from '@/components/ui/Spinner'
 import { CATEGORIES, STATUSES } from '@/utils/constants'
-import { formatDate } from '@/utils/helpers'
+import { formatDate, formatDateTime } from '@/utils/helpers'
 import { StatusBadge, PriorityBadge, CategoryBadge } from '@/components/ui/Badge'
+import { ClipboardList, X } from 'lucide-react'
 
 export default function MyComplaints() {
   const { complaints, loadingComps } = useComplaints()
@@ -32,21 +33,21 @@ export default function MyComplaints() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-xl md:text-2xl font-bold text-tce-dark dark:text-white">
-            My Complaints
+            Past Complaints
           </h1>
-          <p className="text-tce-muted dark:text-gray-400 text-sm mt-0.5">{complaints.length} total</p>
+          <p className="text-tce-muted dark:text-gray-400 text-sm mt-0.5">{complaints.length} total submitted</p>
         </div>
-        <button className="btn-primary text-sm px-4 py-2 hidden md:inline-flex" onClick={() => navigate('/student/complaints/new')}>
+        <button className="btn-primary text-sm px-4 py-2 hidden md:inline-flex" onClick={() => navigate('/complaints/new')}>
           + New Complaint
         </button>
       </div>
 
-      {/* Filters — horizontal scroll on mobile */}
+      {/* Filters */}
       <div className="card p-3 md:p-5">
         <div className="flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:pb-0 md:items-center">
           <input
             className="form-input shrink-0 w-44 md:max-w-xs"
-            placeholder="🔍 Search…"
+            placeholder="Search…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -67,11 +68,11 @@ export default function MyComplaints() {
       {/* List */}
       {filtered.length === 0 ? (
         <EmptyState
-          icon="📋"
-          title="No complaints found"
+          icon={<ClipboardList className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />}
+          title="No past complaints found"
           desc="Try adjusting your filters or submit a new complaint."
           action={
-            <button className="btn-primary" onClick={() => navigate('/student/complaints/new')}>
+            <button className="btn-primary" onClick={() => navigate('/complaints/new')}>
               New Complaint
             </button>
           }
@@ -79,7 +80,7 @@ export default function MyComplaints() {
       ) : (
         <div className="space-y-3">
           {filtered.map((c) => (
-            <ComplaintRow key={c.id} complaint={c} isAdmin={false} onClick={setSelected} />
+            <ComplaintRow key={c.id} complaint={c} onClick={setSelected} />
           ))}
         </div>
       )}
@@ -94,9 +95,9 @@ export default function MyComplaints() {
               </h2>
               <button
                 onClick={() => setSelected(null)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl bg-transparent border-0 cursor-pointer shrink-0"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl bg-transparent border-0 cursor-pointer shrink-0 flex items-center justify-center p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                ✕
+                <X className="w-5 h-5" />
               </button>
             </div>
             <div className="flex flex-wrap gap-2 mb-4">
@@ -117,7 +118,7 @@ export default function MyComplaints() {
               </div>
             )}
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-4 text-right">
-              Submitted on {formatDate(selected.createdAt)}
+              Submitted on {formatDateTime(selected.createdAt)}
             </p>
           </div>
         </div>

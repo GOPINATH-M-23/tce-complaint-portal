@@ -4,6 +4,7 @@ import ComplaintRow from '@/components/ComplaintRow'
 import EmptyState from '@/components/ui/EmptyState'
 import Spinner from '@/components/ui/Spinner'
 import { CATEGORIES, STATUSES, PRIORITIES } from '@/utils/constants'
+import { ClipboardList } from 'lucide-react'
 
 export default function AllComplaints() {
   const { complaints, loadingComps } = useComplaints()
@@ -56,7 +57,7 @@ export default function AllComplaints() {
         <div className="flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:pb-0 md:items-center">
           <input
             className="form-input shrink-0 w-44 md:max-w-xs"
-            placeholder="🔍 Search…"
+            placeholder="Search title, student..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -85,7 +86,11 @@ export default function AllComplaints() {
 
       {/* List — complaint ID is not shown in the row (tracked in backend only) */}
       {filtered.length === 0 ? (
-        <EmptyState icon="📋" title="No complaints found" desc="Try adjusting your filters." />
+        <EmptyState 
+          icon={<ClipboardList className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto" />} 
+          title="No complaints found" 
+          desc="Try adjusting your filters." 
+        />
       ) : (
         <div className="space-y-3">
           {filtered.map((c) => (

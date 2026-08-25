@@ -3,13 +3,14 @@ import AdminSidebar from '@/components/AdminSidebar'
 import MobileHeader from '@/components/MobileHeader'
 import { useComplaints } from '@/context/ComplaintContext'
 import tceCampus from '@/assets/tce-campus.png'
+import { LayoutDashboard, ClipboardList, Users, TrendingUp, Settings } from 'lucide-react'
 
 const ADMIN_MOB_NAV = [
-  { to: '/admin',            icon: '📊', label: 'Dashboard', end: true },
-  { to: '/admin/complaints', icon: '📋', label: 'Complaints', badge: true },
-  { to: '/admin/students',   icon: '👥', label: 'Students' },
-  { to: '/admin/analytics',  icon: '📈', label: 'Analytics' },
-  { to: '/admin/settings',   icon: '⚙️', label: 'Settings' },
+  { to: '/admin',            icon: LayoutDashboard, label: 'Dashboard', end: true },
+  { to: '/admin/complaints', icon: ClipboardList,   label: 'Complaints', badge: true },
+  { to: '/admin/students',   icon: Users,           label: 'Students' },
+  { to: '/admin/analytics',  icon: TrendingUp,      label: 'Analytics' },
+  { to: '/admin/settings',   icon: Settings,        label: 'Settings' },
 ]
 
 export default function AdminLayout() {
@@ -53,7 +54,7 @@ export default function AdminLayout() {
 
       {/* Mobile bottom nav */}
       <nav className="mobile-nav">
-        {ADMIN_MOB_NAV.map(({ to, icon, label, end, badge }) => (
+        {ADMIN_MOB_NAV.map(({ to, icon: Icon, label, end, badge }) => (
           <NavLink
             key={to}
             to={to}
@@ -62,7 +63,7 @@ export default function AdminLayout() {
           >
             {({ isActive }) => (
               <>
-                <span className="text-[22px] leading-none">{icon}</span>
+                <Icon className="w-5 h-5 shrink-0" />
                 {badge && unread > 0 && (
                   <span className="absolute top-0 right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold">
                     {unread > 9 ? '9+' : unread}

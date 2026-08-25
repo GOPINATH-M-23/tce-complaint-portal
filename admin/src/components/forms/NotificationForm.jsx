@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { createAdminNotification } from '@/firebase/notifications'
 import { validateImage } from '@/utils/cloudinary'
 import toast from 'react-hot-toast'
+import { Megaphone, X, Send } from 'lucide-react'
 
 export default function NotificationForm({ onNotificationSent }) {
   const [title, setTitle] = useState('')
@@ -77,8 +78,8 @@ export default function NotificationForm({ onNotificationSent }) {
 
   return (
     <div className="card">
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-xl">📢</span>
+      <div className="flex items-center gap-2.5 mb-4">
+        <Megaphone className="w-5 h-5 text-tce-green shrink-0" />
         <div>
           <h2 className="font-display text-base font-bold text-tce-dark dark:text-white">
             Send Broadcast Notification
@@ -154,7 +155,7 @@ export default function NotificationForm({ onNotificationSent }) {
                 className="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold shadow-md cursor-pointer transition-colors"
                 title="Remove image"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
           )}
@@ -193,7 +194,7 @@ export default function NotificationForm({ onNotificationSent }) {
               </>
             ) : (
               <>
-                <span>🚀</span>
+                <Send className="w-4 h-4" />
                 <span>Send Notification</span>
               </>
             )}
