@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { submitComplaint } from '@/firebase/complaints'
 import { validateImage } from '@/utils/cloudinary'
 import { useAuth } from '@/context/AuthContext'
+import { useComplaints } from '@/context/ComplaintContext'
 import { CATEGORIES, CATEGORY_ICONS } from '@/utils/constants'
+import { getWeeklyComplaintCount } from '@/utils/helpers'
 import toast from 'react-hot-toast'
-import { Camera } from 'lucide-react'
+import { Camera, ClipboardList, ChevronDown, Check } from 'lucide-react'
 
 export default function ComplaintForm() {
   const { user } = useAuth()
+  const { complaints } = useComplaints()
   const navigate  = useNavigate()
 
   const [form, setForm] = useState({ title: '', category: CATEGORIES[0], description: '' })
@@ -18,6 +21,11 @@ export default function ComplaintForm() {
   const [uploadPct,  setUploadPct]  = useState(0)
   const [loading,    setLoading]    = useState(false)
   const [errors,     setErrors]     = useState({})
+  const [catDropdownOpen, setCatDropdownOpen] = useState(false)
+
+  const weeklySubmittedCount = getWeeklyComplaintCount(complaints)
+  const remainingCount = Math.max(0, 3 - weeklySubmittedCount)
+  const isLimitReached = weeklySubmittedCount >= 3
 
   const set = (k, v) => { setForm((f) => ({ ...f, [k]: v })); setErrors((e) => ({ ...e, [k]: '' })) }
 
@@ -59,6 +67,10 @@ export default function ComplaintForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (isLimitReached) {
+      toast.error('You have reached the maximum of 3 complaints for this week. You can submit a new complaint next week.')
+      return
+    }
     if (!validate()) return
     setLoading(true)
     if (imageFile) setUploading(true)
@@ -84,8 +96,40 @@ export default function ComplaintForm() {
     }
   }
 
+  const SelectedCategoryIcon = CATEGORY_ICONS[form.category]
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      {/* Remaining Complaints Box */}
+      <div className={`p-4 rounded-xl border transition-colors flex items-start gap-3 ${
+        isLimitReached
+          ? 'bg-amber-500/10 dark:bg-amber-500/15 border-amber-500/30 text-amber-900 dark:text-amber-200'
+          : 'bg-tce-green/10 dark:bg-tce-green/15 border-tce-green/30 text-tce-dark dark:text-white'
+      }`}>
+        <ClipboardList className={`w-5 h-5 shrink-0 mt-0.5 ${isLimitReached ? 'text-amber-600 dark:text-amber-400' : 'text-tce-green'}`} />
+        <div className="flex-1 text-sm min-w-0">
+          <div className="flex items-center justify-between font-semibold mb-0.5 gap-2">
+            <span className="truncate">Complaints Remaining This Week</span>
+            <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold shrink-0 ${
+              isLimitReached
+                ? 'bg-amber-600 text-white dark:bg-amber-500'
+                : 'bg-tce-green text-white dark:bg-tce-green dark:text-white'
+            }`}>
+              {remainingCount} / 3
+            </span>
+          </div>
+          {isLimitReached ? (
+            <p className="text-xs text-amber-800 dark:text-amber-300 mt-1 leading-relaxed">
+              You have reached the maximum of 3 complaints for this week. You can submit a new complaint next week.
+            </p>
+          ) : (
+            <p className="text-xs text-tce-muted dark:text-gray-400 mt-0.5">
+              Each student can submit a maximum of 3 complaints per calendar week (Monday to Sunday).
+            </p>
+          )}
+        </div>
+      </div>
+
       {/* Title */}
       <div>
         <label className="form-label">Complaint Title *</label>
@@ -95,14 +139,56 @@ export default function ComplaintForm() {
       </div>
 
       {/* Category */}
-      <div>
+      <div className="relative">
         <label className="form-label">Category *</label>
-        <select className="form-input" value={form.category}
-          onChange={(e) => set('category', e.target.value)}>
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>{CATEGORY_ICONS[c]} {c}</option>
-          ))}
-        </select>
+        <button
+          type="button"
+          onClick={() => setCatDropdownOpen((prev) => !prev)}
+          className="form-input flex items-center justify-between w-full text-left cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3.5 py-2.5"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            {SelectedCategoryIcon && (
+              <SelectedCategoryIcon className="w-4 h-4 text-tce-green shrink-0" />
+            )}
+            <span className="truncate text-sm text-tce-dark dark:text-white">{form.category}</span>
+          </div>
+          <ChevronDown className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${catDropdownOpen ? 'rotate-180' : ''}`} />
+        </button>
+
+        {catDropdownOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setCatDropdownOpen(false)}
+            />
+            <div className="absolute left-0 right-0 top-full mt-1 z-20 max-h-60 overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1">
+              {CATEGORIES.map((c) => {
+                const IconComp = CATEGORY_ICONS[c]
+                const isSel = form.category === c
+                return (
+                  <div
+                    key={c}
+                    onClick={() => {
+                      set('category', c)
+                      setCatDropdownOpen(false)
+                    }}
+                    className={`flex items-center justify-between px-3.5 py-2 text-sm cursor-pointer transition-colors ${
+                      isSel
+                        ? 'bg-tce-green/10 dark:bg-tce-green/20 text-tce-green font-medium'
+                        : 'text-tce-dark dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {IconComp && <IconComp className="w-4 h-4 text-tce-green shrink-0" />}
+                      <span className="truncate">{c}</span>
+                    </div>
+                    {isSel && <Check className="w-4 h-4 text-tce-green shrink-0" />}
+                  </div>
+                )
+              })}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Description */}
@@ -172,11 +258,12 @@ export default function ComplaintForm() {
         <button type="button" className="btn-ghost px-6" onClick={() => navigate(-1)}>
           Cancel
         </button>
-        <button type="submit" disabled={loading}
-          className="btn-primary px-8 disabled:opacity-60 min-w-[140px]">
+        <button type="submit" disabled={loading || isLimitReached}
+          className="btn-primary px-8 disabled:opacity-60 disabled:cursor-not-allowed min-w-[140px]">
           {loading ? (uploading ? `Uploading ${uploadPct}%…` : 'Submitting…') : 'Submit Complaint'}
         </button>
       </div>
     </form>
   )
 }
+

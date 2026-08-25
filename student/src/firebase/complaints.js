@@ -6,6 +6,33 @@ import {
 import { db } from './config'
 import { uploadToCloudinary } from '@/utils/cloudinary'
 import { PRIORITY_THRESHOLDS } from '@/utils/constants'
+import { getCurrentWeekRange, parseComplaintDate } from '@/utils/helpers'
+
+// ── Check weekly complaint count from Firestore ─────────────────────────────
+export const getStudentWeeklyComplaintCount = async (studentId) => {
+  if (!studentId) return 0
+  const q = query(
+    collection(db, 'complaints'),
+    where('studentId', '==', studentId),
+  )
+  const snap = await getDocs(q)
+  const { startOfWeek, endOfWeek } = getCurrentWeekRange()
+  const startTime = startOfWeek.getTime()
+  const endTime = endOfWeek.getTime()
+
+  let count = 0
+  snap.docs.forEach((d) => {
+    const data = d.data()
+    const cDate = parseComplaintDate(data.createdAt)
+    if (cDate) {
+      const t = cDate.getTime()
+      if (t >= startTime && t <= endTime) {
+        count++
+      }
+    }
+  })
+  return count
+}
 
 // ── Auto priority based on category frequency ─────────────────────────────────
 export const calculatePriority = async (category) => {
@@ -20,8 +47,14 @@ export const calculatePriority = async (category) => {
 
 // ── Submit new complaint ──────────────────────────────────────────────────────
 export const submitComplaint = async (data, imageFile, onProgress) => {
+  const currentWeeklyCount = await getStudentWeeklyComplaintCount(data.studentId)
+  if (currentWeeklyCount >= 3) {
+    throw new Error('You have reached the maximum of 3 complaints for this week. You can submit a new complaint next week.')
+  }
+
   const priority = await calculatePriority(data.category)
   const docRef = await addDoc(collection(db, 'complaints'), {
+
     title:        data.title,
     category:     data.category,
     description:  data.description,

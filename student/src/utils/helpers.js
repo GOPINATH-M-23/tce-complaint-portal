@@ -59,3 +59,49 @@ export const sortedEntries = (obj) =>
 
 export const generateComplaintId = () =>
   'C' + Date.now().toString(36).toUpperCase().slice(-5)
+
+// Calendar week definition: Monday 00:00:00.000 to Sunday 23:59:59.999
+export const getCurrentWeekRange = (refDate = new Date()) => {
+  const date = new Date(refDate)
+  const day = date.getDay()
+  const diffToMonday = day === 0 ? 6 : day - 1
+
+  const monday = new Date(date)
+  monday.setDate(date.getDate() - diffToMonday)
+  monday.setHours(0, 0, 0, 0)
+
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+  sunday.setHours(23, 59, 59, 999)
+
+  return { startOfWeek: monday, endOfWeek: sunday }
+}
+
+export const parseComplaintDate = (createdAt) => {
+  if (!createdAt) return null
+  if (typeof createdAt.toDate === 'function') {
+    return createdAt.toDate()
+  }
+  if (typeof createdAt.seconds === 'number') {
+    return new Date(createdAt.seconds * 1000)
+  }
+  if (createdAt instanceof Date) {
+    return createdAt
+  }
+  const parsed = new Date(createdAt)
+  return isNaN(parsed.getTime()) ? null : parsed
+}
+
+export const getWeeklyComplaintCount = (complaints = [], refDate = new Date()) => {
+  const { startOfWeek, endOfWeek } = getCurrentWeekRange(refDate)
+  const startTime = startOfWeek.getTime()
+  const endTime = endOfWeek.getTime()
+
+  return complaints.filter((c) => {
+    const cDate = parseComplaintDate(c.createdAt)
+    if (!cDate) return false
+    const t = cDate.getTime()
+    return t >= startTime && t <= endTime
+  }).length
+}
+
