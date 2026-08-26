@@ -13,12 +13,7 @@ export function AuthProvider({ children }) {
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
       if (fbUser) {
         const isGoogle = fbUser.providerData?.some((p) => p.providerId === 'google.com')
-        if (!fbUser.emailVerified && !isGoogle) {
-          await signOut(auth).catch(() => {})
-          setUser(null)
-          setLoading(false)
-          return
-        }
+        // Email verification check removed to allow custom OTP signups to finish profile creation
         try {
           const profile = await fetchUserProfile(fbUser.uid)
           setUser(profile)
