@@ -29,15 +29,11 @@ export const studentLogin = async (email, password) => {
   try {
     const cred = await signInWithEmailAndPassword(auth, trimmed, password)
 
-    if (!cred.user.emailVerified) {
-      await signOut(auth)
-      const err = new Error('Please verify your email address before logging in.')
-      err.code = 'auth/email-not-verified'
-      throw err
-    }
-
     const snap = await getDoc(doc(db, 'students', cred.user.uid))
-    if (!snap.exists()) throw new Error('Student record not found. Please register your account first.')
+    if (!snap.exists()) {
+      await signOut(auth)
+      throw new Error('Account setup incomplete. Please sign up again to complete your profile.')
+    }
     if (!snap.data().active) throw new Error('Your account has been deactivated. Contact admin.')
     return { uid: cred.user.uid, ...snap.data(), role: 'student' }
   } catch (err) {
@@ -47,7 +43,7 @@ export const studentLogin = async (email, password) => {
       operation: 'studentLogin',
     })
     if (
-      err.message.startsWith('Please verify your email') ||
+      err.message.startsWith('Account setup incomplete') ||
       err.message.startsWith('Student') ||
       err.message.startsWith('Your account') ||
       err.message.startsWith('Please use your official') ||
@@ -223,14 +219,35 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
   }
 
   try {
-    const cred = await createUserWithEmailAndPassword(auth, trimmed, password)
-    await updateProfile(cred.user, { displayName: name })
+    let user;
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, trimmed, password)
+      user = cred.user
+    } catch (err) {
+      if (err.code === 'auth/email-already-in-use') {
+        try {
+          const cred = await signInWithEmailAndPassword(auth, trimmed, password)
+          user = cred.user
+          
+          const snap = await getDoc(doc(db, 'students', user.uid))
+          if (snap.exists()) {
+            throw new Error('Account already exists. Please login.')
+          }
+        } catch (loginErr) {
+          if (loginErr.message === 'Account already exists. Please login.') {
+            throw loginErr
+          }
+          throw new Error('Account already exists. If this is you, please use the correct password or reset it, then sign up again to complete your profile.')
+        }
+      } else {
+        throw err
+      }
+    }
 
-    // Send Firebase email verification email
-    await sendEmailVerification(cred.user)
+    await updateProfile(user, { displayName: name }).catch(() => {})
 
     const profile = {
-      uid:       cred.user.uid,
+      uid:       user.uid,
       name,
       email:     trimmed,
       studentId,
@@ -244,12 +261,9 @@ export const studentSignup = async ({ name, email, dept, year, password, phone =
       authMethod: 'email',
       createdAt: serverTimestamp(),
     }
-    await setDoc(doc(db, 'students', cred.user.uid), profile)
+    await setDoc(doc(db, 'students', user.uid), profile)
 
-    // Sign out user so they are not logged in as unverified
-    await signOut(auth)
-
-    return { ...profile, role: 'student', emailVerificationSent: true }
+    return { ...profile, role: 'student' }
   } catch (err) {
     if (
       err.message.startsWith('Please use your official') ||

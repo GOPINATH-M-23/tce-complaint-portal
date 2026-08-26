@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { studentSignup, isValidStudentEmail, sendStudentOtp, verifyStudentOtp } from '@/firebase/auth'
+import { useAuth } from '@/context/AuthContext'
 import { DEPARTMENTS } from '@/utils/constants'
 import toast from 'react-hot-toast'
 import tceLogo from '@/assets/tce-logo.png'
@@ -13,6 +14,7 @@ const OTP_RE    = /^\d{6}$/
 
 export default function StudentSignup() {
   const navigate = useNavigate()
+  const { setUser } = useAuth()
 
   // Form State
   const [form, setForm] = useState({
@@ -133,7 +135,7 @@ export default function StudentSignup() {
       toast.success('Email verified successfully.')
 
       // 2. ONLY AFTER OTP VERIFICATION: Create Firebase Auth Account & Firestore Doc
-      await studentSignup({
+      const profile = await studentSignup({
         name:     form.name.trim(),
         email:    form.email.trim().toLowerCase(),
         dept:     form.dept,
@@ -144,8 +146,9 @@ export default function StudentSignup() {
         password: form.password,
       })
 
-      toast.success('Account created successfully! Please log in.', { duration: 5000 })
-      navigate('/login')
+      setUser(profile)
+      toast.success('Account created successfully!', { duration: 5000 })
+      navigate('/dashboard')
     } catch (err) {
       setOtpError(err.message || 'Invalid verification code.')
     } finally {
@@ -208,13 +211,13 @@ export default function StudentSignup() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="form-label">Registration Number *</label>
-                    <input type="text" className="form-input" placeholder="e.g. 2403917720521023"
-                      value={form.regNo} onChange={(e) => set('regNo', e.target.value.toUpperCase())} required />
+                    <input type="text" className="form-input" placeholder="Enter 16-digit registration number"
+                      value={form.regNo} onChange={(e) => set('regNo', e.target.value.replace(/\D/g, '').slice(0, 16))} required />
                     {errors.regNo && <p className="text-red-500 text-xs mt-1">{errors.regNo}</p>}
                   </div>
                   <div>
                     <label className="form-label">Roll Number *</label>
-                    <input type="text" inputMode="numeric" maxLength={6} className="form-input" placeholder="e.g. 670710"
+                    <input type="text" inputMode="numeric" maxLength={6} className="form-input" placeholder="Enter 6-digit roll number"
                       value={form.rollNo} onChange={(e) => set('rollNo', e.target.value.replace(/\D/g, '').slice(0, 6))} required />
                     {errors.rollNo && <p className="text-red-500 text-xs mt-1">{errors.rollNo}</p>}
                   </div>
